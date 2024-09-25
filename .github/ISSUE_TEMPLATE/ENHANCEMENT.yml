@@ -1,0 +1,33 @@
+name: Enhancements
+description: This is the template to propose feature enhancements.
+title: "[FEAT-EN] <Title/Name Here> "
+labels: ["enhancement"]
+assignees:
+  - octocat
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fill up the required fields below.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Provide a clear and concise description what feature you want to enhance or improve.
+      placeholder: "Provide a clear and concise description what feature you want to enhance or improve."
+    validations:
+      required: true
+  - type: textarea
+    id: refer-feat-no
+    attributes:
+      label: What feature(s) will it enhance?
+      description: Make sure to write down feature number(s) you want to improve using `#issue number` *(ex. `#1`)*
+      placeholder: "Write down feature(s)"
+    validations:
+      required: true
+  - type: textarea
+    id: notes-comments
+    attributes:
+      label: Notes or Comments
+      description: If you have any notes or comments, type them out here
+      placeholder: “Add notes or comments"
