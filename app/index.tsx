@@ -2,7 +2,7 @@ import { View } from "react-native";
 import { Text } from "@/components/ui/text";
 import { useLoadingContext } from "@/components/Providers/LoaderSpinnerContext";
 import { Button } from "@/components/ui/button";
-import { ChevronUp } from "@/lib/icons";
+import { ChevronDown } from "@/lib/icons";
 import { router } from "expo-router";
 export default function Index() {
   const { setLoading, setText } = useLoadingContext();
@@ -27,7 +27,7 @@ export default function Index() {
       <Button variant="outline">
         <Text className={"text-lonestar-600"}>Get Started</Text>
       </Button>
-      <ChevronUp size={20} className={"text-primary"} />
+      <ChevronDown size={20} className={"text-primary"} />
     </View>
   );
 }
