@@ -40,7 +40,8 @@ export default function RootLayout() {
   const [loaded, error] = useFonts({
     //add custom fonts here
     //example
-    // DMSans: require("../assets/fonts/DMSans.ttf"),
+    DMSans: require("../assets/fonts/DMSans-Regular.ttf"),
+    DMSansItalic: require("../assets/fonts/DMSans-Italic.ttf"),
   });
 
   React.useEffect(() => {
@@ -76,8 +77,8 @@ export default function RootLayout() {
 
   return (
     <ReactQueryProvider>
-      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-        <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+      <ThemeProvider value={LIGHT_THEME}>
+        <StatusBar style={"light"} />
         <SafeAreaProvider>
           <LoadingProvider>
             <GestureHandlerRootView style={{ flex: 1 }}>
@@ -92,10 +93,18 @@ export default function RootLayout() {
                       </Text>
                     );
                   },
-                  headerRight: () => <ThemeToggle />,
                 }}
               >
-                <Stack.Screen name="index" />
+                <Stack.Screen name="index" options={
+                  {
+                    headerShown: false,
+                  }
+                } />
+                <Stack.Screen name="(tabs)" options={
+                  {
+                    headerShown: false,
+                  }
+                } />
               </Stack>
               <LoadingSpinner />
               <PortalHost />

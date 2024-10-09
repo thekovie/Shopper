@@ -41,6 +41,17 @@ module.exports = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        "lonestar-50" : '#FFF1F1',
+        "lonestar-100" : '#FFE1E0',
+        "lonestar-200" : '#FFC8C7',
+        "lonestar-300" : '#FFA19F',
+        "lonestar-400" : '#FF6B68',
+        "lonestar-500" : '#FA3D39',
+        "lonestar-600" : '#E81E1A',
+        "lonestar-700" : '#C31612',
+        "lonestar-800" : '#A11613',
+        "lonestar-900" : '#851917',
+        "lonestar-950" : '#690B09'
       },
       borderWidth: {
         hairline: hairlineWidth(),

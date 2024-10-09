@@ -45,8 +45,8 @@ const Text = React.forwardRef<TextRef, TextProps>(
             className,
         )}
         ref={ref}
-        style={[style
-        // add custom font here if needed  { fontFamily: 'DMSans' }
+        style={[style,
+        { fontFamily: 'DMSans' }
         ]}
         {...props}
       />
