@@ -1,10 +1,22 @@
 import { Home, User } from "@/lib/icons";
 import { Tabs } from "expo-router";
+import { Text } from "@/components/ui/text";
 import TabBar from "@/components/TabBar";
 
 export default function TabLayout() {
   return (
-    <Tabs tabBar={(props) => <TabBar {...props} />}>
+    <Tabs
+      screenOptions={{
+        headerTitle(props) {
+          return (
+            <Text fontVariant={"Bold"} className={"text-2xl text-lonestar-600"}>
+              {props.children}
+            </Text>
+          );
+        },
+      }}
+      tabBar={(props) => <TabBar {...props} />}
+    >
       <Tabs.Screen
         name="index"
         options={{
@@ -21,6 +33,7 @@ export default function TabLayout() {
         name="add-item"
         options={{
           title: "Add Item",
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -32,7 +45,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="user-menu"
         options={{
-          title: "User Menu",
+          title: "Hello, {{name}}",
         }}
       />
     </Tabs>
