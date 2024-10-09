@@ -40,8 +40,24 @@ export default function RootLayout() {
   const [loaded, error] = useFonts({
     //add custom fonts here
     //example
-    DMSans: require("../assets/fonts/DMSans-Regular.ttf"),
+    DMSansBlack: require("../assets/fonts/DMSans-Black.ttf"),
+    DMSansBlackItalic: require("../assets/fonts/DMSans-BlackItalic.ttf"),
+    DMSansBold: require("../assets/fonts/DMSans-Bold.ttf"),
+    DMSansBoldItalic: require("../assets/fonts/DMSans-BoldItalic.ttf"),
+    DMSansExtraBold: require("../assets/fonts/DMSans-ExtraBold.ttf"),
+    DMSansExtraBoldItalic: require("../assets/fonts/DMSans-ExtraBoldItalic.ttf"),
+    DMSansExtraLight: require("../assets/fonts/DMSans-ExtraLight.ttf"),
+    DMSansExtraLightItalic: require("../assets/fonts/DMSans-ExtraLightItalic.ttf"),
     DMSansItalic: require("../assets/fonts/DMSans-Italic.ttf"),
+    DMSansLight: require("../assets/fonts/DMSans-Light.ttf"),
+    DMSansLightItalic: require("../assets/fonts/DMSans-LightItalic.ttf"),
+    DMSansMedium: require("../assets/fonts/DMSans-Medium.ttf"),
+    DMSansMediumItalic: require("../assets/fonts/DMSans-MediumItalic.ttf"),
+    DMSansRegular: require("../assets/fonts/DMSans-Regular.ttf"),
+    DMSansSemiBold: require("../assets/fonts/DMSans-SemiBold.ttf"),
+    DMSansSemiBoldItalic: require("../assets/fonts/DMSans-SemiBoldItalic.ttf"),
+    DMSansThin: require("../assets/fonts/DMSans-Thin.ttf"),
+    DMSansThinItalic: require("../assets/fonts/DMSans-ThinItalic.ttf"),
   });
 
   React.useEffect(() => {
@@ -95,16 +111,24 @@ export default function RootLayout() {
                   },
                 }}
               >
-                <Stack.Screen name="index" options={
-                  {
+                <Stack.Screen
+                  name="index"
+                  options={{
                     headerShown: false,
-                  }
-                } />
-                <Stack.Screen name="(tabs)" options={
-                  {
+                  }}
+                />
+                <Stack.Screen
+                  name="register"
+                  options={{
                     headerShown: false,
-                  }
-                } />
+                  }}
+                />
+                <Stack.Screen
+                  name="(tabs)"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
               </Stack>
               <LoadingSpinner />
               <PortalHost />
