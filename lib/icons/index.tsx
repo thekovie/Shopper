@@ -10,6 +10,14 @@ import {
   Shapes,
   History,
   ChevronDown,
+  Bell,
+  ShoppingBag,
+  TabletSmartphone,
+  Pill,
+  Brush,
+  Joystick,
+  MoreHorizontal,
+  Plus
 } from "lucide-react-native";
 import { iconWithClassName } from "./iconWithClassName";
 iconWithClassName(ArrowLeft);
@@ -23,6 +31,14 @@ iconWithClassName(Star);
 iconWithClassName(Shapes);
 iconWithClassName(History);
 iconWithClassName(ChevronDown);
+iconWithClassName(Bell);
+iconWithClassName(ShoppingBag);
+iconWithClassName(TabletSmartphone);
+iconWithClassName(Pill);
+iconWithClassName(Brush);
+iconWithClassName(Joystick);
+iconWithClassName(MoreHorizontal);
+iconWithClassName(Plus);
 export {
   ArrowLeft,
   Home,
@@ -35,4 +51,11 @@ export {
   Shapes,
   History,
   ChevronDown,
+  Bell,
+  ShoppingBag,
+  TabletSmartphone,
+  Pill,
+  Brush,
+  MoreHorizontal,
+  Plus
 };
