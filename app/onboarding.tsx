@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLoadingContext } from "@/components/Providers/LoaderSpinnerContext";
 import { Button } from "@/components/ui/button";
+import { ChevronDown } from "@/lib/icons";
 import { router } from "expo-router";
 export default function Index() {
   const { setLoading, setText } = useLoadingContext();

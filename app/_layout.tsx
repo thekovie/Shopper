@@ -129,6 +129,12 @@ export default function RootLayout() {
                     headerShown: false,
                   }}
                 />
+                <Stack.Screen
+                  name="(onboarding)"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
               </Stack>
               <LoadingSpinner />
               <PortalHost />
