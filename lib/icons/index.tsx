@@ -18,7 +18,9 @@ import {
   Joystick,
   MoreHorizontal,
   Plus,
-  X
+  X,
+  Check,
+  ChevronUp
 } from "lucide-react-native";
 import { iconWithClassName } from "./iconWithClassName";
 iconWithClassName(ArrowLeft);
@@ -41,6 +43,8 @@ iconWithClassName(Joystick);
 iconWithClassName(MoreHorizontal);
 iconWithClassName(Plus);
 iconWithClassName(X);
+iconWithClassName(Check);
+iconWithClassName(ChevronUp);
 export {
   ArrowLeft,
   Home,
@@ -60,5 +64,7 @@ export {
   Brush,
   MoreHorizontal,
   Plus,
-  X
+  X,
+  Check,
+  ChevronUp
 };

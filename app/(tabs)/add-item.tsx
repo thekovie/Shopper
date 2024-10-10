@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Colors } from "react-native/Libraries/NewAppScreen";
+import { router } from "expo-router";
 
 
 function cancelAddItem() {
@@ -39,6 +39,9 @@ export default function Tab() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values)
+    router.push({
+      pathname: "/(add-shopping-item)/"
+    },);
   }
 
   const onError: SubmitErrorHandler<AddProductLinkSchema> = (
