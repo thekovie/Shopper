@@ -3,7 +3,7 @@ import z from 'zod';
 const FIELD_REQUIRED_STR = 'This field is required';
 
 export const addProductLinkSchema = z.object({
-    name: z
+    productLink: z
       .string({
         invalid_type_error: 'Name must be a string',
         required_error: FIELD_REQUIRED_STR,

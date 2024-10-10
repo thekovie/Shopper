@@ -17,7 +17,8 @@ import {
   Brush,
   Joystick,
   MoreHorizontal,
-  Plus
+  Plus,
+  X
 } from "lucide-react-native";
 import { iconWithClassName } from "./iconWithClassName";
 iconWithClassName(ArrowLeft);
@@ -39,6 +40,7 @@ iconWithClassName(Brush);
 iconWithClassName(Joystick);
 iconWithClassName(MoreHorizontal);
 iconWithClassName(Plus);
+iconWithClassName(X);
 export {
   ArrowLeft,
   Home,
@@ -57,5 +59,6 @@ export {
   Pill,
   Brush,
   MoreHorizontal,
-  Plus
+  Plus,
+  X
 };
