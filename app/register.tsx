@@ -67,7 +67,7 @@ export default function Index() {
       <Button
         onPress={() => {
           router.replace({
-            pathname: "/",
+            pathname: "/(onboarding)/",
           });
         }}
         className={"mb-2 w-full text-lonestar-500"}
