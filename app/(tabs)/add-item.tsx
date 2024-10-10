@@ -1,9 +1,11 @@
 import { View, Text, StyleSheet } from "react-native";
+import AddProductLink from "@/components/forms/add-shopping-item/AddProductLink";
 
 export default function Tab() {
   return (
     <View style={styles.container}>
-      <Text>Hello, world!</Text>
+      <Text>Add an item!</Text>
+      <AddProductLink />
     </View>
   );
 }
