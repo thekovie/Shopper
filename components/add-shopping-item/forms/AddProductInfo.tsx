@@ -29,7 +29,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from "@/components/ui/textarea";
-import AddCategory from "@/components/forms/add-shopping-item/AddCategory";
+import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
 
 
 function cancelAddItem() {

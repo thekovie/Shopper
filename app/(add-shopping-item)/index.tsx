@@ -1,9 +1,7 @@
 import { View, StatusBar, ScrollView } from "react-native";
 import { Platform } from "react-native";
-import { X } from "@/lib/icons";
 import { Text } from "@/components/ui/text";
 // Forms
-import { Label } from "@/components/ui/label";
 import {
   Controller,
   FormProvider,
@@ -14,12 +12,10 @@ import {
     addProductInformationSchema,
     AddProductInformationSchema
 } from '@/utils/forms/add-product-link';
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { router } from "expo-router";
-import AddProductInfo from "@/components/forms/add-shopping-item/AddProductInfo";
+import AddProductInfo from "@/components/add-shopping-item/forms/AddProductInfo";
+import CancelChangesPage from "@/components/add-shopping-item/CancelChanges";
 
 
 function cancelAddItem() {
@@ -64,9 +60,7 @@ export default function Index() {
             flex: 1
           }}
       >
-        <View className="flex flex-row-reverse justify-between items-center mb-[4]">
-          <X className="text-lonestar-400" size={24} />
-        </View>
+        <CancelChangesPage />
 
         <View className="flex flex-col p-[6]">
           <Text 
