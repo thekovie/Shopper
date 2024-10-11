@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { View, Dimensions } from "react-native";
 import { Text } from "@/components/ui/text";
 // Forms
@@ -28,6 +29,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from "@/components/ui/textarea";
+import AddCategory from "@/components/forms/add-shopping-item/AddCategory";
 
 
 function cancelAddItem() {
@@ -38,9 +40,9 @@ function cancelAddItem() {
 export default function AddProductInfo() {
 
   const scrapeSuccessMessage = "Success! Make sure to review and fill up the remaining fields.";
-  const scrapeErrorMessage = "Oh no! We weren’t able to pre-fill for you. Please fill-up the following fields.";
+  const scrapeErrorMessage = "Oh no! We weren’t able to pre-fill for you.; Please fill-up the following fields.";
 
-
+  const [categories, setCategories] = useState<string[]>(["Mobile", "Beauty", "Gaming", "Science"]);
 
   const form = useForm<AddProductInformationSchema>({
     resolver: zodResolver(addProductInformationSchema),
@@ -64,6 +66,13 @@ export default function AddProductInfo() {
   ) => {
     console.log(JSON.stringify(errors));
   };
+
+  const handleAddCategory = (newCategory: string) => {
+    // Update the categories array with the new category
+    setCategories((prevCategories) => [...prevCategories, newCategory]);
+    console.log('New Category Added:', newCategory);
+  };
+
 
 
 
@@ -177,12 +186,15 @@ export default function AddProductInfo() {
                 />
               </View>
 
-              <View className="flex flex-col">
+              <View className="flex flex-col w-full">
                 <Label nativeID="product-link" className="text-lonestar-950 text-xs font-medium mb-[5]">
                   Category
                 </Label>
-                <Text className="text-lonestar-700 text-xs mb-[10]">Want to add your own category!!? Click{' '}</Text>
-                <Text className="text-lonestar-700 text-xs mb-[10] underline">here</Text>
+                <View className="flex flex-row">
+                  <Text className="text-lonestar-700 text-xs mb-[10]">Want to add your own category? Click{' '}</Text>
+                  <AddCategory categories={categories} onAddCategory={handleAddCategory}/>
+                </View>
+                
                 <Controller
                 control={form.control}
                 name="category"
@@ -196,32 +208,22 @@ export default function AddProductInfo() {
                           onChange(selectedValue?.label);
                           console.log(selectedValue?.label);
                         }}
-                        className="mb-[10]"
+                        className="mb-[10] w-full"
                       >
-                      <SelectTrigger className='w-full'>
+                      <SelectTrigger>
                         <SelectValue
                           className='text-foreground text-sm native:text-lg'
                           placeholder='Select a category'
                         />
                       </SelectTrigger>
-                      <SelectContent className='w-[250px]'>
+                      <SelectContent className='w-[250]'>
                         <SelectGroup>
                           <SelectLabel>Categories</SelectLabel>
-                          <SelectItem label='Apple' value='apple'>
-                            Apple
-                          </SelectItem>
-                          <SelectItem label='Banana' value='banana'>
-                            Banana
-                          </SelectItem>
-                          <SelectItem label='Blueberry' value='blueberry'>
-                            Blueberry
-                          </SelectItem>
-                          <SelectItem label='Grapes' value='grapes'>
-                            Grapes
-                          </SelectItem>
-                          <SelectItem label='Pineapple' value='pineapple'>
-                            Pineapple
-                          </SelectItem>
+                          { categories.map((category, index) => (
+                            <SelectItem key={index} label={category} value={category}>
+                              {category}
+                            </SelectItem>
+                          ))}
                         </SelectGroup>
                       </SelectContent>
                     </Select>

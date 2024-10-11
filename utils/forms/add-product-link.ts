@@ -17,6 +17,17 @@ export const addProductLinkSchema = z.object({
 
 export type AddProductLinkSchema = z.infer<typeof addProductLinkSchema>;
 
+export const addCategorySchema = z.object({
+  category: z
+    .string({
+      invalid_type_error: 'Name must be a string',
+      required_error: FIELD_REQUIRED_STR,
+    })
+    .min(3, 'Minimum 3 characters')
+});
+
+export type AddCategorySchema = z.infer<typeof addCategorySchema>;
+
 export const addProductInformationSchema = z.object({
     productName: z
       .string({
