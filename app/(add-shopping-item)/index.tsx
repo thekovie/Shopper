@@ -58,40 +58,39 @@ export default function Index() {
 
 
   return (
-    <ScrollView className="flex flex-1 flex-col p-[20]"
-      style={{
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-      }}
-   >
-    <View className="flex flex-row-reverse justify-between items-center mb-[4]">
-      <X className="text-lonestar-400" size={24} />
-    </View>
-
-    <View className="flex flex-col p-[6]">
-      <Text 
-        className=" text-lonestar-500 mb-[6]"
-        style={{
-          fontSize: 20
-        }}
-        fontVariant="Bold"
+      <ScrollView className="flex flex-col p-[20]"
+          style={{
+            paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+            flex: 1
+          }}
       >
-        Add Shopping Item
-      </Text>
+        <View className="flex flex-row-reverse justify-between items-center mb-[4]">
+          <X className="text-lonestar-400" size={24} />
+        </View>
 
-      <Text className="text-lonestar-700 text-base max-w-[95%] mb-[20]" fontVariant="Regular">
-        {scrapeSuccessMessage}
-      </Text>
+        <View className="flex flex-col p-[6]">
+          <Text 
+            className=" text-lonestar-500 mb-[6]"
+            style={{
+              fontSize: 20
+            }}
+            fontVariant="Bold"
+          >
+            Add Shopping Item
+          </Text>
 
-      <View>
-        <AddProductInfo />
-        
-      </View>
+          <Text className="text-lonestar-700 text-base max-w-[95%] mb-[20]" fontVariant="Regular">
+            {scrapeSuccessMessage}
+          </Text>
 
-    </View>
+          <View>
+            <AddProductInfo />
+            
+          </View>
 
-    
-    
-   </ScrollView>
+        </View>
+
+      </ScrollView>
   );
 }
 

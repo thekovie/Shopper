@@ -1,4 +1,4 @@
-import { View, ScrollView } from "react-native";
+import { View, Dimensions } from "react-native";
 import { Text } from "@/components/ui/text";
 // Forms
 import { Label } from "@/components/ui/label";
@@ -68,7 +68,7 @@ export default function AddProductInfo() {
 
 
   return (
-    <View className="flex flex-col p-[6] h-full mb-[20]">
+    <View className="flex flex-col p-[6] mb-[15%]">
       
         <View className="">
           <FormProvider {...form}>
@@ -181,7 +181,8 @@ export default function AddProductInfo() {
                 <Label nativeID="product-link" className="text-lonestar-950 text-xs font-medium mb-[5]">
                   Category
                 </Label>
-                <Text className="text-lonestar-700 text-xs mb-[10]">Want to add your own category? Click here. (TODO: SHOULD BE UNDERLINE)</Text>
+                <Text className="text-lonestar-700 text-xs mb-[10]">Want to add your own category!!? Click{' '}</Text>
+                <Text className="text-lonestar-700 text-xs mb-[10] underline">here</Text>
                 <Controller
                 control={form.control}
                 name="category"
@@ -192,7 +193,8 @@ export default function AddProductInfo() {
                     return (
                       <Select 
                         onValueChange={(selectedValue) => {
-                          onChange(selectedValue);
+                          onChange(selectedValue?.label);
+                          console.log(selectedValue?.label);
                         }}
                         className="mb-[10]"
                       >
@@ -232,8 +234,7 @@ export default function AddProductInfo() {
               <View className="flex flex-col">
                 <Label nativeID="product-link" className="text-lonestar-950 text-xs font-medium mb-[5]">
                   Priority Level
-                </Label>
-                <Text className="text-lonestar-700 text-xs mb-[10]">Want to add your own category? Click here. (TODO: SHOULD BE UNDERLINE)</Text>
+                </Label>    
                 <Controller
                 control={form.control}
                 name="priority"
@@ -244,7 +245,7 @@ export default function AddProductInfo() {
                     return (
                       <Select 
                         onValueChange={(selectedValue) => {
-                          onChange(selectedValue);
+                          onChange(selectedValue?.value);
                         }}
                         className="mb-[10]"
                       >
@@ -257,20 +258,14 @@ export default function AddProductInfo() {
                       <SelectContent className='w-[250px]'>
                         <SelectGroup>
                           <SelectLabel>Priorities</SelectLabel>
-                          <SelectItem label='Apple' value='apple'>
+                          <SelectItem label='High' value='high'>
                             Apple
                           </SelectItem>
-                          <SelectItem label='Banana' value='banana'>
+                          <SelectItem label='Medium' value='medium'>
                             Banana
                           </SelectItem>
-                          <SelectItem label='Blueberry' value='blueberry'>
+                          <SelectItem label='Low' value='low'>
                             Blueberry
-                          </SelectItem>
-                          <SelectItem label='Grapes' value='grapes'>
-                            Grapes
-                          </SelectItem>
-                          <SelectItem label='Pineapple' value='pineapple'>
-                            Pineapple
                           </SelectItem>
                         </SelectGroup>
                       </SelectContent>

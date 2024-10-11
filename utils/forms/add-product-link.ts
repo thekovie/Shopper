@@ -2,7 +2,7 @@ import z from 'zod';
 
 const FIELD_REQUIRED_STR = 'This field is required';
 
-export const PRIORITY_OPTIONS = ['High', 'Medium', 'Low'] as const;
+export const PRIORITY_OPTIONS = ['high', 'medium', 'low'] as const;
 
 export const addProductLinkSchema = z.object({
     productLink: z
@@ -44,9 +44,7 @@ export const addProductInformationSchema = z.object({
       .number({
         invalid_type_error: 'Name must be a number',
         required_error: FIELD_REQUIRED_STR,
-      })
-      .min(3, 'Minimum 3 characters')
-      .max(20, 'Maximum 20 characters'),
+      }),
     category: z
       .string({
         invalid_type_error: 'Category platform must be a string',
