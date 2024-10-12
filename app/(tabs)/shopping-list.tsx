@@ -18,6 +18,13 @@ export default function Tab() {
     { label: "Others", Icon: Star },
   ];
 
+  const priorities = [
+    { label: "High Priority", Icon: Star },
+    { label: "Mid Priority", Icon: Star },
+    { label: "Low Priority / Wants", Icon: Star },
+    { label: "Custom Priority", Icon: Star },
+  ]
+
 
   return (
     <ScrollView className="flex flex-col w-full px-[30] py-[20]">
@@ -29,33 +36,17 @@ export default function Tab() {
 
         {/* Priorities */}
         <View className="flex flex-col">
-          <View className="flex flex-row justify-between items-center mb-[20]">
+        {priorities.map(({label}, index) => (
+          <TouchableOpacity key={index} className="flex flex-row justify-between items-center mb-[20]"
+            onPress={() => router.push(`/(shopping-list-menu)/${encodeURIComponent(label)}`)}
+          >
             <Text className="text-lonestar-950 text-xs" fontVariant="Medium">
-              High Priority
+              {label}
             </Text>
             <ChevronRight size={16} className="text-lonestar-950"/>
-          </View>
-
-          <View className="flex flex-row justify-between items-center mb-[20]">
-            <Text className="text-lonestar-950 text-xs" fontVariant="Medium">
-              Mid Priority
-            </Text>
-            <ChevronRight size={16} className="text-lonestar-950"/>
-          </View>
-
-          <View className="flex flex-row justify-between items-center mb-[20]">
-            <Text className="text-lonestar-950 text-xs" fontVariant="Medium">
-            Low Priority / Wants
-            </Text>
-            <ChevronRight size={16} className="text-lonestar-950"/>
-          </View>
-
-          <View className="flex flex-row justify-between items-center mb-[20]">
-            <Text className="text-lonestar-950 text-xs" fontVariant="Medium">
-              Custom Priority
-            </Text>
-            <ChevronRight size={16} className="text-lonestar-950"/>
-          </View>
+          </TouchableOpacity>
+        ))}
+          
         </View>
       </View>
 
@@ -67,12 +58,14 @@ export default function Tab() {
         </View>
         <View className="flex flex-col">
             {categoriesOne.map(({label}, index) => (
-              <View key={index} className="flex flex-row justify-between items-center mb-[20]">
+              <TouchableOpacity key={index} className="flex flex-row justify-between items-center mb-[20]"
+                onPress={() => router.push(`/(shopping-list-menu)/${encodeURIComponent(label)}`)}
+              >
                 <Text className="text-lonestar-950 text-xs" fontVariant="Medium">
                   { label }
                 </Text>
                 <ChevronRight size={16} className="text-lonestar-950"/>
-              </View>
+              </TouchableOpacity>
             ))}     
         </View>
       </View>
