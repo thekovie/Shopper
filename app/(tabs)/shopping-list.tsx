@@ -1,6 +1,7 @@
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Pressable } from "react-native";
 import { Text } from "@/components/ui/text";
 import { Star, ChevronRight, Shapes, History } from "@/lib/icons"
+import { router } from "expo-router";
 
 export default function Tab() {
 
@@ -89,12 +90,19 @@ export default function Tab() {
             <ChevronRight size={16} className="text-lonestar-950"/>
           </View>
 
-          <View className="flex flex-row justify-between items-center mb-[20]">
-            <Text className="text-lonestar-950 text-xs" fontVariant="Medium">
+          <Pressable className="flex flex-row justify-between items-center mb-[20]" 
+            onPress={() => {
+              router.push("/(shopping-list-menu)/purchased-items")
+            }}
+          >
+            <Text 
+                className="text-lonestar-950 text-xs" 
+                fontVariant="Medium"
+            >
               Marked as purchased
             </Text>
             <ChevronRight size={16} className="text-lonestar-950"/>
-          </View>
+          </Pressable>
 
 
         </View>

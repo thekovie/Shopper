@@ -66,10 +66,7 @@ export default function Tab() {
    >
      <View className="flex flex-row justify-between items-center mb-[4]">
       <Text 
-        className=" text-lonestar-500"
-        style={{
-          fontSize: 20
-        }}
+        className=" text-lonestar-500 text-xl"
         fontVariant="Bold"
       >
         Shopper!

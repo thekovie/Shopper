@@ -64,10 +64,7 @@ export default function Index() {
 
         <View className="flex flex-col p-[6]">
           <Text 
-            className=" text-lonestar-500 mb-[6]"
-            style={{
-              fontSize: 20
-            }}
+            className=" text-lonestar-500 mb-[6] text-xl"
             fontVariant="Bold"
           >
             Add Shopping Item
