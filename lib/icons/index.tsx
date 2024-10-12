@@ -20,7 +20,7 @@ import {
   Plus,
   X,
   Check,
-  ChevronUp
+  ChevronUp,
 } from "lucide-react-native";
 import { iconWithClassName } from "./iconWithClassName";
 iconWithClassName(ArrowLeft);

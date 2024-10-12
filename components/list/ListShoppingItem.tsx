@@ -7,7 +7,7 @@ import { ListShoppingItemProps } from '@/constants/types';
 
 function ListShoppingItem(props: ListShoppingItemProps) {
     return (
-        <View className="flex flex-row justify-between items-start bg-lonestar-50">
+        <View className="flex flex-row justify-between items-start">
             <View className='max-w-[75%]'>
                 <Text className="text-lonestar-950 text-sm" 
                         fontVariant='Medium' 
