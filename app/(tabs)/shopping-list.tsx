@@ -181,12 +181,16 @@ export default function Tab() {
           <Text className="text-lonestar-600" fontVariant="SemiBold">History</Text>
         </View>
         <View className="flex flex-col">
-          <View className="flex flex-row justify-between items-center mb-[20]">
+          <TouchableOpacity className="flex flex-row justify-between items-center mb-[20]"
+            onPress={() => {
+              router.push("/(shopping-list-menu)/recent-finds")
+            }}
+          >
             <Text className="text-lonestar-950 text-xs" fontVariant="Medium">
               Check out your recent finds
             </Text>
             <ChevronRight size={16} className="text-lonestar-950"/>
-          </View>
+          </TouchableOpacity>
 
           <TouchableOpacity className="flex flex-row justify-between items-center mb-[20]" 
             onPress={() => {

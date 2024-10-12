@@ -17,22 +17,30 @@ export default function AddShoppingItemLayout() {
                 headerShown: false,
               }}
             >
-              <Stack.Screen
-                name="purchased-items"
-                options={
-                  {
-                    headerShown: false,
-                  }
+            <Stack.Screen
+              name="purchased-items"
+              options={
+                {
+                  headerShown: false,
                 }
-              />
-              <Stack.Screen
-                name="[category]"
-                options={
-                  {
-                    headerShown: false,
-                  }
+              }
+            />
+            <Stack.Screen
+              name="recent-finds"
+              options={
+                {
+                  headerShown: false,
                 }
-              />
+              }
+            />
+            <Stack.Screen
+              name="[category]"
+              options={
+                {
+                  headerShown: false,
+                }
+              }
+            />
             </Stack>
           </GestureHandlerRootView>
         </LoadingProvider>

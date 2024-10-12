@@ -4,6 +4,7 @@ export interface ListShoppingItemProps {
     itemPriority: string;
     itemPlatform: string;
     itemCategory: string;
+    itemNotes?: string;
 }
 
 export interface RecentFindsProps{
