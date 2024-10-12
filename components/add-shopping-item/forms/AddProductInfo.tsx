@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { View, Dimensions } from "react-native";
+import { useState, useEffect } from "react";
+import { View, TouchableOpacity, BackHandler } from "react-native";
 import { Text } from "@/components/ui/text";
 // Forms
 import { Label } from "@/components/ui/label";
@@ -29,20 +29,30 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from "@/components/ui/textarea";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
 
 
 function cancelAddItem() {
-  console.log('cancelled!');
+  if(router.canGoBack()){
+    router.back();
+  }else{
+    router.replace({ pathname: '/(tabs)/' });
+  }
+  
 }
 
 
 export default function AddProductInfo() {
 
-  const scrapeSuccessMessage = "Success! Make sure to review and fill up the remaining fields.";
-  const scrapeErrorMessage = "Oh no! We weren’t able to pre-fill for you.; Please fill-up the following fields.";
-
   const [categories, setCategories] = useState<string[]>(["Mobile", "Beauty", "Gaming", "Science"]);
+  const [open, setOpen] = useState(false);
 
   const form = useForm<AddProductInformationSchema>({
     resolver: zodResolver(addProductInformationSchema),
@@ -52,12 +62,8 @@ export default function AddProductInfo() {
   });
 
   function onSubmit(values: z.infer<typeof addProductInformationSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+    // TODO: Do something with the form values and navigate to a certain page.
     console.log(values)
-    // router.push({
-    //   pathname: "/(tabs)/",
-    // });
   }
 
   const onError: SubmitErrorHandler<AddProductInformationSchema> = (
@@ -66,6 +72,16 @@ export default function AddProductInfo() {
   ) => {
     console.log(JSON.stringify(errors));
   };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      setOpen(true); // Open the dialog when back button is pressed
+      return true; // Prevent default back navigation
+    });
+
+    // Cleanup the event listener when component unmounts
+    return () => backHandler.remove();
+  }, []);
 
   const handleAddCategory = (newCategory: string) => {
     // Update the categories array with the new category
@@ -309,9 +325,33 @@ export default function AddProductInfo() {
                     <Text>Submit</Text>
                 </Button>
 
-                <Button variant={'outline'} onPress={cancelAddItem}>
-                    <Text className="text-lonestar-600 text-sm" fontVariant="Medium">Back</Text>
-                </Button>
+                <AlertDialog open={open} onOpenChange={setOpen}>
+                  <AlertDialogTrigger asChild>
+                    <TouchableOpacity>
+                      <Button variant={'outline'} onPress={() => {setOpen(true)}}>
+                        <Text className="text-lonestar-600 text-sm" fontVariant="Medium">Back</Text>
+                      </Button>
+                    </TouchableOpacity>
+                    
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <Text className='text-lonestar-600 text-lg' fontVariant='Bold'>Are you sure?</Text>
+                      <Text className='text-lonestar-700 text-xs' fontVariant='Medium'>Your changes will be discarded if you proceed.</Text>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <Button variant={'outline'} onPress={() => {
+                            setOpen(false);
+                            router.back();
+                        }}>
+                            <Text className='text-lonestar-600 text-sm'>Discard changes</Text>
+                        </Button>
+                        <Button onPress={() => setOpen(false)}>
+                            <Text className='text-[#ffffff]'>Oops, bring me back</Text>
+                        </Button>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog> 
               </View>      
           </FormProvider>
         </View>

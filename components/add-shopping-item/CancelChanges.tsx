@@ -16,6 +16,7 @@ import {
   import { Text } from '@/components/ui/text';
   import { X } from "@/lib/icons";
   
+  
   function CancelChangesPage() {
     const [open, setOpen] = useState(false);
 
@@ -37,7 +38,7 @@ import {
             <AlertDialogFooter>
                 <Button variant={'outline'} onPress={() => {
                     setOpen(false);
-                    router.push({ pathname: '/(tabs)/' });
+                    router.replace({ pathname: '/(tabs)/' });
                 }}>
                     <Text className='text-lonestar-600 text-sm'>Discard changes</Text>
                 </Button>
