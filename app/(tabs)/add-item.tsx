@@ -22,7 +22,7 @@ import { router } from "expo-router";
 
 
 function cancelAddItem() {
-  console.log('cancelled!');
+  router.back();
 }
 
 
@@ -36,8 +36,7 @@ export default function Tab() {
   });
 
   function onSubmit(values: z.infer<typeof addProductLinkSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+    // TODO: Do something with the form values.
     console.log(values)
     router.push({
       pathname: "/(add-shopping-item)/"
