@@ -1,4 +1,4 @@
-import { View, StatusBar } from "react-native";
+import { View, StatusBar, TouchableOpacity } from "react-native";
 import { Platform } from "react-native";
 import { X } from "@/lib/icons";
 import { Text } from "@/components/ui/text";
@@ -20,13 +20,13 @@ import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from "expo-router";
 
-
-function cancelAddItem() {
+function cancelAddItem(){
   router.back();
 }
 
 
 export default function Tab() {
+  
 
   const form = useForm<AddProductLinkSchema>({
     resolver: zodResolver(addProductLinkSchema),
@@ -58,8 +58,9 @@ export default function Tab() {
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
       }}
    >
-    <View className="flex flex-row-reverse justify-between items-center mb-[4]">
-      <X className="text-lonestar-400" size={24} />
+  
+    <View className="flex flex-row-reverse n items-center mb-[4]">
+        <X className="text-lonestar-400" size={24} onPress={cancelAddItem}/>
     </View>
 
     <View className="flex flex-col p-[6]">
