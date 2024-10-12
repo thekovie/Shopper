@@ -10,6 +10,7 @@ import {
   Shapes,
   History,
   ChevronDown,
+  ChevronRight,
   Bell,
   ShoppingBag,
   TabletSmartphone,
@@ -45,6 +46,7 @@ iconWithClassName(Plus);
 iconWithClassName(X);
 iconWithClassName(Check);
 iconWithClassName(ChevronUp);
+iconWithClassName(ChevronRight);
 export {
   ArrowLeft,
   Home,
@@ -66,5 +68,6 @@ export {
   Plus,
   X,
   Check,
-  ChevronUp
+  ChevronUp,
+  ChevronRight
 };
