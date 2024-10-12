@@ -1,4 +1,4 @@
-import { View, StatusBar, ScrollView } from "react-native";
+import { View, StatusBar, ScrollView, TouchableOpacity } from "react-native";
 import { Platform } from "react-native";
 import { Text } from "@/components/ui/text";
 import ListShoppingItem from "@/components/list/ListShoppingItem";
@@ -120,9 +120,9 @@ export default function PurchasedItems() {
       >
 
         <View className="flex flex-row mb-[4] items-center">
-          <ArrowLeft className="text-lonestar-400 mr-[10]" size={24} onPress={() => {
-            router.back();
-          }}/>
+          <TouchableOpacity onPress={() => router.back()}>
+            <ArrowLeft className="text-lonestar-400 mr-[10]" size={24}/>
+          </TouchableOpacity>
           <Text 
             className=" text-lonestar-500 text-xl"
             fontVariant="Bold"
