@@ -22,6 +22,7 @@ export default function PurchasedItems() {
       itemPlatform: 'Shopee',
       itemCategory: 'Mobiles & Gadgets',
       itemNotes: 'Great product!',
+      isMarkedAsPurchased: false
     },
     {
       itemName: 'Hotdog 15 Pro Max Case Fully Loaded',
@@ -30,6 +31,7 @@ export default function PurchasedItems() {
       itemPlatform: 'Shopee',
       itemCategory: 'Mobiles & Gadgets',
       itemNotes: '',
+      isMarkedAsPurchased: false
     },
     {
       itemName: 'Strawberry 15 Pro Max Case Fully Loaded',
@@ -38,6 +40,7 @@ export default function PurchasedItems() {
       itemPlatform: 'Shopee',
       itemCategory: 'Mobiles & Gadgets',
       itemNotes: 'Check for discounts!',
+      isMarkedAsPurchased: false
     },
     {
       itemName: 'Chiken Nuggets',
@@ -46,6 +49,7 @@ export default function PurchasedItems() {
       itemPlatform: 'Shopee',
       itemCategory: 'Mobiles & Gadgets',
       itemNotes: 'Limited stock available.',
+      isMarkedAsPurchased: false
     },
     {
       itemName: 'Chiken Nuggets',
@@ -54,6 +58,7 @@ export default function PurchasedItems() {
       itemPlatform: 'Shopee',
       itemCategory: 'Mobiles & Gadgets',
       itemNotes: '',
+      isMarkedAsPurchased: false
     },
     {
       itemName: 'Chiken Nuggets',
@@ -62,6 +67,7 @@ export default function PurchasedItems() {
       itemPlatform: 'Shopee',
       itemCategory: 'Mobiles & Gadgets',
       itemNotes: 'Recommended by many users.',
+      isMarkedAsPurchased: false
     },
     {
       itemName: 'Chiken Nuggets',
@@ -70,6 +76,7 @@ export default function PurchasedItems() {
       itemPlatform: 'Shopee',
       itemCategory: 'Mobiles & Gadgets',
       itemNotes: 'Newly arrived!',
+      isMarkedAsPurchased: false
     },
     {
       itemName: 'Chiken Nuggets',
@@ -78,6 +85,7 @@ export default function PurchasedItems() {
       itemPlatform: 'Shopee',
       itemCategory: 'Mobiles & Gadgets',
       itemNotes: '',
+      isMarkedAsPurchased: false
     },
     {
       itemName: 'Chiken Nuggets',
@@ -86,6 +94,7 @@ export default function PurchasedItems() {
       itemPlatform: 'Shopee',
       itemCategory: 'Mobiles & Gadgets',
       itemNotes: '',
+      isMarkedAsPurchased: false
     },
     {
       itemName: 'Chiken Nuggets',
@@ -94,6 +103,7 @@ export default function PurchasedItems() {
       itemPlatform: 'Shopee',
       itemCategory: 'Mobiles & Gadgets',
       itemNotes: '',
+      isMarkedAsPurchased: false
     },
     {
       itemName: 'Chiken Nuggets',
@@ -102,6 +112,7 @@ export default function PurchasedItems() {
       itemPlatform: 'Shopee',
       itemCategory: 'Mobiles & Gadgets',
       itemNotes: '',
+      isMarkedAsPurchased: false
     }
   ];
 
@@ -140,9 +151,17 @@ export default function PurchasedItems() {
                 <ArrowDownUp size={16} className="text-lonestar-600" />
             </View>
             
-          {sampleData.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory, itemNotes}, index) => (
+          {sampleData.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory, itemNotes, isMarkedAsPurchased}, index) => (
               <View key={index} className='mb-[20]'>
-                  <ListShoppingItem itemName={itemName} itemPrice={itemPrice} itemPriority={itemPriority} itemPlatform={itemPlatform} itemCategory={itemCategory} itemNotes={itemNotes} />
+                  <ListShoppingItem 
+                      itemName={itemName} 
+                      itemPrice={itemPrice} 
+                      itemPriority={itemPriority} 
+                      itemPlatform={itemPlatform} 
+                      itemCategory={itemCategory} 
+                      itemNotes={itemNotes} 
+                      isMarkedAsPurchased={isMarkedAsPurchased}
+                  />
               </View>
           ))}     
         </ScrollView>

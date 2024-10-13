@@ -64,6 +64,7 @@ export default function ModifyProductInfo() {
   function onSubmit(values: z.infer<typeof addProductInformationSchema>) {
     // TODO: Do something with the form values and navigate to a certain page.
     console.log(values);
+    router.back();
   }
 
   const onError: SubmitErrorHandler<AddProductInformationSchema> = (
