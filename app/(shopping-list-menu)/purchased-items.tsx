@@ -16,98 +16,112 @@ export default function PurchasedItems() {
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        itemNotes: 'I’m not really sure if im in to this but there is AI so why not?'
     },
     {
         itemName: 'iPhone 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        itemNotes: 'Wow iphone good stuff'
     },
     {
         itemName: 'Hotdog 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        itemNotes: ''
     },
     {
         itemName: 'Strawberry 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & GadgetsAWDAWDAWDAWDAWD ABWVDHGAWDVGHAW AHGJWDGHAWDGHAWD  HGAWDGHAWDGH'
+        itemCategory: 'Mobiles & GadgetsAWDAWDAWDAWDAWD ABWVDHGAWDVGHAW AHGJWDGHAWDGHAWD  HGAWDGHAWDGH',
+        itemNotes: 'Limited stock available.'
     },
     {
       itemName: 'Chiken NUggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: ''
     },
     {
       itemName: 'Chiken NUggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: ''
     },
     {
       itemName: 'Chiken NUggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: 'Chiken Nuggies'
     },
     {
       itemName: 'Chiken NUggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: 'Great product!',
     },
     {
       itemName: 'Chiken NUggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: 'Chiken Nuggets product!',
     },
     {
       itemName: 'Chiken NUggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: 'Great product!',
     },
     {
       itemName: 'Chiken NUggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: 'Check for discounts!',
     },
     {
       itemName: 'Chiken NUggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: ''
     },
     {
       itemName: 'Chiken NUggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: 'Recommended by many users.',
     },
     {
       itemName: 'Chiken NUggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: 'Recommended by many users.',
     },
   ];
 
@@ -132,9 +146,9 @@ export default function PurchasedItems() {
         </View>
 
         <ScrollView className='flex flex-col overflow-hidden px-[10] py-[20] mb-[24]'>      
-          {sampleData.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory}, index) => (
+          {sampleData.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory, itemNotes}, index) => (
               <View key={index} className='mb-[20]'>
-                  <ListShoppingItem itemName={itemName} itemPrice={itemPrice} itemPriority={itemPriority} itemPlatform={itemPlatform} itemCategory={itemCategory} />
+                  <ListShoppingItem itemName={itemName} itemPrice={itemPrice} itemPriority={itemPriority} itemPlatform={itemPlatform} itemCategory={itemCategory} itemNotes={itemNotes} />
               </View>
           ))}     
         </ScrollView>

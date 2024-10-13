@@ -1,13 +1,26 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { ListShoppingItemProps } from '@/constants/types';
+import { router } from 'expo-router';
 
 
 
 function ListShoppingItem(props: ListShoppingItemProps) {
     return (
-        <View className="flex flex-row justify-between items-start">
+        <TouchableOpacity className="flex flex-row justify-between items-start" onPress={() => {
+            router.push({
+                pathname: '/(item-page)/shopping-item',
+                params: {
+                    itemName: props.itemName,
+                    itemPrice: props.itemPrice,
+                    itemPriority: props.itemPriority,
+                    itemPlatform: props.itemPlatform,
+                    itemCategory: props.itemCategory,
+                    itemNotes: props.itemNotes
+                }
+            });
+        }}>
             <View className='max-w-[75%]'>
                 <Text className="text-lonestar-950 text-sm" 
                         fontVariant='Medium' 
@@ -21,7 +34,7 @@ function ListShoppingItem(props: ListShoppingItemProps) {
                 </Text>
             </View>
             <Text className='text-lonestar-950 text-sm' fontVariant='Medium'>PHP ~{props.itemPrice}</Text>
-        </View>
+        </TouchableOpacity>
     );
 }
 

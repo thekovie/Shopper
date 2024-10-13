@@ -16,103 +16,93 @@ export default function PurchasedItems() {
 
   const sampleData: ListShoppingItemProps[] = [
     {
-        itemName: 'iPhone 15 Pro Max Case Fully Loaded',
-        itemPrice: 700,
-        itemPriority: 'Priority',
-        itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
-    },
-    {
-        itemName: 'iPhone 15 Pro Max Case Fully Loaded',
-        itemPrice: 700,
-        itemPriority: 'Priority',
-        itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
-    },
-    {
-        itemName: 'Hotdog 15 Pro Max Case Fully Loaded',
-        itemPrice: 700,
-        itemPriority: 'Priority',
-        itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
-    },
-    {
-        itemName: 'Strawberry 15 Pro Max Case Fully Loaded',
-        itemPrice: 700,
-        itemPriority: 'Priority',
-        itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & GadgetsAWDAWDAWDAWDAWD ABWVDHGAWDVGHAW AHGJWDGHAWDGHAWD  HGAWDGHAWDGH'
-    },
-    {
-      itemName: 'Chiken NUggets',
+      itemName: 'iPhone 15 Pro Max Case Fully Loadedd',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: 'Great product!',
     },
     {
-      itemName: 'Chiken NUggets',
+      itemName: 'Hotdog 15 Pro Max Case Fully Loaded',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: '',
     },
     {
-      itemName: 'Chiken NUggets',
+      itemName: 'Strawberry 15 Pro Max Case Fully Loaded',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: 'Check for discounts!',
     },
     {
-      itemName: 'Chiken NUggets',
+      itemName: 'Chiken Nuggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: 'Limited stock available.',
     },
     {
-      itemName: 'Chiken NUggets',
+      itemName: 'Chiken Nuggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: '',
     },
     {
-      itemName: 'Chiken NUggets',
+      itemName: 'Chiken Nuggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: 'Recommended by many users.',
     },
     {
-      itemName: 'Chiken NUggets',
+      itemName: 'Chiken Nuggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: 'Newly arrived!',
     },
     {
-      itemName: 'Chiken NUggets',
+      itemName: 'Chiken Nuggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: '',
     },
     {
-      itemName: 'Chiken NUggets',
+      itemName: 'Chiken Nuggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: '',
     },
     {
-      itemName: 'Chiken NUggets',
+      itemName: 'Chiken Nuggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: '',
     },
+    {
+      itemName: 'Chiken Nuggets',
+      itemPrice: 700,
+      itemPriority: 'Priority',
+      itemPlatform: 'Shopee',
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: '',
+    }
   ];
 
   return (
@@ -150,9 +140,9 @@ export default function PurchasedItems() {
                 <ArrowDownUp size={16} className="text-lonestar-600" />
             </View>
             
-          {sampleData.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory}, index) => (
+          {sampleData.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory, itemNotes}, index) => (
               <View key={index} className='mb-[20]'>
-                  <ListShoppingItem itemName={itemName} itemPrice={itemPrice} itemPriority={itemPriority} itemPlatform={itemPlatform} itemCategory={itemCategory} />
+                  <ListShoppingItem itemName={itemName} itemPrice={itemPrice} itemPriority={itemPriority} itemPlatform={itemPlatform} itemCategory={itemCategory} itemNotes={itemNotes} />
               </View>
           ))}     
         </ScrollView>

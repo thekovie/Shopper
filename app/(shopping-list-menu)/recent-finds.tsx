@@ -16,59 +16,67 @@ export default function RecentFinds() {
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        itemNotes: 'Great product!',
     },
     {
         itemName: 'iPhone 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        itemNotes: '',
     },
     {
         itemName: 'Hotdog 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        itemNotes: 'Check for discounts!',
     },
     {
         itemName: 'Strawberry 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & GadgetsAWDAWDAWDAWDAWD ABWVDHGAWDVGHAW AHGJWDGHAWDGHAWD  HGAWDGHAWDGH'
+        itemCategory: 'Mobiles & GadgetsAWDAWDAWDAWDAWD ABWVDHGAWDVGHAW AHGJWDGHAWDGHAWD  HGAWDGHAWDGH',
+        itemNotes: 'Limited stock available.',
     },
   ];
 
   const sampleDataTwo: ListShoppingItemProps[] = [
     {
-        itemName: 'iPhone 15 Pro Max Case Fully Loaded',
-        itemPrice: 700,
-        itemPriority: 'Priority',
-        itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+      itemName: 'iPhone 15 Pro Max Case Fully Loaded',
+      itemPrice: 700,
+      itemPriority: 'Priority',
+      itemPlatform: 'Shopee',
+      itemCategory: 'Mobiles & Gadgets',
+      itemNotes: 'Great product!',
     },
     {
         itemName: 'iPhone 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        itemNotes: '',
     },
     {
         itemName: 'Hotdog 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        itemNotes: 'Check for discounts!',
     },
     {
         itemName: 'Strawberry 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & GadgetsAWDAWDAWDAWDAWD ABWVDHGAWDVGHAW AHGJWDGHAWDGHAWD  HGAWDGHAWDGH'
+        itemCategory: 'Mobiles & GadgetsAWDAWDAWDAWDAWD ABWVDHGAWDVGHAW AHGJWDGHAWDGHAWD  HGAWDGHAWDGH',
+        itemNotes: 'Limited stock available.',
     },
   ];
 
@@ -78,28 +86,32 @@ export default function RecentFinds() {
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        itemNotes: 'Great product!',
     },
     {
         itemName: 'iPhone 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        itemNotes: '',
     },
     {
         itemName: 'Hotdog 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        itemNotes: 'Check for discounts!',
     },
     {
         itemName: 'Strawberry 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & GadgetsAWDAWDAWDAWDAWD ABWVDHGAWDVGHAW AHGJWDGHAWDGHAWD  HGAWDGHAWDGH'
+        itemCategory: 'Mobiles & GadgetsAWDAWDAWDAWDAWD ABWVDHGAWDVGHAW AHGJWDGHAWDGHAWD  HGAWDGHAWDGH',
+        itemNotes: 'Limited stock available.',
     },
   ];
 
