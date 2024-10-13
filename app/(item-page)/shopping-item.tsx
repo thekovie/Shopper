@@ -1,4 +1,5 @@
 import { View, StatusBar, ScrollView, TouchableOpacity } from "react-native";
+import { useState } from "react";
 import { Platform } from "react-native";
 import { Text } from "@/components/ui/text";
 import { useLocalSearchParams } from 'expo-router';
@@ -7,12 +8,15 @@ import { ListShoppingItemProps } from "@/constants/types";
 import { ArrowLeft, ArrowDownUp } from "@/lib/icons"
 import { router } from "expo-router";
 import { Button } from "@/components/ui/button";
+import MarkedAsPurchased from "@/components/modify-shopping-item/MarkedAsPurchased";
 
 
 
 
 export default function ShoppingItemPage() {
-  const { itemName, itemPrice, itemPriority, itemPlatform, itemCategory, itemNotes } = useLocalSearchParams();
+  const { itemName, itemPrice, itemPriority, itemPlatform, itemCategory, itemNotes, isMarkedAsPurchased } = useLocalSearchParams();
+  const [isPurchased, setIsPurchased] = useState(isMarkedAsPurchased === 'true' ? true : false);
+
   let isNotesEmpty = true;
 
   if(itemNotes){
@@ -39,6 +43,12 @@ export default function ShoppingItemPage() {
            Item Information
           </Text> 
         </View>
+
+        {isPurchased && 
+          <View className="mx-[10] mb-[20]">
+            <MarkedAsPurchased />
+          </View>
+        }
 
         <View className="flex flex-col border border-[#f0f0f0] rounded-md p-[15] mx-[10] mb-[20]">
           <Text className="text-lonestar-700 text-xl mb-[20]" fontVariant="Bold">{itemName}</Text>
@@ -77,9 +87,11 @@ export default function ShoppingItemPage() {
           </Button>
         </View>
 
-        <Button  className="bg-lonestar-500 mb-[8] mx-[18]">
+        <Button  className="bg-lonestar-500 mb-[8] mx-[18]" onPress={() => {
+          setIsPurchased(!isPurchased);
+        }}>
           <Text className='text-white text-sm text-center'>
-            Mark as Purchased
+            {isPurchased ? 'Mark as Unpurchased' : 'Mark as Purchased'}
           </Text>
         </Button>
 

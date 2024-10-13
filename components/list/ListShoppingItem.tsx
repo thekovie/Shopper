@@ -17,7 +17,8 @@ function ListShoppingItem(props: ListShoppingItemProps) {
                     itemPriority: props.itemPriority,
                     itemPlatform: props.itemPlatform,
                     itemCategory: props.itemCategory,
-                    itemNotes: props.itemNotes
+                    itemNotes: props.itemNotes,
+                    isMarkedAsPurchased: props.isMarkedAsPurchased ? 'true' : 'false',
                 }
             });
         }}>
