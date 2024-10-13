@@ -83,7 +83,12 @@ export default function ShoppingItemPage() {
           </Text>
         </Button>
 
-        <Button  variant={'outline'} className="bg-white mx-[18]">
+        <Button  variant={'outline'} className="bg-white mx-[18]" onPress={() => {
+          router.push({
+            //@ts-ignore
+            pathname: "/(item-page)/modify-item",
+          });
+        }}>
           <Text className='text-lonestar-600 text-sm text-center h-full'>
             Modify Item
           </Text>

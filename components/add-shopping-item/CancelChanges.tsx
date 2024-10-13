@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, ReactNode } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { router } from 'expo-router';
 import {
@@ -11,35 +11,35 @@ import {
   import { Button } from '@/components/ui/button';
   import { Text } from '@/components/ui/text';
   import { X } from "@/lib/icons";
+
+  type CancelChangesPageProps = {
+    isDialogOpen: boolean;
+    trigger: ReactNode;
+    toggleDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  };
   
   
-  function CancelChangesPage() {
-    const [open, setOpen] = useState(false);
+  function CancelChangesPage({ isDialogOpen, trigger, toggleDialog }: CancelChangesPageProps) {
 
     return (
-        <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialog open={isDialogOpen} onOpenChange={toggleDialog}>
           <AlertDialogTrigger asChild>
-            <TouchableOpacity>
-                <View className="flex flex-row-reverse n items-center mb-[4]">
-                    <X className="text-lonestar-400" size={24} />
-                </View>
-            </TouchableOpacity>
-            
+            {trigger}
           </AlertDialogTrigger>
-          <AlertDialogContent>
+          <AlertDialogContent className='bg-white'>
             <AlertDialogHeader>
               <Text className='text-lonestar-600 text-lg' fontVariant='Bold'>Are you sure?</Text>
               <Text className='text-lonestar-700 text-xs' fontVariant='Medium'>Your changes will be discarded if you proceed.</Text>
             </AlertDialogHeader>
             <AlertDialogFooter>
-                <Button variant={'outline'} onPress={() => {
-                    setOpen(false);
-                    router.replace({ pathname: '/(tabs)/' });
+                <Button variant={'outline'} className='bg-white' onPress={() => {
+                    toggleDialog(false);
+                    router.back();
                 }}>
-                    <Text className='text-lonestar-600 text-sm'>Discard changes</Text>
+                    <Text className='text-lonestar-600 !text-sm'>Discard changes</Text>
                 </Button>
-                <Button onPress={() => setOpen(false)}>
-                    <Text className='text-[#ffffff]'>Oops, bring me back</Text>
+                <Button onPress={() => toggleDialog(false)}>
+                    <Text className='text-[#ffffff] !text-sm'>Oops, bring me back</Text>
                 </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

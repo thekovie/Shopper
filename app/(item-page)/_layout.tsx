@@ -25,6 +25,14 @@ export default function AddShoppingItemLayout() {
                 }
               }
             />
+            <Stack.Screen
+              name="modify-item"
+              options={
+                {
+                  headerShown: false,
+                }
+              }
+            />
             </Stack>
           </GestureHandlerRootView>
         </LoadingProvider>
