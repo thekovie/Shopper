@@ -4,6 +4,7 @@ import { View, ScrollView, TouchableOpacity, StatusBar, Platform } from 'react-n
 import { Text } from '@/components/ui/text';
 import CancelChangesPage from '@/components/add-shopping-item/CancelChanges'; 
 import { ArrowLeft } from "@/lib/icons";
+import Switch from '@/components/Switch';
 
 function AppSettings() {
     const [isDiscardChangesDialogOpen, setDiscardChangesDialogOpen] = useState(false);
@@ -32,6 +33,10 @@ function AppSettings() {
                     App Settings
                 </Text> 
             </View>
+
+            <Switch label='Dark mode (Beta)' />
+
+
         </ScrollView>
     );
 }

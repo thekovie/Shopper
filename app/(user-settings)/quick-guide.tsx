@@ -4,9 +4,9 @@ import { View, ScrollView, TouchableOpacity, StatusBar, Platform } from 'react-n
 import { Text } from '@/components/ui/text';
 import CancelChangesPage from '@/components/add-shopping-item/CancelChanges'; 
 import { ArrowLeft } from "@/lib/icons";
+import { router } from 'expo-router';
 
 function QuickGuide() {
-    const [isDiscardChangesDialogOpen, setDiscardChangesDialogOpen] = useState(false);
     return (
         <ScrollView className="flex flex-col p-[20]"
                 style={{
@@ -15,15 +15,13 @@ function QuickGuide() {
             }}
         >
             <View className="flex flex-row mb-[4] items-center">
-                <CancelChangesPage
-                    toggleDialog={setDiscardChangesDialogOpen}
-                    isDialogOpen={isDiscardChangesDialogOpen}
-                    trigger={
-                        <TouchableOpacity>
-                            <ArrowLeft className="text-lonestar-400 mr-[10]" size={24}/>
-                        </TouchableOpacity>
-                    }
-                />
+
+                <TouchableOpacity onPress={() => {
+                    router.back();
+                }}>
+                    <ArrowLeft className="text-lonestar-400 mr-[10]" size={24}/>
+                </TouchableOpacity>
+        
 
                 <Text 
                     className=" text-lonestar-500 text-xl"
