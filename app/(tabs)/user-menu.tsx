@@ -11,7 +11,7 @@ export default function Tab() {
         <Text className="text-lonestar-500 text-xs mb-[10]" fontVariant="SemiBold">User Menu</Text>
         <View className="rounded-[10] border border-[#f0f0f0] p-[15] mb-[30]">
           <TouchableOpacity className="flex flex-row justify-between items-center mb-[20]"
-            onPress={() => router.push("/")}
+            onPress={() => router.push("/(user-settings)/profile-settings")}
           >
             <View className="flex flex-row">
               <User2 size={16} className="text-lonestar-950 mr-[10]"/>
