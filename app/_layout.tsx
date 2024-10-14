@@ -148,6 +148,12 @@ export default function RootLayout() {
                   }}
                 />
                 <Stack.Screen
+                  name="(user-settings)"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
                   name="(add-shopping-item)"
                   options={{
                     headerShown: false,
