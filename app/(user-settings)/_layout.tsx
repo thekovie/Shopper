@@ -25,6 +25,22 @@ export default function AddShoppingItemLayout() {
                 }
               }
             />
+            <Stack.Screen
+              name="app-settings"
+              options={
+                {
+                  headerShown: false,
+                }
+              }
+            />
+            <Stack.Screen
+              name="push-notifications"
+              options={
+                {
+                  headerShown: false,
+                }
+              }
+            />
             </Stack>
           </GestureHandlerRootView>
         </LoadingProvider>

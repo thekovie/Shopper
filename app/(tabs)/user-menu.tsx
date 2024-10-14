@@ -35,7 +35,7 @@ export default function Tab() {
           </TouchableOpacity>
 
           <TouchableOpacity className="flex flex-row justify-between items-center mb-[20]"
-            onPress={() => router.push("/")}
+            onPress={() => router.push("/(user-settings)/push-notifications")}
           >
             <View className="flex flex-row">
               <Bell size={16} className="text-lonestar-950 mr-[10]"/>
@@ -47,7 +47,7 @@ export default function Tab() {
           </TouchableOpacity>
 
           <TouchableOpacity className="flex flex-row justify-between items-center"
-            onPress={() => router.push("/")}
+            onPress={() => router.push("/(user-settings)/app-settings")}
           >
             <View className="flex flex-row">
               <Smartphone size={16} className="text-lonestar-950 mr-[10]"/>
