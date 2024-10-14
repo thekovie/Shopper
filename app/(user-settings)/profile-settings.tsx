@@ -23,11 +23,21 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 
+import {
+    AlertDialog,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
+
 
 
 
 function ProfileSettings() {
     const [isDiscardChangesDialogOpen, setDiscardChangesDialogOpen] = useState(false);
+    const [isConfirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
     const form = useForm<ModifyProfileSettingsSchema>({
         resolver: zodResolver(modifyProfileSettingsSchema),
@@ -51,6 +61,8 @@ function ProfileSettings() {
         console.log(values);
         if(password === values.confirmPassword){
             if(router.canGoBack()){
+                console.log("Submitted.")
+                setConfirmDialogOpen(false);
                 router.back();
             }
         }else{
@@ -105,6 +117,10 @@ function ProfileSettings() {
                     Your Profile
                 </Text> 
             </View>
+
+            <Text className='text-sm text-lonestar-700 my-[10]' fontVariant='Regular'>
+                Here is your user information. You may update them if you want.
+            </Text>
 
             <FormProvider {...form}>
                 <View className="flex flex-col">
@@ -225,11 +241,57 @@ function ProfileSettings() {
                     }
                 </View>
 
-                
-
-                <Button className='bg-lonestar-500 mb-[8]' onPress={form.handleSubmit(onSubmit, onError)}>
-                    <Text className="text-white !text-sm" fontVariant="Medium">Update</Text>
-                </Button>
+                <AlertDialog open={isConfirmDialogOpen} onOpenChange={setConfirmDialogOpen}>
+                    <AlertDialogTrigger asChild>
+                        <TouchableOpacity>
+                        <Button
+                            className='bg-lonestar-500 mb-[8]'
+                            onPress={() => {
+                                setConfirmDialogOpen(true);
+                            }}
+                        >
+                            <Text
+                            className="text-sm text-white"
+                            fontVariant="Medium"
+                            >
+                                Update
+                            </Text>
+                        </Button>
+                        </TouchableOpacity>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent className='bg-white'>
+                        <AlertDialogHeader>
+                        <Text
+                            className="text-lg text-lonestar-600"
+                            fontVariant="Bold"
+                        >
+                            Are you sure?
+                        </Text>
+                        <Text
+                            className="text-xs text-lonestar-700"
+                            fontVariant="Medium"
+                        >
+                            Your information will be updated once you proceed.
+                        </Text>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                        <Button
+                            variant={"outline"}
+                            className='bg-white'
+                            onPress={() => {
+                            setConfirmDialogOpen(false);
+                            }}
+                        >
+                            <Text className="!text-sm text-lonestar-600">
+                                Bring me back
+                            </Text>
+                        </Button>
+                        <Button onPress={form.handleSubmit(onSubmit, onError)}>
+                            <Text className="text-[#ffffff] !text-sm">Proceed, update information</Text>
+                        </Button>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
 
                 <Button variant={'outline'} className='bg-white' onPress={() => {
                     reset();
