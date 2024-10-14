@@ -26,6 +26,14 @@ export default function AddShoppingItemLayout() {
               }
             />
             <Stack.Screen
+              name="quick-guide"
+              options={
+                {
+                  headerShown: false,
+                }
+              }
+            />
+            <Stack.Screen
               name="app-settings"
               options={
                 {

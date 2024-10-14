@@ -23,7 +23,7 @@ export default function Tab() {
           </TouchableOpacity>
 
           <TouchableOpacity className="flex flex-row justify-between items-center mb-[20]"
-            onPress={() => router.push("/")}
+            onPress={() => router.push("/(user-settings)/quick-guide")}
           >
             <View className="flex flex-row">
               <HelpCircle size={16} className="text-lonestar-950 mr-[10]"/>
