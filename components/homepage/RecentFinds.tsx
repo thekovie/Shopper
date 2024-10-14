@@ -20,9 +20,17 @@ function RecentFinds({ data }: RecentFindsProps) {
 
             <View className='flex flex-col overflow-hidden'>
                 
-                {data.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory}, index) => (
+                {data.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory, itemNotes, isMarkedAsPurchased}, index) => (
                     <View key={index} className='mb-[20]'>
-                        <ListShoppingItem itemName={itemName} itemPrice={itemPrice} itemPriority={itemPriority} itemPlatform={itemPlatform} itemCategory={itemCategory} />
+                        <ListShoppingItem 
+                            itemName={itemName}
+                            itemPrice={itemPrice} 
+                            itemPriority={itemPriority} 
+                            itemPlatform={itemPlatform} 
+                            itemCategory={itemCategory} 
+                            itemNotes={itemNotes}
+                            isMarkedAsPurchased={isMarkedAsPurchased}
+                        />
                     </View>
                 ))}     
             </View>

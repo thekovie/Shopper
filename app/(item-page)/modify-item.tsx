@@ -1,8 +1,8 @@
-import { View, StatusBar, ScrollView, TouchableOpacity, BackHandler } from "react-native";
 import { useState, useEffect } from "react";
+import { View, StatusBar, ScrollView, TouchableOpacity, BackHandler } from "react-native";
+import { router } from "expo-router";
 import { Platform } from "react-native";
 import { Text } from "@/components/ui/text";
-import { X } from "@/lib/icons";
 // Forms
 import {
   Controller,
@@ -16,8 +16,9 @@ import {
 } from '@/utils/forms/add-product-link';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import AddProductInfo from "@/components/add-shopping-item/forms/AddProductInfo";
+import ModifyProductInfo from "@/components/modify-shopping-item/forms/ModifyProductInfo";
 import CancelChangesPage from "@/components/add-shopping-item/CancelChanges";
+import { ArrowLeft } from "@/lib/icons"
 
 
 function cancelAddItem() {
@@ -67,6 +68,8 @@ export default function Index() {
     return () => backHandler.remove();
   }, []);
 
+  
+
 
 
   return (
@@ -76,37 +79,28 @@ export default function Index() {
             flex: 1
           }}
       >
-        <CancelChangesPage
-          toggleDialog={setDiscardChangesDialogOpen}
-          isDialogOpen={isDiscardChangesDialogOpen}
-          trigger={
-            <TouchableOpacity>
-                <View className="flex flex-row-reverse n items-center mb-[4]">
-                    <X className="text-lonestar-400" size={24} />
-                </View>
-            </TouchableOpacity>
-          }
-        />
-          
+        {/* <CancelChangesPage /> */}
 
-        <View className="flex flex-col p-[6]">
+        <View className="flex flex-row mb-[4] items-center">
+          <CancelChangesPage
+            toggleDialog={setDiscardChangesDialogOpen}
+            isDialogOpen={isDiscardChangesDialogOpen}
+            trigger={
+                <TouchableOpacity>
+                    <ArrowLeft className="text-lonestar-400 mr-[10]" size={24}/>
+                </TouchableOpacity>
+            }
+          />
+
           <Text 
-            className=" text-lonestar-500 mb-[6] text-xl"
+            className=" text-lonestar-500 text-xl"
             fontVariant="Bold"
           >
-            Add Shopping Item
-          </Text>
-
-          <Text className="text-lonestar-700 text-base max-w-[95%] mb-[20]" fontVariant="Regular">
-            {scrapeSuccessMessage}
-          </Text>
-
-          <View>
-            <AddProductInfo />
-            
-          </View>
-
+           Modify Item
+          </Text> 
         </View>
+
+        <ModifyProductInfo />
 
       </ScrollView>
   );

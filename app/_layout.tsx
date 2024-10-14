@@ -130,6 +130,18 @@ export default function RootLayout() {
                   }}
                 />
                 <Stack.Screen
+                  name="(item-page)"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="(shopping-list-menu)"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
                   name="(onboarding)"
                   options={{
                     headerShown: false,

@@ -4,6 +4,8 @@ export interface ListShoppingItemProps {
     itemPriority: string;
     itemPlatform: string;
     itemCategory: string;
+    isMarkedAsPurchased: boolean
+    itemNotes?: string;
 }
 
 export interface RecentFindsProps{

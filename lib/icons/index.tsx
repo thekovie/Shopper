@@ -10,6 +10,7 @@ import {
   Shapes,
   History,
   ChevronDown,
+  ChevronRight,
   Bell,
   ShoppingBag,
   TabletSmartphone,
@@ -20,6 +21,7 @@ import {
   Plus,
   X,
   Check,
+  CheckCircle2,
   ChevronUp,
 } from "lucide-react-native";
 import { iconWithClassName } from "./iconWithClassName";
@@ -45,6 +47,8 @@ iconWithClassName(Plus);
 iconWithClassName(X);
 iconWithClassName(Check);
 iconWithClassName(ChevronUp);
+iconWithClassName(ChevronRight);
+iconWithClassName(CheckCircle2);
 export {
   ArrowLeft,
   Home,
@@ -66,5 +70,7 @@ export {
   Plus,
   X,
   Check,
-  ChevronUp
+  ChevronUp,
+  ChevronRight,
+  CheckCircle2,
 };

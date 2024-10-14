@@ -38,15 +38,14 @@ import {
 } from "@/components/ui/alert-dialog";
 import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
 
-function cancelAddItem() {
-  if (router.canGoBack()) {
-    router.back();
-  } else {
-    router.replace({ pathname: "/(tabs)/" });
-  }
+function deleteItem() {
+  console.log("Deleted item");
+  router.replace({ pathname: "/(tabs)/" });
 }
 
-export default function AddProductInfo() {
+
+
+export default function ModifyProductInfo() {
   const [categories, setCategories] = useState<string[]>([
     "Mobile",
     "Beauty",
@@ -65,6 +64,7 @@ export default function AddProductInfo() {
   function onSubmit(values: z.infer<typeof addProductInformationSchema>) {
     // TODO: Do something with the form values and navigate to a certain page.
     console.log(values);
+    router.back();
   }
 
   const onError: SubmitErrorHandler<AddProductInformationSchema> = (
@@ -232,7 +232,7 @@ export default function AddProductInfo() {
                   >
                     <SelectTrigger>
                       <SelectValue
-                        className="native:text-lg text-sm text-foreground"
+                        className="native:text-lg !text-sm text-foreground"
                         placeholder="Select a category"
                       />
                     </SelectTrigger>
@@ -279,7 +279,7 @@ export default function AddProductInfo() {
                   >
                     <SelectTrigger className="w-full">
                       <SelectValue
-                        className="native:text-lg text-sm text-foreground"
+                        className="native:text-lg !text-sm text-foreground"
                         placeholder="Select a priority"
                       />
                     </SelectTrigger>
@@ -335,7 +335,7 @@ export default function AddProductInfo() {
               onPress={form.handleSubmit(onSubmit, onError)}
               className="mb-[8]"
             >
-              <Text>Submit</Text>
+              <Text className="!text-sm">Update Product Information</Text>
             </Button>
 
             <AlertDialog open={open} onOpenChange={setOpen}>
@@ -343,21 +343,22 @@ export default function AddProductInfo() {
                 <TouchableOpacity>
                   <Button
                     variant={"outline"}
+                    className="bg-white"
                     onPress={() => {
                       setOpen(true);
                     }}
                   >
                     <Text
-                      className="text-sm text-lonestar-600"
+                      className="!text-sm text-lonestar-600"
                       fontVariant="Medium"
                     >
-                      Back
+                      Delete item
                     </Text>
                   </Button>
                 </TouchableOpacity>
               </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
+              <AlertDialogContent className="bg-white">
+                <AlertDialogHeader className="">
                   <Text
                     className="text-lg text-lonestar-600"
                     fontVariant="Bold"
@@ -368,23 +369,30 @@ export default function AddProductInfo() {
                     className="text-xs text-lonestar-700"
                     fontVariant="Medium"
                   >
-                    Your changes will be discarded if you proceed.
+                    This item will be {""}
+                    <Text className="text-xs text-lonestar-700 underline" fontVariant="Medium">
+                      permanently deleted
+                    </Text> if you proceed.
                   </Text>
+
+               
+                  
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <Button
                     variant={"outline"}
+                    className="bg-white"
                     onPress={() => {
                       setOpen(false);
-                      router.back();
+                      deleteItem();
                     }}
                   >
-                    <Text className="text-sm text-lonestar-600">
-                      Discard changes
+                    <Text className="!text-sm text-lonestar-600">
+                      Delete item
                     </Text>
                   </Button>
                   <Button onPress={() => setOpen(false)}>
-                    <Text className="text-[#ffffff]">Oops, bring me back</Text>
+                    <Text className="text-[#ffffff] !text-sm">Oops, bring me back</Text>
                   </Button>
                 </AlertDialogFooter>
               </AlertDialogContent>

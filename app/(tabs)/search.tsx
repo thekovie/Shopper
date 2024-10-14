@@ -15,28 +15,32 @@ export default function Tab() {
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        isMarkedAsPurchased: false
     },
     {
         itemName: 'iPhone 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        isMarkedAsPurchased: false
     },
     {
         itemName: 'iPhone 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        isMarkedAsPurchased: false
     },
     {
         itemName: 'iPhone 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & GadgetsAWDAWDAWDAWDAWD ABWVDHGAWDVGHAW AHGJWDGHAWDGHAWD  HGAWDGHAWDGH'
+        itemCategory: 'Mobiles & GadgetsAWDAWDAWDAWDAWD ABWVDHGAWDVGHAW AHGJWDGHAWDGHAWD  HGAWDGHAWDGH',
+        isMarkedAsPurchased: false
     },
   ];
 
@@ -46,35 +50,40 @@ export default function Tab() {
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        isMarkedAsPurchased: false
     },
     {
         itemName: 'iPhone 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        isMarkedAsPurchased: false
     },
     {
         itemName: 'Hotdog 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        isMarkedAsPurchased: false
     },
     {
         itemName: 'Strawberry 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & GadgetsAWDAWDAWDAWDAWD ABWVDHGAWDVGHAW AHGJWDGHAWDGHAWD  HGAWDGHAWDGH'
+        itemCategory: 'Mobiles & GadgetsAWDAWDAWDAWDAWD ABWVDHGAWDVGHAW AHGJWDGHAWDGHAWD  HGAWDGHAWDGH',
+        isMarkedAsPurchased: false
     },
     {
       itemName: 'Chiken NUggets',
       itemPrice: 700,
       itemPriority: 'Priority',
       itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets'
+      itemCategory: 'Mobiles & Gadgets',
+      isMarkedAsPurchased: false
     },
   ];
 
@@ -101,9 +110,16 @@ export default function Tab() {
 
     {searchInput.length < 1 &&  
     <View className='flex flex-col overflow-hidden'>
-      {sampleItemsData.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory}, index) => (
+      {sampleItemsData.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory, isMarkedAsPurchased}, index) => (
         <View key={index} className='mb-[20]'>
-            <ListShoppingItem itemName={itemName} itemPrice={itemPrice} itemPriority={itemPriority} itemPlatform={itemPlatform} itemCategory={itemCategory} />
+            <ListShoppingItem 
+              itemName={itemName} 
+              itemPrice={itemPrice} 
+              itemPriority={itemPriority} 
+              itemPlatform={itemPlatform} 
+              itemCategory={itemCategory}
+              isMarkedAsPurchased={isMarkedAsPurchased}
+            />
         </View>
       ))}    
     </View>}
@@ -112,14 +128,15 @@ export default function Tab() {
       .filter(({ itemName }) =>
         itemName.toLowerCase().includes(searchInput.toLowerCase())
       )
-      .map(({ itemName, itemPrice, itemPriority, itemPlatform, itemCategory }, index) => (
+      .map(({ itemName, itemPrice, itemPriority, itemPlatform, itemCategory, isMarkedAsPurchased }, index) => (
         <View key={index} className='mb-[20]'>
           <ListShoppingItem
-            itemName={itemName}
-            itemPrice={itemPrice}
-            itemPriority={itemPriority}
-            itemPlatform={itemPlatform}
-            itemCategory={itemCategory}
+              itemName={itemName}
+              itemPrice={itemPrice}
+              itemPriority={itemPriority}
+              itemPlatform={itemPlatform}
+              itemCategory={itemCategory}
+              isMarkedAsPurchased={isMarkedAsPurchased}
           />
         </View>
     ))}
