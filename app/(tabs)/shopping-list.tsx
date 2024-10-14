@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, ScrollView, Pressable } from "react-native";
+import { View, ScrollView } from "react-native";
 import { Text } from "@/components/ui/text";
 import { Star, ChevronRight, Shapes, History, Plus } from "@/lib/icons"
 import { router } from "expo-router";
