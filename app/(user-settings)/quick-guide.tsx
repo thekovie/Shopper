@@ -5,7 +5,7 @@ import { Text } from '@/components/ui/text';
 import CancelChangesPage from '@/components/add-shopping-item/CancelChanges'; 
 import { ArrowLeft } from "@/lib/icons";
 
-function QuickGUide() {
+function QuickGuide() {
     const [isDiscardChangesDialogOpen, setDiscardChangesDialogOpen] = useState(false);
     return (
         <ScrollView className="flex flex-col p-[20]"
@@ -32,8 +32,10 @@ function QuickGUide() {
                     Quick Guide
                 </Text> 
             </View>
+
+            
         </ScrollView>
     );
 }
 
-export default QuickGUide;
+export default QuickGuide;

@@ -4,6 +4,7 @@ import { View, ScrollView, TouchableOpacity, StatusBar, Platform } from 'react-n
 import { Text } from '@/components/ui/text';
 import CancelChangesPage from '@/components/add-shopping-item/CancelChanges'; 
 import { ArrowLeft } from "@/lib/icons";
+import Switch from '@/components/Switch';
 
 function PushNotifications() {
     const [isDiscardChangesDialogOpen, setDiscardChangesDialogOpen] = useState(false);
@@ -32,6 +33,8 @@ function PushNotifications() {
                     Push Notifications
                 </Text> 
             </View>
+
+            <Switch label='Push updates for any price changes in my wishlist.' />
         </ScrollView>
     );
 }
