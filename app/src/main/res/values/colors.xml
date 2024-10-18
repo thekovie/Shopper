@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#FFFFFF</color>
+    <color name="lonestar_50">#FFF1F1</color>
+    <color name="lonestar_100">#FFE1E0</color>
+    <color name="lonestar_200">#FFC8C7</color>
+    <color name="lonestar_300">#FFA19F</color>
+    <color name="lonestar_400">#FF6B68</color>
+    <color name="lonestar_500">#FA3D39</color>
+    <color name="lonestar_600">#E81E1A</color>
+    <color name="lonestar_700">#C31612</color>
+    <color name="lonestar_800">#A11613</color>
+    <color name="lonestar_900">#851917</color>
+    <color name="lonestar_950">#690B09</color>
 </resources>
