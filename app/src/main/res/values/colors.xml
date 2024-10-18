@@ -13,4 +13,7 @@
     <color name="lonestar_800">#A11613</color>
     <color name="lonestar_900">#851917</color>
     <color name="lonestar_950">#690B09</color>
+
+    <!-- Borders -->
+    <color name="input_border_color">#E4E4E7</color>
 </resources>
