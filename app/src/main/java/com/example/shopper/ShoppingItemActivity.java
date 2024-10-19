@@ -2,38 +2,47 @@ package com.example.shopper;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+public class ShoppingItemActivity extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
-
+    TextView itemNameView;
+    TextView itemNotesView;
+    TextView itemPriceView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_shopping_item);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        Intent i = getIntent();
+        String itemNameData = i .getStringExtra("itemName");
+        String itemNotesData = i .getStringExtra("itemNotes");
+//        String itemPriceData = i .getStringExtra("itemPrice");
 
-    }
+        itemNameView = findViewById(R.id.itemNameView);
+        itemNotesView = findViewById(R.id.itemNotesView);
+//        itemPriceView = findViewById(R.id.itemPriceView);
 
-    public void login(View v){
-        Intent intent = new Intent(MainActivity.this, HomePage.class);
-        startActivity(intent);
+        itemNameView.setText(itemNameData);
+        itemNotesView.setText(itemNotesData);
+//        itemPriceView.setText(itemPriceData);
+
+
+
+
     }
 }
