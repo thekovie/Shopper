@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-
     }
 
     public void login(View v){
