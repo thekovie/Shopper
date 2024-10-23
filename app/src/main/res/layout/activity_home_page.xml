@@ -43,7 +43,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 android:background="@android:color/transparent"
-                app:srcCompat="@drawable/bell" />
+                app:srcCompat="@drawable/icon_bell" />
         </LinearLayout>
 
         <LinearLayout
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/shopping_bag" />
+                    app:srcCompat="@drawable/icon_shopping_bag" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
@@ -130,7 +130,7 @@
                             android:paddingTop="10dp"
                             android:paddingRight="10dp"
                             android:paddingBottom="10dp"
-                            app:srcCompat="@drawable/star" />
+                            app:srcCompat="@drawable/icon_star" />
 
                         <TextView
                             android:id="@+id/nav_item_text4"
@@ -162,7 +162,7 @@
                             android:paddingTop="10dp"
                             android:paddingRight="10dp"
                             android:paddingBottom="10dp"
-                            app:srcCompat="@drawable/tablet_smartphone" />
+                            app:srcCompat="@drawable/icon_tablet_smartphone" />
 
                         <TextView
                             android:id="@+id/nav_item_text4"
@@ -194,7 +194,7 @@
                             android:paddingTop="10dp"
                             android:paddingRight="10dp"
                             android:paddingBottom="10dp"
-                            app:srcCompat="@drawable/pill" />
+                            app:srcCompat="@drawable/icon_pill" />
 
                         <TextView
                             android:id="@+id/nav_item_text4"
@@ -226,7 +226,7 @@
                             android:paddingTop="10dp"
                             android:paddingRight="10dp"
                             android:paddingBottom="10dp"
-                            app:srcCompat="@drawable/star" />
+                            app:srcCompat="@drawable/icon_star" />
 
                         <TextView
                             android:id="@+id/nav_item_text4"
@@ -269,7 +269,7 @@
                             android:paddingTop="10dp"
                             android:paddingRight="10dp"
                             android:paddingBottom="10dp"
-                            app:srcCompat="@drawable/star" />
+                            app:srcCompat="@drawable/icon_star" />
 
                         <TextView
                             android:id="@+id/nav_item_text5"
@@ -301,7 +301,7 @@
                             android:paddingTop="10dp"
                             android:paddingRight="10dp"
                             android:paddingBottom="10dp"
-                            app:srcCompat="@drawable/star" />
+                            app:srcCompat="@drawable/icon_star" />
 
                         <TextView
                             android:id="@+id/nav_item_text6"
@@ -333,7 +333,7 @@
                             android:paddingTop="10dp"
                             android:paddingRight="10dp"
                             android:paddingBottom="10dp"
-                            app:srcCompat="@drawable/joystick" />
+                            app:srcCompat="@drawable/icon_joystick" />
 
                         <TextView
                             android:id="@+id/nav_item_text7"
@@ -365,7 +365,7 @@
                             android:paddingTop="10dp"
                             android:paddingRight="10dp"
                             android:paddingBottom="10dp"
-                            app:srcCompat="@drawable/more_horizontal" />
+                            app:srcCompat="@drawable/icon_more_horizontal" />
 
                         <TextView
                             android:id="@+id/nav_item_text8"
@@ -403,7 +403,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/plus" />
+                    app:srcCompat="@drawable/icon_plus" />
 
                 <LinearLayout
                     android:layout_width="233dp"
