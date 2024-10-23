@@ -3,6 +3,8 @@
     <style name="Base.Theme.Shopper" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="Theme.ButtonPrimary" parent="Base.Widget.AppCompat.Button.Colored">
