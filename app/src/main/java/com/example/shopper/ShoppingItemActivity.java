@@ -34,7 +34,7 @@ public class ShoppingItemActivity extends AppCompatActivity {
 //        String itemPriceData = i .getStringExtra("itemPrice");
 
         itemNameView = findViewById(R.id.itemNameView);
-        itemNotesView = findViewById(R.id.itemNotesView);
+        itemNotesView = findViewById(R.id.additionalInfoView);
 //        itemPriceView = findViewById(R.id.itemPriceView);
 
         itemNameView.setText(itemNameData);

@@ -1,7 +1,6 @@
 package com.example.shopper;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +30,8 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final ShoppingItem shoppingItemList = itemCart[position];
         holder.itemNameView.setText(shoppingItemList.getItemName());
-        holder.itemNotesView.setText(shoppingItemList.getItemNotes());
-        holder.itemPriceView.setText("Price: "+shoppingItemList.getItemPrice());
+        holder.additionalInfoView.setText(shoppingItemList.getItemPriority() + " • " + shoppingItemList.getItemShoppingPlatform() + " • " + shoppingItemList.getItemCategory());
+        holder.itemPriceView.setText("PHP ~"+shoppingItemList.getItemPrice());
 
 //        holder.itemView.setOnClickListener(new View.OnClickListener() {
 //            /* TODO Call an intent for OrderActivity allowing you to order food */
@@ -70,13 +69,13 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView itemNameView;
-        TextView itemNotesView;
+        TextView additionalInfoView;
         TextView itemPriceView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             itemNameView = itemView.findViewById(R.id.itemNameView);
-            itemNotesView = itemView.findViewById(R.id.itemNotesView);
+            additionalInfoView = itemView.findViewById(R.id.additionalInfoView);
             itemPriceView = itemView.findViewById(R.id.itemPrice);
         }
     }
