@@ -1,8 +1,16 @@
 package com.example.shopper;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +22,9 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
+
+    private ActivityResultLauncher<Intent> shoppingItemActivityLauncher;
+    ShoppingItem[] itemCart;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,12 +64,43 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+
+
+
+
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
+        super.onViewCreated(view, savedInstanceState);
+
+        itemCart = new ShoppingItem[]{
+                new ShoppingItem("iPhone 15 Pro Max Case Fully Loaded", "Mobile & Gadgets", "High", "Shoppee", "I’m not really sure if im in to this but there is AI so why not?", 700),
+                new ShoppingItem("Strawberries", "Mobile & Gadgets", "High", "Shoppee", "I’m not really sure if im in to this but there is AI so why not?", 700),
+                new ShoppingItem("Chiken NUggets", "Mobile & Gadgets", "High", "Shoppee", "I’m not really sure if im in to this but there is AI so why not?", 700),
+                new ShoppingItem("Katsu Curry", "Mobile & Gadgets", "High", "Shoppee", "I’m not really sure if im in to this but there is AI so why not?", 700)
+        };
+
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+
+        ShoppingListAdapter shoppingListAdapter = new ShoppingListAdapter(itemCart, getContext());
+        recyclerView.setAdapter(shoppingListAdapter);
+        shoppingListAdapter.notifyDataSetChanged();
     }
 }
