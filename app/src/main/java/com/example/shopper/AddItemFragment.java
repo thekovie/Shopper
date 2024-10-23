@@ -3,10 +3,14 @@ package com.example.shopper;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +63,35 @@ public class AddItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_item, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_item, container, false);
+        ImageButton backButton = view.findViewById(R.id.closeButton);
+        Button cancelButton = view.findViewById(R.id.cancelButton);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBackToHomeFragment();
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBackToHomeFragment();
+            }
+        });
+
+        return view;
+    }
+
+    public void goBackToHomeFragment(){
+
+        if(getActivity() instanceof HomePage){
+            ((HomePage) getActivity()).setSelectedNavItem(R.id.home_menu_item);
+            FragmentManager fragmentManager = getParentFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frame_layout, new HomeFragment());
+            fragmentTransaction.commit();
+        }
     }
 }

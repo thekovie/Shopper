@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopper.databinding.ActivityHomePageBinding;
 import com.example.shopper.databinding.ActivityMainBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomePage extends AppCompatActivity {
 
@@ -40,7 +41,6 @@ public class HomePage extends AppCompatActivity {
 //        setContentView(R.layout.activity_home_page);
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             if(item.getItemId() == R.id.home_menu_item){
                 replaceFragment(new HomeFragment());
@@ -99,14 +99,24 @@ public class HomePage extends AppCompatActivity {
 //                });
     }
 
-    private void replaceFragment(Fragment fragment){
+    public void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
     }
 
+
+
     public ActivityResultLauncher<Intent> getShoppingItemActivityLauncher() {
         return shoppingItemActivityLauncher;
+    }
+
+    public BottomNavigationView getBottomNavigationView(){
+        return binding.bottomNavigationView;
+    }
+
+    public void setSelectedNavItem(int itemId) {
+        binding.bottomNavigationView.setSelectedItemId(itemId);
     }
 }
