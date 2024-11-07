@@ -1,9 +1,10 @@
 import { View, StatusBar, ScrollView } from "react-native";
 import { Text } from "@/components/ui/text";
-import { Platform } from "react-native";
+import { Platform, Alert } from "react-native";
 import { Input } from "@/components/ui/input";
 import { useLoadingContext } from "@/components/Providers/LoaderSpinnerContext";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/lib/supabase";
 import { ChevronDown } from "@/lib/icons";
 import { router } from "expo-router";
 import {
@@ -30,8 +31,30 @@ export default function Index() {
 
   const { setLoading, setText } = useLoadingContext();
 
-  function onSubmit(values: z.infer<typeof createAccountSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof createAccountSchema>) {
+
+
+    const { data, error } = await supabase.auth.signUp({
+      email: values.email,
+      password: values.password,
+      options: {
+        data: {
+          display_name: values.displayName,
+        }
+      }
+    })
+
+    if (error){
+      console.log(error.message)
+      Alert.alert(error.message)
+    }else{
+      Alert.alert("Successfully created your account!");
+      router.push({
+        pathname: "/(onboarding)/",
+      });
+    }
+
+    
   }
 
   const onError: SubmitErrorHandler<CreateAccountSchema> = (
