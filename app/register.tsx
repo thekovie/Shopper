@@ -1,5 +1,6 @@
-import { View } from "react-native";
+import { View, StatusBar, ScrollView } from "react-native";
 import { Text } from "@/components/ui/text";
+import { Platform } from "react-native";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLoadingContext } from "@/components/Providers/LoaderSpinnerContext";
@@ -11,10 +12,16 @@ export default function Index() {
   return (
     <View
       style={{
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
         flex: 1,
-        justifyContent: "center",
+        justifyContent: "center",  
       }}
-      className={"px-10"}
+    >
+    <ScrollView
+      style={{
+           
+      }}
+      className={"px-10 mt-[20]"}
     >
       <Text
         fontVariant={"Bold"}
@@ -27,41 +34,41 @@ export default function Index() {
       >
         We're almost there!
       </Text>
-      <Label nativeID={"name"} className={"w-full text-left"}>
+      <Text nativeID={"name"} className={"mt-4 w-full text-left text-lonestar-950 text-xs font-medium"}>
         Display Name
-      </Label>
+      </Text>
       <Input
         placeholder={"Display Name"}
-        className={"mb-2 w-full"}
+        className={"mb-2 w-full bg-white placeholder:text-lonestar-300 border-[#e4e4e7]"}
         onChangeText={(text) => {
           setText(text);
         }}
       />
-      <Label nativeID={"email"} className={"w-full text-left"}>
+      <Text nativeID={"email"} className={"mt-4 w-full text-left text-lonestar-950 text-xs font-medium"}>
         Email
-      </Label>
+      </Text>
       <Input
         placeholder={"yourname@example.com"}
-        className={"mb-2 w-full"}
+        className={"mb-2 w-full bg-white placeholder:text-lonestar-300 border-[#e4e4e7]"}
         onChangeText={(text) => {
           setText(text);
         }}
       />
-      <Label nativeID={"password"} className={"mt-4 w-full text-left"}>
+      <Text nativeID={"password"} className={"mt-4 w-full text-left text-lonestar-950 text-xs font-medium"}>
         Password
-      </Label>
+      </Text>
       <Input
         placeholder={"Password"}
         secureTextEntry={true}
-        className={"mb-2 w-full"}
+        className={"mb-2 w-full bg-white placeholder:text-lonestar-300 border-[#e4e4e7]"}
       />
-      <Label nativeID={"confirm-password"} className={"mt-4 w-full text-left"}>
+      <Text nativeID={"confirm-password"} className={"mt-4 w-full text-left text-lonestar-950 text-xs font-medium"}>
         Confirm Password
-      </Label>
+      </Text>
       <Input
         placeholder={"Confirm Password"}
         secureTextEntry={true}
-        className={"mb-10 w-full"}
+        className={"mb-10 w-full bg-white placeholder:text-lonestar-300 border-[#e4e4e7]"}
       />
 
       <Button
@@ -81,9 +88,9 @@ export default function Index() {
             pathname: "/",
           });
         }}
-        className={"mb-10 w-full text-lonestar-500"}
+        className={"mb-10 w-full text-lonestar-500 bg-white"}
       >
-        <Text>Reset</Text>
+        <Text className="text-lonestar-600">Reset</Text>
       </Button>
 
       <View className={"flex-col"}>
@@ -99,9 +106,9 @@ export default function Index() {
               pathname: "/",
             });
           }}
-          className={"w-full text-lonestar-500"}
+          className={"w-full text-lonestar-500 bg-white h-fit "}
         >
-          <Text>Sign-in instead</Text>
+          <Text className="text-lonestar-600">Sign-in instead</Text>
         </Button>
       </View>
 
@@ -122,6 +129,8 @@ export default function Index() {
           , let's go haul!
         </Text>
       </View>
+    </ScrollView>
     </View>
+    
   );
 }
