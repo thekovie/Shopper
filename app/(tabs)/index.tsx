@@ -1,16 +1,37 @@
 import { View, StyleSheet, ScrollView, StatusBar } from "react-native";
+import { useState, useEffect } from 'react'
 import { Platform } from "react-native";
 import { Bell, Brush, Pill, ShoppingBag, Star, TabletSmartphone, MoreHorizontal } from "@/lib/icons";
 import { Text } from "@/components/ui/text";
 import { Joystick } from "lucide-react-native";
 import AddShoppingItem from "@/components/homepage/AddShoppingItem";
 import RecentFinds from "@/components/homepage/RecentFinds";
+import { Session } from '@supabase/supabase-js'
+import { supabase } from "@/lib/supabase";
+import { ListShoppingItemProps, RecentFindsProps } from "@/constants/types";
 
 
 
 export default function Tab() {
+  const [session, setSession] = useState<Session | null>(null)
 
   const numberOfItems = 700;
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+      if(!session){
+        console.log("LOGGED OUT FROM TABS")
+      }
+    })
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+      if(!session){
+        console.log("LOGGED OUT FROM TABS")
+      }
+    })
+  }, []);
 
   const categoriesOne = [
     { label: "Priority List", Icon: Star },
@@ -26,34 +47,38 @@ export default function Tab() {
     { label: "Others", Icon: MoreHorizontal },
   ]
 
-  const sampleItemsData = [
+  const sampleItemsData: ListShoppingItemProps[] = [
     {
         itemName: 'iPhone 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        isMarkedAsPurchased: false
     },
     {
         itemName: 'iPhone 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        isMarkedAsPurchased: false
     },
     {
         itemName: 'iPhone 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets'
+        itemCategory: 'Mobiles & Gadgets',
+        isMarkedAsPurchased: false
     },
     {
         itemName: 'iPhone 15 Pro Max Case Fully Loaded',
         itemPrice: 700,
         itemPriority: 'Priority',
         itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & GadgetsAWDAWDAWDAWDAWD ABWVDHGAWDVGHAW AHGJWDGHAWDGHAWD  HGAWDGHAWDGH'
+        itemCategory: 'Mobiles & GadgetsAWDAWDAWDAWDAWD ABWVDHGAWDVGHAW AHGJWDGHAWDGHAWD  HGAWDGHAWDGH',
+        isMarkedAsPurchased: false
     }
 ]
 

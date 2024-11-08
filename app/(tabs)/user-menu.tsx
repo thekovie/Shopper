@@ -1,10 +1,32 @@
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Alert } from "react-native";
 import { Text } from "@/components/ui/text";
 import { ChevronRight, User2, HelpCircle, Bell, Smartphone } from "@/lib/icons";
 import { router } from "expo-router";
 import { Button } from "@/components/ui/button";
+import { supabase } from '@/lib/supabase'
 
 export default function Tab() {
+
+
+  async function signOutUser(){
+    const { error } = await supabase.auth.signOut();
+    if(error){
+      console.log(error.message)
+      Alert.alert(error.message)
+    }else{
+      Alert.alert("Successfully logged out!");
+      if(router.canDismiss()){
+        router.dismissAll();
+      }else{
+        router.replace({
+          pathname: "/register",
+        })
+      }
+      
+    }
+
+  }
+
   return (
     <View className="flex flex-col flex-1 w-full px-[30] py-[20] justify-between">
       <View>
@@ -71,9 +93,7 @@ export default function Tab() {
       </View>
       
 
-      <Button className="bg-[#c31612]" onPress={() => {
-        router.dismissAll();
-      }}>
+      <Button className="bg-[#c31612]" onPress={signOutUser}>
         <Text className="text-white !text-sm" fontVariant="Medium">Log-out of your account</Text>
       </Button>
     </View>
