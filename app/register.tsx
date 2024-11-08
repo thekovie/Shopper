@@ -221,9 +221,13 @@ export default function Index() {
         </Text>
         <Button
           onPress={() => {
-            router.replace({
-              pathname: "/",
-            });
+            if(router.canGoBack()){
+              router.back();
+            }else{
+              router.replace({
+                pathname: "/",
+              });
+            }
           }}
           className={"w-full text-lonestar-500 bg-white h-fit border border-lonestar-500"}
         >

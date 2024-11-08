@@ -33,11 +33,11 @@ export default function Index() {
       if (session) {
         const { data: { user } } = await supabase.auth.getUser();
         
-        // if (user) {
-        //   router.push({
-        //     pathname: "/(tabs)/",
-        //   });
-        // }
+        if (user) {
+          router.push({
+            pathname: "/(tabs)/",
+          });
+        }
       }
   
       setLoading(false);
@@ -202,7 +202,7 @@ export default function Index() {
         </Text>
         <Button
           onPress={() => {
-            router.replace({
+            router.push({
               pathname: "/register",
             });
           }}
