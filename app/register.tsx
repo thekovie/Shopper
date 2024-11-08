@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { useLoadingContext } from "@/components/Providers/LoaderSpinnerContext";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
-import { ChevronDown } from "@/lib/icons";
 import { router } from "expo-router";
 import {
   Controller,
