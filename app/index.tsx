@@ -17,30 +17,41 @@ import {
   SubmitErrorHandler,
   useForm,
 } from 'react-hook-form';
-import { set } from "date-fns";
 
 export default function Index() {
   const { setLoading, setText } = useLoadingContext();
   const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
-    setLoading(true);
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      if(session){
-        router.push({
-          pathname: "/(tabs)/"
-        })
-      }
-    })
+    const initializeSession = async () => {
+      setLoading(true);
 
+      const { data: { session } } = await supabase.auth.getSession();
+      setSession(session);
+  
+      // If a session exists, check if the user exists
+      if (session) {
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        // if (user) {
+        //   router.push({
+        //     pathname: "/(tabs)/",
+        //   });
+        // }
+      }
+  
+      setLoading(false);
+    }
+
+    initializeSession();
+    
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-      if(session){
-        router.push({
-          pathname: "/(tabs)/"
-        })
-      }
+      // if(session){
+      //   router.push({
+      //     pathname: "/(tabs)/"
+      //   })
+      // }
     })
     setLoading(false);
   }, [])
@@ -54,7 +65,7 @@ export default function Index() {
   });
 
   async function onSubmit(values: z.infer<typeof signInAccountSchema>) {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data: userData, error } = await supabase.auth.signInWithPassword({
       email: values.email,
       password: values.password,
     })
@@ -63,10 +74,30 @@ export default function Index() {
       Alert.alert(error.message);
       console.log(error.message);
     }else{
-      Alert.alert("Successfully logged in!");
-      router.push({
-        pathname: "/(tabs)/",
-      });
+      if(userData.session){
+        Alert.alert("Successfully logged in! " + userData.user.id);
+        const { data: userProfile, error } = await supabase
+          .from('profiles')
+          .select('has_onboarded')
+          .eq('id', userData.user.id)
+          .single();
+        
+        if(error){
+          console.error("Error fetching onboarding status:", error.message);
+        }else{
+          console.log("Data: " + userProfile.has_onboarded);
+          if(userProfile.has_onboarded){
+            router.push({
+              pathname: "/(tabs)/",
+            });  
+          }else{
+            router.push({
+              pathname: "/(onboarding)/",
+            });
+          }
+        }
+      }
+      
     }
   }
 
@@ -76,27 +107,6 @@ export default function Index() {
   ) => {
     console.log(JSON.stringify(errors));
   };
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session }}) => {
-      setSession(session);
-      if(session){
-        router.push({
-          pathname: "/(tabs)/"
-        })
-      }
-    })
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      if(session){
-        router.push({
-          pathname: "/(tabs)/"
-        })
-      }
-      
-    })
-  }, [])
 
 
   return (

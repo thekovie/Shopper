@@ -15,8 +15,14 @@ export default function Tab() {
       Alert.alert(error.message)
     }else{
       Alert.alert("Successfully logged out!");
-      router.dismissAll();
- 
+      if(router.canDismiss()){
+        router.dismissAll();
+      }else{
+        router.replace({
+          pathname: "/register",
+        })
+      }
+      
     }
 
   }

@@ -1,10 +1,49 @@
 import React from "react";
-import { View, StatusBar, Platform, ScrollView } from "react-native";
+import { View, StatusBar, Platform, ScrollView, Alert } from "react-native";
 import { Text } from "@/components/ui/text";
 import { Button } from "@/components/ui/button";
 import { router } from "expo-router";
+import { Session } from '@supabase/supabase-js'
+import { useState, useEffect } from 'react'
+import { supabase } from '@/lib/supabase'
 
 const LastPage = () => {
+  const [session, setSession] = useState<Session | null>(null);
+  const [userId, setUserId] = useState<string>("");
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if(session){
+        setUserId(session.user.id);
+      }
+    })
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if(session){
+        setUserId(session.user.id);
+      }
+    })
+  }, [])
+
+  async function updateUserHasOnboarded() {
+    const { error } = await supabase
+      .from('profiles')
+      .update({ has_onboarded: true })
+      .eq('id', userId)
+
+    if(error){
+      Alert.alert("An error occurred in the onboarding process. Please try again later.");
+    }else{
+      router.replace({
+        pathname: "/(tabs)/",
+      });
+    }
+    
+  }
+
+
   return (
     <View
       style={{
@@ -37,11 +76,7 @@ const LastPage = () => {
             <Text className={"text-lonestar-600"}>Previous</Text>
           </Button>
           <Button
-            onPress={() => {
-              router.replace({
-                pathname: "/(tabs)/",
-              });
-            }}
+            onPress={updateUserHasOnboarded}
             className={"mb-10 text-lonestar-500"}
           >
             <Text>Let's go haul! ✨</Text>

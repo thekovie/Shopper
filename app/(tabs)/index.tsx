@@ -20,10 +20,16 @@ export default function Tab() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
+      if(!session){
+        console.log("LOGGED OUT FROM TABS")
+      }
     })
 
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
+      if(!session){
+        console.log("LOGGED OUT FROM TABS")
+      }
     })
   }, []);
 
