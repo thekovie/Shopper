@@ -43,14 +43,14 @@ function AddCategory({onAddCategory}: Props) {
         console.log(values)
         onAddCategory(values.category);
         setOpen(false);
-      }
+    }
 
-      const onError: SubmitErrorHandler<AddCategorySchema> = (
-        errors,
-        e
-      ) => {
-        console.log(JSON.stringify(errors));
-      };
+    const onError: SubmitErrorHandler<AddCategorySchema> = (
+      errors,
+      e
+    ) => {
+      console.log(JSON.stringify(errors));
+    };
 
 
 

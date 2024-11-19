@@ -19,6 +19,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import AddProductInfo from "@/components/add-shopping-item/forms/AddProductInfo";
 import CancelChangesPage from "@/components/add-shopping-item/CancelChanges";
 
+// Supabase
+import { supabase } from '@/lib/supabase';
+
 
 function cancelAddItem() {
   console.log('cancelled!');
@@ -27,32 +30,17 @@ function cancelAddItem() {
 
 export default function Index() {
   const [isDiscardChangesDialogOpen, setDiscardChangesDialogOpen] = useState(false);
+  const [userId, setUserId] = useState<string>("");
 
   const scrapeSuccessMessage = "Success! Make sure to review and fill up the remaining fields.";
-  const scrapeErrorMessage = "Oh no! We weren’t able to pre-fill for you. Please fill-up the following fields.";
 
+  
   const form = useForm<AddProductInformationSchema>({
     resolver: zodResolver(addProductInformationSchema),
     defaultValues: {
       productLink: "",
     },
   });
-
-  function onSubmit(values: z.infer<typeof addProductInformationSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
-    // router.push({
-    //   pathname: "/(tabs)add-item-fillup",
-    // });
-  }
-
-  const onError: SubmitErrorHandler<AddProductInformationSchema> = (
-    errors,
-    e
-  ) => {
-    console.log(JSON.stringify(errors));
-  };
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -67,6 +55,33 @@ export default function Index() {
     return () => backHandler.remove();
   }, []);
 
+
+  // Fetch session user's information
+  useEffect(() => {
+    const fetchSession = async () => {
+      try{
+        const { data, error } = await supabase.auth.getSession()
+
+        if(error){
+          console.error("Error fetching session: " + error);
+          return;
+        }
+
+        if (!data?.session?.user?.id) {
+          console.error("User ID not found. Ensure the user is logged in.");
+          return;
+        }
+
+        setUserId(data?.session?.user?.id || "");
+  
+    
+      }catch(error){
+        console.error("Error fetching session: " + error)
+      }
+    }
+
+    fetchSession();
+  }, [])
 
 
   return (
@@ -102,7 +117,7 @@ export default function Index() {
           </Text>
 
           <View>
-            <AddProductInfo />
+            <AddProductInfo userId={userId} />
             
           </View>
 

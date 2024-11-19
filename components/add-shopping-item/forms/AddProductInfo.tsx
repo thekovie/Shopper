@@ -19,6 +19,9 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 
+// Supabase
+import { supabase } from "@/lib/supabase";
+
 import {
   Select,
   SelectContent,
@@ -46,7 +49,11 @@ function cancelAddItem() {
   }
 }
 
-export default function AddProductInfo() {
+interface Props{
+  userId: string;
+}
+
+export default function AddProductInfo({ userId }: Props) {
   const [categories, setCategories] = useState<string[]>([
     "Mobile",
     "Beauty",
@@ -74,10 +81,24 @@ export default function AddProductInfo() {
     console.log(JSON.stringify(errors));
   };
 
-  const handleAddCategory = (newCategory: string) => {
-    // Update the categories array with the new category
-    setCategories((prevCategories) => [...prevCategories, newCategory]);
-    console.log("New Category Added:", newCategory);
+  async function handleAddCategory(newCategory: string) {
+    try{
+      const { error } = await supabase
+        .from('item_categories')
+        .insert({ category_name: newCategory, user_id: userId })
+
+      if(error){
+        console.error("Error adding category:", error.message);
+        return;
+      }
+
+      // Update the categories array with the new category
+      setCategories((prevCategories) => [...prevCategories, newCategory]);
+      console.log("New Category Added:", newCategory);
+
+    }catch(error){
+      console.log("Unexpected error while adding category:", error);
+    }
   };
 
   return (
@@ -212,6 +233,7 @@ export default function AddProductInfo() {
               <AddCategory
                 categories={categories}
                 onAddCategory={handleAddCategory}
+
               />
             </View>
 

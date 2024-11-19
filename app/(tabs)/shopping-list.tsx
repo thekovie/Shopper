@@ -53,7 +53,7 @@ export default function Tab() {
   };
 
   function onSubmit(values: z.infer<typeof addCategorySchema>) {
-    handleAddCategory(values.category);
+    //handleAddCategory(values.category);
     setOpen(false);
   }
 
