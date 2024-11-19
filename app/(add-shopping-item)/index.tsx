@@ -23,14 +23,14 @@ import CancelChangesPage from "@/components/add-shopping-item/CancelChanges";
 import { supabase } from '@/lib/supabase';
 
 
-function cancelAddItem() {
-  console.log('cancelled!');
-}
+
 
 
 export default function Index() {
   const [isDiscardChangesDialogOpen, setDiscardChangesDialogOpen] = useState(false);
   const [userId, setUserId] = useState<string>("");
+  const [categories, setCategories] = useState<string[]>([""]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const scrapeSuccessMessage = "Success! Make sure to review and fill up the remaining fields.";
 
@@ -41,6 +41,10 @@ export default function Index() {
       productLink: "",
     },
   });
+
+  function updateStateCategories(newCategory: string) {
+    setCategories((prevCategories) => [...prevCategories, newCategory]);
+  }
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -58,6 +62,8 @@ export default function Index() {
 
   // Fetch session user's information
   useEffect(() => {
+
+
     const fetchSession = async () => {
       try{
         const { data, error } = await supabase.auth.getSession()
@@ -67,21 +73,59 @@ export default function Index() {
           return;
         }
 
-        if (!data?.session?.user?.id) {
+        const sessionUserId = data?.session?.user?.id;
+
+        if (!sessionUserId) {
           console.error("User ID not found. Ensure the user is logged in.");
           return;
         }
 
-        setUserId(data?.session?.user?.id || "");
-  
+        // Set the user ID session state
+        setUserId(sessionUserId);
+        
+        
+
+        console.log("USERID: "+ userId);
+        const { data: categories, error: categoryError } = await supabase
+        .from('item_categories')
+        .select()
+        .eq('user_id', sessionUserId)
+
+        if(categoryError){
+          console.error("Error fetching categories:", categoryError.message);
+          return;
+        }
+
+        if(categories){
+          setCategories(categories.map((category) => category.category_name));
+        }
+   
     
       }catch(error){
         console.error("Error fetching session: " + error)
+      }finally{
+        setIsLoading(false);
       }
     }
 
     fetchSession();
+
+    console.log("USER ID FROM PARENTTT: " + userId);
   }, [])
+
+  if(isLoading){
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
 
   return (
@@ -117,7 +161,11 @@ export default function Index() {
           </Text>
 
           <View>
-            <AddProductInfo userId={userId} />
+            <AddProductInfo 
+              userId={userId}
+              categories={categories}
+              onChangeCategory={updateStateCategories}
+            />
             
           </View>
 

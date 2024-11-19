@@ -51,16 +51,16 @@ function cancelAddItem() {
 
 interface Props{
   userId: string;
+  categories: string[];
+  onChangeCategory: (newCategory: string) => void;
 }
 
-export default function AddProductInfo({ userId }: Props) {
-  const [categories, setCategories] = useState<string[]>([
-    "Mobile",
-    "Beauty",
-    "Gaming",
-    "Science",
-  ]);
+export default function AddProductInfo({ userId, categories, onChangeCategory }: Props) {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    console.log("USER ID FROM ADDPRODUCTINFO COMPONENT: " + userId);
+  }, [])
 
   const form = useForm<AddProductInformationSchema>({
     resolver: zodResolver(addProductInformationSchema),
@@ -93,7 +93,7 @@ export default function AddProductInfo({ userId }: Props) {
       }
 
       // Update the categories array with the new category
-      setCategories((prevCategories) => [...prevCategories, newCategory]);
+      onChangeCategory(newCategory);
       console.log("New Category Added:", newCategory);
 
     }catch(error){
