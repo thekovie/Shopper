@@ -34,7 +34,7 @@ export default function Index() {
         const { data: { user } } = await supabase.auth.getUser();
         
         if (user) {
-          router.push({
+          router.replace({
             pathname: "/(tabs)/",
           });
         }
