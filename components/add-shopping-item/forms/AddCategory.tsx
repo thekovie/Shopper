@@ -23,13 +23,14 @@ import {
   import { Button } from '@/components/ui/button';
   import { Text } from '@/components/ui/text';
   import { addCategorySchema, AddCategorySchema } from '@/utils/forms/add-product-link';
+import { ItemCategoryRow } from '@/lib/supabase/types';
 
   interface Props {
-    categories: string[];
     onAddCategory: (category: string) => void; // Function to add category
-  }
+    triggerContent?: React.ReactNode; // Add a prop for dynamic trigger content
+}
 
-function AddCategory({onAddCategory}: Props) {
+function AddCategory({onAddCategory, triggerContent}: Props) {
     const [open, setOpen] = React.useState(false);
 
     const form = useForm<AddCategorySchema>({
@@ -57,7 +58,10 @@ function AddCategory({onAddCategory}: Props) {
     return (
         <AlertDialog open={open} onOpenChange={setOpen}>
             <AlertDialogTrigger asChild>
-                <Text className="text-lonestar-700 text-xs mb-[10] underline">here</Text>
+                {triggerContent || (
+                    <Text className="text-lonestar-700 text-xs mb-[10] underline">here</Text>
+                )}
+                
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>

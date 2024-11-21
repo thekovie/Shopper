@@ -21,6 +21,7 @@ import CancelChangesPage from "@/components/add-shopping-item/CancelChanges";
 
 // Supabase
 import { supabase } from '@/lib/supabase';
+import { ItemCategoryRow } from "@/lib/supabase/types";
 
 
 
@@ -29,7 +30,7 @@ import { supabase } from '@/lib/supabase';
 export default function Index() {
   const [isDiscardChangesDialogOpen, setDiscardChangesDialogOpen] = useState(false);
   const [userId, setUserId] = useState<string>("");
-  const [categories, setCategories] = useState<string[]>([""]);
+  const [categories, setCategories] = useState<ItemCategoryRow[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const scrapeSuccessMessage = "Success! Make sure to review and fill up the remaining fields.";
@@ -42,8 +43,8 @@ export default function Index() {
     },
   });
 
-  function updateStateCategories(newCategory: string) {
-    setCategories((prevCategories) => [...prevCategories, newCategory]);
+  function updateStateCategories(newCategory: ItemCategoryRow) {
+    setCategories((prevCategories) => [...(prevCategories || []), newCategory]);
   }
 
   useEffect(() => {
@@ -62,8 +63,6 @@ export default function Index() {
 
   // Fetch session user's information
   useEffect(() => {
-
-
     const fetchSession = async () => {
       try{
         const { data, error } = await supabase.auth.getSession()
@@ -95,7 +94,7 @@ export default function Index() {
         }
 
         if(categories){
-          setCategories(categories.map((category) => category.category_name));
+          setCategories(categories);
         }
    
     

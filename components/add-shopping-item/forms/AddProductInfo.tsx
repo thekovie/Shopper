@@ -40,12 +40,14 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
+import { ItemCategoryRow } from "@/lib/supabase/types";
+import { addCategory } from "@/utils/methods/add-category";
 
 
 interface Props{
   userId: string;
-  categories: string[];
-  onChangeCategory: (newCategory: string) => void;
+  categories: ItemCategoryRow[] | null;
+  onChangeCategory: (newCategory: ItemCategoryRow) => void;
 }
 
 export default function AddProductInfo({ userId, categories, onChangeCategory }: Props) {
@@ -75,23 +77,15 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
   };
 
   async function handleAddCategory(newCategory: string) {
-    try{
-      const { error } = await supabase
-        .from('item_categories')
-        .insert({ category_name: newCategory, user_id: userId })
 
-      if(error){
-        console.error("Error adding category:", error.message);
-        return;
-      }
+    const res = await addCategory(newCategory, userId);
 
+    if(res){
       // Update the categories array with the new category
-      onChangeCategory(newCategory);
-      console.log("New Category Added:", newCategory);
-
-    }catch(error){
-      console.log("Unexpected error while adding category:", error);
+      onChangeCategory(res);
+      console.log("New Category Added:", res);
     }
+
   };
 
   return (
@@ -224,9 +218,7 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
                 Want to add your own category? Click{" "}
               </Text>
               <AddCategory
-                categories={categories}
                 onAddCategory={handleAddCategory}
-
               />
             </View>
 
@@ -254,13 +246,13 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
                     <SelectContent className="w-[250]">
                       <SelectGroup>
                         <SelectLabel>Categories</SelectLabel>
-                        {categories.map((category, index) => (
+                        {categories?.map((category, index) => (
                           <SelectItem
                             key={index}
-                            label={category}
-                            value={category}
+                            label={category.category_name}
+                            value={category.category_name}
                           >
-                            {category}
+                            {category.category_name}
                           </SelectItem>
                         ))}
                       </SelectGroup>

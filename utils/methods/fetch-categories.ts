@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabase";
+import { ItemCategoryRow, ItemCategoryInsert } from "@/lib/supabase/types";
 
-export const fetchCategories = async (sessionUserId: string): Promise<string[] | null> => {
+export const fetchCategories = async (sessionUserId: string): Promise<ItemCategoryRow[] | null> => {
     const { data: categories, error: categoryError } = await supabase
         .from('item_categories')
         .select()
@@ -12,7 +13,7 @@ export const fetchCategories = async (sessionUserId: string): Promise<string[] |
         }
 
         if(categories){
-            return categories.map((category) => category.category_name);
+            return categories;
         }
 
         return null;

@@ -122,6 +122,9 @@ export type Database = {
   }
 }
 
+export type ItemCategoryRow = Database["public"]["Tables"]["item_categories"]["Row"];
+export type ItemCategoryInsert = Database["public"]["Tables"]["item_categories"]["Insert"];
+
 type PublicSchema = Database[Extract<keyof Database, "public">]
 
 export type Tables<

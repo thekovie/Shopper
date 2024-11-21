@@ -29,18 +29,23 @@ import { addCategorySchema, AddCategorySchema } from '@/utils/forms/add-product-
 import { supabase } from '@/lib/supabase';
 import { fetchSession } from '@/utils/methods/fetch-session';
 import { fetchCategories } from '@/utils/methods/fetch-categories';
+import AddCategory from '@/components/add-shopping-item/forms/AddCategory';
+import { addCategory } from '@/utils/methods/add-category';
+import { ItemCategoryRow } from '@/lib/supabase/types';
 
 
 export default function Tab() {
 
   const [open, setOpen] = useState(false);
-  const [categories, setCategories] = useState<string[]>([""]);
+  const [userId, setUserId] = useState<string>("");
+  const [categories, setCategories] = useState<ItemCategoryRow[] | null>(null);
 
   useEffect(() => {
     fetchSession().then(async (session) => {
       if(!session){
         console.log("NO SESSION");
       }else{
+        setUserId(session.user.id);
         const categoriesData = await fetchCategories(session.user.id);
         
         if(categoriesData){
@@ -65,8 +70,18 @@ export default function Tab() {
       },
   });
 
-  const handleAddCategory = (newCategory: string) => {
-    setCategories((prevCategories) => [...prevCategories, newCategory]);
+  const handleAddCategory = async (newCategory: string) => {
+    
+    
+    const res = await addCategory(newCategory, userId);
+    if(res){
+      console.log("Category added successfully");
+      setCategories((prevCategories) => [...(prevCategories || []), res]);
+    }else{
+      console.log("Error adding category");
+    }
+
+    
   };
 
   function onSubmit(values: z.infer<typeof addCategorySchema>) {
@@ -121,69 +136,28 @@ export default function Tab() {
             <Shapes size={16} className="text-lonestar-600 mr-[5]"/>
             <Text className="text-lonestar-600" fontVariant="SemiBold">Categories</Text>
           </View>
-          <AlertDialog open={open} onOpenChange={setOpen}>
-            <AlertDialogTrigger asChild>
-            <TouchableOpacity className="flex flex-row items-center">
-              <Plus size={12} className="text-lonestar-600"/>
-              <Text className="text-xs text-lonestar-600">
-                Add
-              </Text>
-            </TouchableOpacity>
-            </AlertDialogTrigger>
-            <AlertDialogContent className='bg-white'>
-              <AlertDialogHeader>
-                <Text className='text-lonestar-600 text-lg' fontVariant='Bold'
-                  onPress={() => {
-                    setOpen(false);
-                  }}
-                >
-                  Add a Category
+          <AddCategory
+            onAddCategory={handleAddCategory} 
+            triggerContent={
+              <TouchableOpacity className="flex flex-row items-center">
+                <Plus size={12} className="text-lonestar-600"/>
+                <Text className="text-xs text-lonestar-600">
+                  Add
                 </Text>
-                <Text className='text-lonestar-700 text-xs' fontVariant='Medium'>
-                  By creating categories, you can label your products and adjust your priorities.
-                </Text>
-              </AlertDialogHeader>
+              </TouchableOpacity>
+            }
+        
+          />
 
-              <FormProvider {...form}>
-                <Controller
-                  control={form.control}
-                  name="category"
-                  render={({field: { onChange, onBlur, value }, fieldState: { error }}) => {
-                    return (
-                      <Input
-                        placeholder="Enter a good category name!"
-                        onBlur={onBlur}
-                        value={value}
-                        onChangeText={onChange}
-                      />
-                    );
-                  }}
-                />
-                <AlertDialogFooter>
-                  <Button className='bg-white' variant={'outline'} onPress={() => {
-                      setOpen(false);
-                  }}>
-                      <Text className='text-lonestar-600 text-sm'>Cancel</Text>
-                  </Button>
-                  <Button onPress={form.handleSubmit(onSubmit, onError)}>
-                      <Text className='text-[#ffffff]'>Add Category</Text>
-                  </Button>
-                </AlertDialogFooter>
-
-              </FormProvider>
-              
-              
-            </AlertDialogContent>
-          </AlertDialog>
         </View>
         
         <View className="flex flex-col">
-            {categories.map((category, index) => (
+            {categories?.map((category, index) => (
               <TouchableOpacity key={index} className="flex flex-row justify-between items-center mb-[20]"
-                onPress={() => router.push(`/(shopping-list-menu)/${encodeURIComponent(category)}`)}
+                onPress={() => router.push(`/(shopping-list-menu)/${encodeURIComponent(category.category_name)}`)}
               >
                 <Text className="text-lonestar-950 text-xs" fontVariant="Medium">
-                  { category }
+                  { category.category_name }
                 </Text>
                 <ChevronRight size={16} className="text-lonestar-950"/>
               </TouchableOpacity>
