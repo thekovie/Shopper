@@ -82,10 +82,8 @@ export default function Index() {
 
         // Set the user ID session state
         setUserId(sessionUserId);
-        
-        
 
-        console.log("USERID: "+ userId);
+        // Fetch categories
         const { data: categories, error: categoryError } = await supabase
         .from('item_categories')
         .select()

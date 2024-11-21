@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint",
-    "typegen": "npx supabase gen types typescript --project-id \"add project id here\" --schema public > lib/supabase/types.ts"
+    "typegen": "npx supabase gen types typescript --project-id uypnumggbemoleiomlxh --schema public > lib/supabase/types.ts"
   },
   "jest": {
     "preset": "jest-expo"
@@ -61,6 +61,7 @@
     "react-native-svg": "15.2.0",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.10",
+    "supabase": "^1.223.10",
     "tailwind-merge": "^2.5.2",
     "tailwindcss": "^3.4.13",
     "zod": "^3.23.8"

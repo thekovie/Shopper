@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, ScrollView } from "react-native";
 import { Text } from "@/components/ui/text";
 import { Star, ChevronRight, Shapes, History, Plus } from "@/lib/icons"
@@ -15,7 +15,6 @@ import {
 import { Input } from '@/components/ui/input';
 
 // Forms
-// Forms
 import z from 'zod';
 import {
     Controller,
@@ -26,20 +25,38 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { addCategorySchema, AddCategorySchema } from '@/utils/forms/add-product-link';
 
+// Supabase
+import { supabase } from '@/lib/supabase';
+import { fetchSession } from '@/utils/methods/fetch-session';
+import { fetchCategories } from '@/utils/methods/fetch-categories';
+
+
 export default function Tab() {
 
   const [open, setOpen] = useState(false);
-  const [categories, setCategories] = useState<string[]>([
-    "Mobile & Accessories",
-    "Gaming",
-    "Healthy and Beauty",
-    "Fashion",
-    "Kitchen",
-    "Home & Living",
-    "Sports & Outdoor",
-    "Automotive",
-    "Others",
-  ]);
+  const [categories, setCategories] = useState<string[]>([""]);
+
+  useEffect(() => {
+    fetchSession().then(async (session) => {
+      if(!session){
+        console.log("NO SESSION");
+      }else{
+        const categoriesData = await fetchCategories(session.user.id);
+        
+        if(categoriesData){
+          setCategories(categoriesData);
+        }else{
+          console.log("No categories found");
+        }
+      }
+
+
+    })
+  })
+
+
+
+
 
   const form = useForm<AddCategorySchema>({
       resolver: zodResolver(addCategorySchema),

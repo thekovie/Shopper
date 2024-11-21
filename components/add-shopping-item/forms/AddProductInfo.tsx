@@ -41,13 +41,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
 
-function cancelAddItem() {
-  if (router.canGoBack()) {
-    router.back();
-  } else {
-    router.replace({ pathname: "/(tabs)/" });
-  }
-}
 
 interface Props{
   userId: string;
