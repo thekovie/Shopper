@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { ItemCategoryRow, ItemCategoryInsert } from "@/lib/supabase/types";
+import { ItemCategoryRow, ItemCategoryInsert } from "@/constants/types";
 
 export const fetchCategories = async (sessionUserId: string): Promise<ItemCategoryRow[] | null> => {
     const { data: categories, error: categoryError } = await supabase

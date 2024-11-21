@@ -31,7 +31,7 @@ import { fetchSession } from '@/utils/methods/fetch-session';
 import { fetchCategories } from '@/utils/methods/fetch-categories';
 import AddCategory from '@/components/add-shopping-item/forms/AddCategory';
 import { addCategory } from '@/utils/methods/add-category';
-import { ItemCategoryRow } from '@/lib/supabase/types';
+import { ItemCategoryRow } from '@/constants/types';
 
 
 export default function Tab() {
@@ -154,7 +154,12 @@ export default function Tab() {
         <View className="flex flex-col">
             {categories?.map((category, index) => (
               <TouchableOpacity key={index} className="flex flex-row justify-between items-center mb-[20]"
-                onPress={() => router.push(`/(shopping-list-menu)/${encodeURIComponent(category.category_name)}`)}
+                onPress={() => 
+                  router.push(
+                    `/(shopping-list-menu)?category_name=${encodeURIComponent(
+                      category.category_name
+                    )}&category_id=${encodeURIComponent(category.id)}`
+                )}
               >
                 <Text className="text-lonestar-950 text-xs" fontVariant="Medium">
                   { category.category_name }

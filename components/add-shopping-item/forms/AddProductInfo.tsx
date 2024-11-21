@@ -40,7 +40,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
-import { ItemCategoryRow } from "@/lib/supabase/types";
+import { ItemCategoryRow } from "@/constants/types";
 import { addCategory } from "@/utils/methods/add-category";
 
 

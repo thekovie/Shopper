@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { ItemCategoryRow } from "@/lib/supabase/types";
+import { ItemCategoryRow } from "@/constants/types";
 
 export async function addCategory(newCategory: string, userId: string): Promise<ItemCategoryRow | null> {
     try{

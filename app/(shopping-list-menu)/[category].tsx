@@ -3,15 +3,34 @@ import { Platform } from "react-native";
 import { Text } from "@/components/ui/text";
 import { useLocalSearchParams } from 'expo-router';
 import ListShoppingItem from "@/components/list/ListShoppingItem";
-import { ListShoppingItemProps } from "@/constants/types";
+import { ListShoppingItemProps, ShoppingItemRow } from "@/constants/types";
 import { ArrowLeft, ArrowDownUp } from "@/lib/icons"
 import { router } from "expo-router";
+import { useEffect, useState } from "react";
+import { fetchShoppingItems } from "@/utils/methods/fetch-shopping-items";
 
 
 
 
 export default function PurchasedItems() {
     const searchParams = useLocalSearchParams(); // Get the itemName from the params
+    const { category_name, category_id } = searchParams;
+
+    const categoryId = Array.isArray(category_id) ? category_id[0] : category_id;
+    const categoryName = Array.isArray(category_name) ? category_name[0] : category_name;
+
+    const [shoppingItems, setShoppingItems] = useState<ShoppingItemRow[] | null>(null);
+
+    useEffect(() => {
+      fetchShoppingItems(categoryId).then((data) => {
+        if(data){
+          console.log(data);
+          setShoppingItems(data);
+        }else{
+          console.log("No data found");
+        }
+      })
+    }, [])
 
 
   const sampleData: ListShoppingItemProps[] = [
@@ -132,7 +151,7 @@ export default function PurchasedItems() {
             className=" text-lonestar-500 text-xl"
             fontVariant="Bold"
           >
-           {searchParams.category}
+           {category_name}
           </Text> 
         </View>
 
@@ -151,16 +170,17 @@ export default function PurchasedItems() {
                 <ArrowDownUp size={16} className="text-lonestar-600" />
             </View>
             
-          {sampleData.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory, itemNotes, isMarkedAsPurchased}, index) => (
+          {shoppingItems?.map((shoppingItem, index) => (
               <View key={index} className='mb-[20]'>
                   <ListShoppingItem 
-                      itemName={itemName} 
-                      itemPrice={itemPrice} 
-                      itemPriority={itemPriority} 
-                      itemPlatform={itemPlatform} 
-                      itemCategory={itemCategory} 
-                      itemNotes={itemNotes} 
-                      isMarkedAsPurchased={isMarkedAsPurchased}
+                      product_title={shoppingItem.product_title} 
+                      price={shoppingItem.price!} 
+                      priority={`High`} 
+                      shopping_platform={shoppingItem.shopping_platform} 
+                      category_id={shoppingItem.category_id} 
+                      notes={shoppingItem.notes} 
+                      is_purchased={shoppingItem.is_purchased}
+                      user_id={shoppingItem.user_id}
                   />
               </View>
           ))}     

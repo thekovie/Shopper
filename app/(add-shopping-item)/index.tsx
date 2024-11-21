@@ -21,7 +21,7 @@ import CancelChangesPage from "@/components/add-shopping-item/CancelChanges";
 
 // Supabase
 import { supabase } from '@/lib/supabase';
-import { ItemCategoryRow } from "@/lib/supabase/types";
+import { ItemCategoryRow } from "@/constants/types";
 
 
 

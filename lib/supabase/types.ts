@@ -64,39 +64,52 @@ export type Database = {
       }
       shopping_items: {
         Row: {
-          category: string | null
+          category_id: string
           created_at: string
           id: string
+          is_purchased: boolean
           notes: string | null
           price: number | null
+          priority: string | null
           product_link: string | null
-          product_title: string | null
+          product_title: string
           shopping_platform: string | null
           user_id: string
         }
         Insert: {
-          category?: string | null
+          category_id?: string
           created_at?: string
           id?: string
+          is_purchased?: boolean
           notes?: string | null
           price?: number | null
+          priority?: string | null
           product_link?: string | null
-          product_title?: string | null
+          product_title: string
           shopping_platform?: string | null
           user_id: string
         }
         Update: {
-          category?: string | null
+          category_id?: string
           created_at?: string
           id?: string
+          is_purchased?: boolean
           notes?: string | null
           price?: number | null
+          priority?: string | null
           product_link?: string | null
-          product_title?: string | null
+          product_title?: string
           shopping_platform?: string | null
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "shopping_items_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "item_categories"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "shopping_items_user_id_fkey"
             columns: ["user_id"]
@@ -121,9 +134,6 @@ export type Database = {
     }
   }
 }
-
-export type ItemCategoryRow = Database["public"]["Tables"]["item_categories"]["Row"];
-export type ItemCategoryInsert = Database["public"]["Tables"]["item_categories"]["Insert"];
 
 type PublicSchema = Database[Extract<keyof Database, "public">]
 

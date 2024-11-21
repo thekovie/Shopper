@@ -23,7 +23,7 @@ import {
   import { Button } from '@/components/ui/button';
   import { Text } from '@/components/ui/text';
   import { addCategorySchema, AddCategorySchema } from '@/utils/forms/add-product-link';
-import { ItemCategoryRow } from '@/lib/supabase/types';
+import { ItemCategoryRow } from '@/constants/types';
 
   interface Props {
     onAddCategory: (category: string) => void; // Function to add category
