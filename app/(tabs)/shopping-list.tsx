@@ -33,6 +33,9 @@ import AddCategory from '@/components/add-shopping-item/forms/AddCategory';
 import { addCategory } from '@/utils/methods/add-category';
 import { ItemCategoryRow } from '@/constants/types';
 
+import { useFocusEffect } from 'expo-router';
+import { useCallback } from 'react';
+
 
 export default function Tab() {
 
@@ -41,24 +44,25 @@ export default function Tab() {
   const [refreshTrigger, setRefreshTrigger] = useState(false);
   const [categories, setCategories] = useState<ItemCategoryRow[] | null>(null);
 
-  useEffect(() => {
-    fetchSession().then(async (session) => {
-      if(!session){
-        console.log("NO SESSION");
-      }else{
-        setUserId(session.user.id);
-        const categoriesData = await fetchCategories(session.user.id);
-        
-        if(categoriesData){
-          setCategories(categoriesData);
+  useFocusEffect(() => {
+      fetchSession().then(async (session) => {
+        if(!session){
+          console.log("NO SESSION");
         }else{
-          console.log("No categories found");
+          setUserId(session.user.id);
+          const categoriesData = await fetchCategories(session.user.id);
+          
+          if(categoriesData){
+            setCategories(categoriesData);
+          }else{
+            console.log("No categories found");
+          }
         }
-      }
-
-
-    })
-  }, [refreshTrigger]);
+  
+  
+      })
+  })
+  
 
 
 

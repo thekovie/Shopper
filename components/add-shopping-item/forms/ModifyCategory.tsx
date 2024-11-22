@@ -58,7 +58,7 @@ function ModifyCategory({category, categoryId, triggerContent}: Props) {
         if(res){
             console.log("Modify category success");
             if(router.canGoBack()){
-                router.replace('/(tabs)/shopping-list'); 
+                router.back(); 
             }
         }
         setOpen(false);
@@ -133,7 +133,7 @@ function ModifyCategory({category, categoryId, triggerContent}: Props) {
 
                     if(res){
                         if(router.canGoBack()){
-                            router.replace('/(tabs)/shopping-list'); 
+                            router.back(); 
                         }
                     }
 

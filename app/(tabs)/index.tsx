@@ -1,51 +1,74 @@
-import { View, StyleSheet, ScrollView, StatusBar } from "react-native";
+import { View, StyleSheet, ScrollView, StatusBar, TouchableOpacity } from "react-native";
 import { useState, useEffect } from 'react'
 import { Platform } from "react-native";
-import { Bell, Brush, Pill, ShoppingBag, Star, TabletSmartphone, MoreHorizontal } from "@/lib/icons";
+import { Bell, Brush, Pill, ShoppingBag, Star, TabletSmartphone, MoreHorizontal, Ellipsis } from "@/lib/icons";
 import { Text } from "@/components/ui/text";
 import { Joystick } from "lucide-react-native";
 import AddShoppingItem from "@/components/homepage/AddShoppingItem";
 import RecentFinds from "@/components/homepage/RecentFinds";
 import { Session } from '@supabase/supabase-js'
 import { supabase } from "@/lib/supabase";
-import { ListShoppingItemProps, RecentFindsProps } from "@/constants/types";
+import { ItemCategoryRow, ListShoppingItemProps, RecentFindsProps } from "@/constants/types";
+import { fetchCategories } from "@/utils/methods/fetch-categories";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback } from "react";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { Button } from "@/components/ui/button";
 
 
 
 export default function Tab() {
   const [session, setSession] = useState<Session | null>(null)
+  const [categories, setCategories] = useState<ItemCategoryRow[] | null>(null);
+  const [open, setOpen] = useState(false);
 
   const numberOfItems = 700;
 
+  const fetchAndSetCategories = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      const categoriesData = await fetchCategories(session.user.id);
+      setCategories(categoriesData || []);
+    }
+  };
+
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session)
-      if(!session){
-        console.log("LOGGED OUT FROM TABS")
+      if(session){
+        fetchAndSetCategories();
       }
     })
 
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
-      if(!session){
-        console.log("LOGGED OUT FROM TABS")
+      if(session){
+        fetchAndSetCategories();
       }
     })
   }, []);
 
-  const categoriesOne = [
-    { label: "Priority List", Icon: Star },
-    { label: "Mobile", Icon: TabletSmartphone },
-    { label: "Health", Icon: Pill },
-    { label: "Beauty", Icon: Brush },
-  ];
+  useFocusEffect(
+    useCallback(() => {
+      console.log("Screen Focused!");
+      fetchAndSetCategories();
+    }, [session])
+  )
 
-  const categoriesTwo = [
-    { label: "Beauty", Icon: Brush },
-    { label: "Mobile", Icon: TabletSmartphone },
-    { label: "Gaming", Icon: Joystick },
-    { label: "Others", Icon: MoreHorizontal },
-  ]
+
+
+
 
   const sampleItemsData: ListShoppingItemProps[] = [
     {
@@ -117,27 +140,82 @@ export default function Tab() {
       </View>
 
       {/* Category List */}
-      <View className="flex flex-col mb-[12]">
-        <View className="flex flex-row items-start justify-evenly w-full mb-[8]">  
-          {categoriesOne.map(({label, Icon}, index) => (
-            <View key={index} className="flex flex-col items-center justify-center w-[64]">
+      <View className="flex flex-col">
+        <View className={`flex flex-row flex-wrap items-start ${categories && categories.length > 4 ? 'justify-start' : 'justify-center'} w-full mb-[8]`}>  
+          {categories?.slice(0, 7).map((category, index) => (
+            <TouchableOpacity key={index} className="flex flex-col items-center justify-center w-1/4 mb-[16]"
+              onPress={() => 
+                router.push(
+                  `/(shopping-list-menu)?category_name=${encodeURIComponent(
+                    category.category_name
+                  )}&category_id=${encodeURIComponent(category.id)}`
+              )}
+            >
               <View className="h-[44] w-[44] bg-lonestar-100 rounded-2xl flex flex-col items-center justify-center">
-                <Icon className="text-lonestar-950 w-[20] h-[20]" />
+                <Star className="text-lonestar-950 w-[20] h-[20]" />
               </View>
-              <Text className="max-w-[64] text-center break-words">{label}</Text>
-            </View>
+              <Text className="max-w-[64] text-xs text-center break-words text-lonestar-950"
+                    numberOfLines={2}
+              >
+                {category.category_name}
+              </Text>
+            </TouchableOpacity>
           ))}     
-        </View>
 
-        <View className="flex flex-row items-start justify-evenly w-full">  
-          {categoriesTwo.map(({label, Icon}, index) => (
-            <View key={index} className="flex flex-col items-center justify-center w-[64]">
-              <View className="h-[44] w-[44] bg-lonestar-100 rounded-2xl flex flex-col items-center justify-center">
-                <Icon className="text-lonestar-950 w-[20] h-[20]" />
-              </View>
-              <Text className="max-w-[64] text-center break-words">{label}</Text>
-            </View>
-          ))}     
+          {categories && categories.length > 7 && (
+            <View className="w-1/4">
+              <AlertDialog open={open} onOpenChange={setOpen}>
+                <AlertDialogTrigger asChild >
+                  <TouchableOpacity className="flex flex-col items-center justify-center">
+                    <View className="h-[44] w-[44] bg-lonestar-100 rounded-2xl flex flex-col items-center justify-center">
+                      <Ellipsis className="text-lonestar-950 w-[20] h-[20]" />
+                    </View>
+                    <Text className="max-w-[64] text-xs text-center break-words text-lonestar-950"
+                          numberOfLines={2}
+                    >
+                      Others
+                    </Text>
+                  </TouchableOpacity>  
+                </AlertDialogTrigger>
+                <AlertDialogContent className='bg-white'>
+                    <AlertDialogHeader>
+                      <Text className='text-lonestar-600 text-xl' fontVariant='Bold'>Other Categories</Text>
+                      <Text className='text-lonestar-700 text-xs' fontVariant='Medium'>You've created quite a lot of categories! You may find the remaining categories here.</Text>
+                    </AlertDialogHeader>
+
+                    <View className={`flex flex-row flex-wrap items-start justify-start w-full`}>
+                      {categories?.slice(7, categories.length).map((category, index) => (
+                        <TouchableOpacity key={index} className="flex flex-col items-center justify-center w-1/4 mb-[16]"
+                          onPress={() => {
+                            router.push(
+                              `/(shopping-list-menu)?category_name=${encodeURIComponent(
+                                category.category_name
+                              )}&category_id=${encodeURIComponent(category.id)}`
+                            );
+                            setOpen(false);
+                          }}
+                        >
+                          <View className="h-[44] w-[44] bg-lonestar-100 rounded-2xl flex flex-col items-center justify-center">
+                            <Star className="text-lonestar-950 w-[20] h-[20]" />
+                          </View>
+                          <Text className="max-w-[64] text-xs text-center break-words text-lonestar-950"
+                                numberOfLines={2}
+                          >
+                            {category.category_name}
+                          </Text>
+                        </TouchableOpacity>
+                      ))}  
+                    </View>
+                    <AlertDialogFooter>
+                      <Button onPress={() => setOpen(false)}>
+                        <Text className='text-white'>Close</Text>
+                      </Button>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </View>  
+           
+          )}
         </View>
       </View>
 

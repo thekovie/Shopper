@@ -14,7 +14,7 @@ function AddShoppingItem(props: any) {
             >
                 Add shopping items!
             </Text>
-            <Text className="text-lonestar-950 text-xs">Let's add and arrange our shopping items to spend wiselyss!</Text>
+            <Text className="text-lonestar-950 text-xs">Let's add and arrange our shopping items to spend wisely!</Text>
             </View>
         </View>
     );

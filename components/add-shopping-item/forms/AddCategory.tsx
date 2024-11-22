@@ -63,7 +63,7 @@ function AddCategory({onAddCategory, triggerContent}: Props) {
                 )}
                 
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent className='bg-white'>
                 <AlertDialogHeader>
                 <Text className='text-lonestar-600 text-lg' fontVariant='Bold'>Add a Category</Text>
                 <Text className='text-lonestar-700 text-xs' fontVariant='Medium'>By creating categories, you can label your products and adjust your priorities.</Text>

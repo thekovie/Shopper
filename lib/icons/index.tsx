@@ -26,7 +26,8 @@ import {
   ChevronUp,
   HelpCircle,
   Smartphone,
-  Settings
+  Settings,
+  Ellipsis
 } from "lucide-react-native";
 import { iconWithClassName } from "./iconWithClassName";
 iconWithClassName(ArrowLeft);
@@ -57,6 +58,7 @@ iconWithClassName(User2);
 iconWithClassName(HelpCircle);
 iconWithClassName(Smartphone);
 iconWithClassName(Settings);
+iconWithClassName(Ellipsis);
 export {
   ArrowLeft,
   Home,
@@ -84,5 +86,6 @@ export {
   User2,
   HelpCircle,
   Smartphone,
-  Settings
+  Settings,
+  Ellipsis
 };
