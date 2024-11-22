@@ -6,6 +6,7 @@ export const fetchCategories = async (sessionUserId: string): Promise<ItemCatego
         .from('item_categories')
         .select()
         .eq('user_id', sessionUserId)
+        .order('category_name', { ascending: true })
 
         if(categoryError){
           console.error("Error fetching categories:", categoryError.message);

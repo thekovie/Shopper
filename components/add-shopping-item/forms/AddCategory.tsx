@@ -26,8 +26,8 @@ import {
 import { ItemCategoryRow } from '@/constants/types';
 
   interface Props {
-    onAddCategory: (category: string) => void; // Function to add category
-    triggerContent?: React.ReactNode; // Add a prop for dynamic trigger content
+    onAddCategory: (category: string) => void; 
+    triggerContent?: React.ReactNode; 
 }
 
 function AddCategory({onAddCategory, triggerContent}: Props) {

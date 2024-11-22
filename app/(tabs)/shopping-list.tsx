@@ -38,6 +38,7 @@ export default function Tab() {
 
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState<string>("");
+  const [refreshTrigger, setRefreshTrigger] = useState(false);
   const [categories, setCategories] = useState<ItemCategoryRow[] | null>(null);
 
   useEffect(() => {
@@ -57,7 +58,7 @@ export default function Tab() {
 
 
     })
-  })
+  }, [refreshTrigger]);
 
 
 

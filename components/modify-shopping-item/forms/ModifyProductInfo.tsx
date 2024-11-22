@@ -37,6 +37,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
+import { ItemCategoryRow } from "@/constants/types";
 
 function deleteItem() {
   console.log("Deleted item");
@@ -46,12 +47,7 @@ function deleteItem() {
 
 
 export default function ModifyProductInfo() {
-  const [categories, setCategories] = useState<string[]>([
-    "Mobile",
-    "Beauty",
-    "Gaming",
-    "Science",
-  ]);
+  const [categories, setCategories] = useState<ItemCategoryRow[] | null>(null);
   const [open, setOpen] = useState(false);
 
   const form = useForm<AddProductInformationSchema>({
@@ -76,6 +72,8 @@ export default function ModifyProductInfo() {
 
   const handleAddCategory = (newCategory: string) => {
     // Update the categories array with the new category
+
+    // TODO: Fix type mismatch error
     setCategories((prevCategories) => [...prevCategories, newCategory]);
     console.log("New Category Added:", newCategory);
   };

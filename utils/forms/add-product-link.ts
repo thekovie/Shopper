@@ -28,6 +28,19 @@ export const addCategorySchema = z.object({
 
 export type AddCategorySchema = z.infer<typeof addCategorySchema>;
 
+export const modifyCategorySchema = z.object({
+  category: z
+    .string({
+      invalid_type_error: 'Name must be a string',
+      required_error: FIELD_REQUIRED_STR,
+    })
+    .min(3, 'Minimum 3 characters')
+});
+
+export type ModifyCategorySchema = z.infer<typeof modifyCategorySchema>;
+
+
+
 export const addProductInformationSchema = z.object({
     productName: z
       .string({

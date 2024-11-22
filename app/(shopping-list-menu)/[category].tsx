@@ -4,13 +4,11 @@ import { Text } from "@/components/ui/text";
 import { useLocalSearchParams } from 'expo-router';
 import ListShoppingItem from "@/components/list/ListShoppingItem";
 import { ListShoppingItemProps, ShoppingItemRow } from "@/constants/types";
-import { ArrowLeft, ArrowDownUp } from "@/lib/icons"
+import { ArrowLeft, ArrowDownUp, Settings } from "@/lib/icons"
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { fetchShoppingItems } from "@/utils/methods/fetch-shopping-items";
-
-
-
+import ModifyCategory from "@/components/add-shopping-item/forms/ModifyCategory";
 
 export default function PurchasedItems() {
     const searchParams = useLocalSearchParams(); // Get the itemName from the params
@@ -33,108 +31,6 @@ export default function PurchasedItems() {
     }, [])
 
 
-  const sampleData: ListShoppingItemProps[] = [
-    {
-      itemName: 'iPhone 15 Pro Max Case Fully Loadedd',
-      itemPrice: 700,
-      itemPriority: 'Priority',
-      itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets',
-      itemNotes: 'Great product!',
-      isMarkedAsPurchased: false
-    },
-    {
-      itemName: 'Hotdog 15 Pro Max Case Fully Loaded',
-      itemPrice: 700,
-      itemPriority: 'Priority',
-      itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets',
-      itemNotes: '',
-      isMarkedAsPurchased: false
-    },
-    {
-      itemName: 'Strawberry 15 Pro Max Case Fully Loaded',
-      itemPrice: 700,
-      itemPriority: 'Priority',
-      itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets',
-      itemNotes: 'Check for discounts!',
-      isMarkedAsPurchased: false
-    },
-    {
-      itemName: 'Chiken Nuggets',
-      itemPrice: 700,
-      itemPriority: 'Priority',
-      itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets',
-      itemNotes: 'Limited stock available.',
-      isMarkedAsPurchased: false
-    },
-    {
-      itemName: 'Chiken Nuggets',
-      itemPrice: 700,
-      itemPriority: 'Priority',
-      itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets',
-      itemNotes: '',
-      isMarkedAsPurchased: false
-    },
-    {
-      itemName: 'Chiken Nuggets',
-      itemPrice: 700,
-      itemPriority: 'Priority',
-      itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets',
-      itemNotes: 'Recommended by many users.',
-      isMarkedAsPurchased: false
-    },
-    {
-      itemName: 'Chiken Nuggets',
-      itemPrice: 700,
-      itemPriority: 'Priority',
-      itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets',
-      itemNotes: 'Newly arrived!',
-      isMarkedAsPurchased: false
-    },
-    {
-      itemName: 'Chiken Nuggets',
-      itemPrice: 700,
-      itemPriority: 'Priority',
-      itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets',
-      itemNotes: '',
-      isMarkedAsPurchased: false
-    },
-    {
-      itemName: 'Chiken Nuggets',
-      itemPrice: 700,
-      itemPriority: 'Priority',
-      itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets',
-      itemNotes: '',
-      isMarkedAsPurchased: false
-    },
-    {
-      itemName: 'Chiken Nuggets',
-      itemPrice: 700,
-      itemPriority: 'Priority',
-      itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets',
-      itemNotes: '',
-      isMarkedAsPurchased: false
-    },
-    {
-      itemName: 'Chiken Nuggets',
-      itemPrice: 700,
-      itemPriority: 'Priority',
-      itemPlatform: 'Shopee',
-      itemCategory: 'Mobiles & Gadgets',
-      itemNotes: '',
-      isMarkedAsPurchased: false
-    }
-  ];
-
   return (
       <View className="flex flex-col p-[20]"
           style={{
@@ -143,16 +39,32 @@ export default function PurchasedItems() {
           }}
       >
 
-        <View className="flex flex-row mb-[4] items-center">
-          <TouchableOpacity onPress={() => router.back()}>
-            <ArrowLeft className="text-lonestar-400 mr-[10]" size={24}/>
+        <View className="flex flex-row mb-[4] items-center justify-between">
+          <View className="flex flex-row">
+            <TouchableOpacity onPress={() => router.back()}>
+              <ArrowLeft className="text-lonestar-400 mr-[10]" size={24}/>
+            </TouchableOpacity>
+            <Text 
+              className=" text-lonestar-500 text-xl"
+              fontVariant="Bold"
+            >
+            {category_name}
+            </Text> 
+          </View>
+
+          <TouchableOpacity onPress={() => console.log("HEllo")}>
+            <ModifyCategory
+              categoryId={categoryId}
+              category={categoryName}
+              triggerContent={
+                <Settings className="text-lonestar-400 mr-[10]" size={24}/>
+              }
+            />
+
+
+            
           </TouchableOpacity>
-          <Text 
-            className=" text-lonestar-500 text-xl"
-            fontVariant="Bold"
-          >
-           {category_name}
-          </Text> 
+
         </View>
 
         <ScrollView className='flex flex-col overflow-hidden px-[10] py-[20] mb-[24]'>   
