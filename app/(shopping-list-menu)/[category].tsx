@@ -93,6 +93,7 @@ export default function PurchasedItems() {
                       notes={shoppingItem.notes} 
                       is_purchased={shoppingItem.is_purchased}
                       user_id={shoppingItem.user_id}
+                      category_name={categoryName}
                   />
               </View>
           ))}     

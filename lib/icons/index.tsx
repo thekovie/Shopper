@@ -27,7 +27,8 @@ import {
   HelpCircle,
   Smartphone,
   Settings,
-  Ellipsis
+  Ellipsis,
+  Bolt
 } from "lucide-react-native";
 import { iconWithClassName } from "./iconWithClassName";
 iconWithClassName(ArrowLeft);
@@ -59,6 +60,7 @@ iconWithClassName(HelpCircle);
 iconWithClassName(Smartphone);
 iconWithClassName(Settings);
 iconWithClassName(Ellipsis);
+iconWithClassName(Bolt);
 export {
   ArrowLeft,
   Home,
@@ -87,5 +89,6 @@ export {
   HelpCircle,
   Smartphone,
   Settings,
-  Ellipsis
+  Ellipsis,
+  Bolt
 };

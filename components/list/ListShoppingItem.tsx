@@ -31,7 +31,7 @@ function ListShoppingItem(props: ShoppingItemInsert) {
                     {props.product_title}
                 </Text>
                 <Text className="text-lonestar-600 text-xs" fontVariant='Light' numberOfLines={1} ellipsizeMode='tail'>
-                    {props.priority} • {props.shopping_platform} • {props.category_id}
+                    {props.priority} • {props.shopping_platform} • {props.category_name}
                 </Text>
             </View>
             <Text className='text-lonestar-950 text-sm' fontVariant='Medium'>PHP ~{props.price}</Text>
