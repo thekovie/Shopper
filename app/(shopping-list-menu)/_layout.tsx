@@ -42,7 +42,7 @@ export default function ShoppingListMenuLayout() {
               }
             />
             <Stack.Screen
-              name="priority"
+              name="priority/[priority]"
               options={
                 {
                   headerShown: false,

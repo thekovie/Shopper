@@ -87,7 +87,7 @@ export default function PurchasedItems() {
                   <ListShoppingItem 
                       product_title={shoppingItem.product_title} 
                       price={shoppingItem.price!} 
-                      priority={`High`} 
+                      priority={shoppingItem.priority} 
                       shopping_platform={shoppingItem.shopping_platform} 
                       category_id={shoppingItem.category_id} 
                       notes={shoppingItem.notes} 

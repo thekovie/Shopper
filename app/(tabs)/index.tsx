@@ -10,7 +10,7 @@ import { Session } from '@supabase/supabase-js'
 import { supabase } from "@/lib/supabase";
 import { ItemCategoryRow, ListShoppingItemProps, RecentFindsProps } from "@/constants/types";
 import { fetchCategories } from "@/utils/methods/fetch-categories";
-import { router, useFocusEffect } from "expo-router";
+import { Href, router, useFocusEffect } from "expo-router";
 import { useCallback } from "react";
 
 import {
@@ -108,6 +108,7 @@ export default function Tab() {
 ]
 
 
+
   return (
    <ScrollView className="flex flex-1 flex-col p-[20]"
       style={{
@@ -170,7 +171,8 @@ export default function Tab() {
                       {PRIORITIES.map((priority, index) => (
                         <TouchableOpacity key={index} className="flex flex-col items-center justify-center w-1/3 mb-[16]"
                           onPress={() => {
-                              router.push(`/priority/${priority}`);
+                              const PRIORITY_ROUTE = `/priority/${priority}?userId=${session?.user.id}` as Href;
+                              router.push(PRIORITY_ROUTE);
                               setIsPriorityOpen(false);
                           }}
                         >

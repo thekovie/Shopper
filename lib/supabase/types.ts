@@ -65,7 +65,6 @@ export type Database = {
       shopping_items: {
         Row: {
           category_id: string
-          category_name: string | null
           created_at: string
           id: string
           is_purchased: boolean
@@ -79,7 +78,6 @@ export type Database = {
         }
         Insert: {
           category_id?: string
-          category_name?: string | null
           created_at?: string
           id?: string
           is_purchased?: boolean
@@ -93,7 +91,6 @@ export type Database = {
         }
         Update: {
           category_id?: string
-          category_name?: string | null
           created_at?: string
           id?: string
           is_purchased?: boolean

@@ -153,7 +153,7 @@ export default function RecentFinds() {
           <Text className="text-lonestar-600 text-xs mb-[10]" fontVariant="SemiBold">
             Today
           </Text>
-          {sampleData.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory, isMarkedAsPurchased}, index) => (
+          {/* {sampleData.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory, isMarkedAsPurchased}, index) => (
               <View key={index} className='mb-[20]'>
                   <ListShoppingItem 
                       itemName={itemName}
@@ -164,12 +164,12 @@ export default function RecentFinds() {
                       isMarkedAsPurchased={isMarkedAsPurchased}
                   />
               </View>
-          ))}   
+          ))}    */}
 
           <Text className="text-lonestar-600 text-xs mb-[10]" fontVariant="SemiBold">
             Yesterday
           </Text>  
-          {sampleDataTwo.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory, isMarkedAsPurchased}, index) => (
+          {/* {sampleDataTwo.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory, isMarkedAsPurchased}, index) => (
               <View key={index} className='mb-[20]'>
                   <ListShoppingItem 
                       itemName={itemName}
@@ -180,12 +180,12 @@ export default function RecentFinds() {
                       isMarkedAsPurchased={isMarkedAsPurchased}
                   />
               </View>
-          ))} 
+          ))}  */}
 
           <Text className="text-lonestar-600 text-xs mb-[10]" fontVariant="SemiBold">
             Few days or weeks ago
           </Text>  
-          {sampleDataThree.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory, isMarkedAsPurchased}, index) => (
+          {/* {sampleDataThree.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory, isMarkedAsPurchased}, index) => (
               <View key={index} className='mb-[20]'>
                   <ListShoppingItem 
                       itemName={itemName}
@@ -196,7 +196,7 @@ export default function RecentFinds() {
                       isMarkedAsPurchased={isMarkedAsPurchased}
                   />
               </View>
-          ))} 
+          ))}  */}
         </ScrollView>
 
       </View>

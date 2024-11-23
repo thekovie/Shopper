@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { ListShoppingItemProps, ShoppingItemInsert, ShoppingItemRow } from '@/constants/types';
+import { ExtendedShoppingItemInsert } from '@/constants/types';
 import { router } from 'expo-router';
 
 
 
-function ListShoppingItem(props: ShoppingItemInsert) {
+function ListShoppingItem(props: ExtendedShoppingItemInsert) {
     return (
         <TouchableOpacity className="flex flex-row justify-between items-start" onPress={() => {
             router.push({

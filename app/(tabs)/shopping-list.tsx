@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { View, ScrollView } from "react-native";
 import { Text } from "@/components/ui/text";
 import { Star, ChevronRight, Shapes, History, Plus } from "@/lib/icons"
-import { router } from "expo-router";
+import { Href, router } from "expo-router";
 import { TouchableOpacity } from "react-native";
 import { Button } from '@/components/ui/button';
 import {
@@ -103,10 +103,9 @@ export default function Tab() {
 
 
   const priorities = [
-    { label: "High Priority", Icon: Star },
-    { label: "Mid Priority", Icon: Star },
-    { label: "Low Priority / Wants", Icon: Star },
-    { label: "Custom Priority", Icon: Star },
+    { label: "High", Icon: Star },
+    { label: "Mid", Icon: Star },
+    { label: "Low", Icon: Star },
   ]
 
 
@@ -122,10 +121,13 @@ export default function Tab() {
         <View className="flex flex-col">
         {priorities.map(({label}, index) => (
           <TouchableOpacity key={index} className="flex flex-row justify-between items-center mb-[20]"
-            onPress={() => router.push(`/(shopping-list-menu)/${encodeURIComponent(label)}`)}
+            onPress={() => {
+              const PRIORITY_ROUTE = `/priority/${label}?userId=${userId}` as Href;
+              router.push(PRIORITY_ROUTE);
+          }}
           >
             <Text className="text-lonestar-950 text-xs" fontVariant="Medium">
-              {label}
+              {label} Priority {label === "Low" && " / Wants"}
             </Text>
             <ChevronRight size={16} className="text-lonestar-950"/>
           </TouchableOpacity>
