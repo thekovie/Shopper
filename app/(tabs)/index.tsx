@@ -170,12 +170,8 @@ export default function Tab() {
                       {PRIORITIES.map((priority, index) => (
                         <TouchableOpacity key={index} className="flex flex-col items-center justify-center w-1/3 mb-[16]"
                           onPress={() => {
-                            // router.push(
-                            //   `/(shopping-list-menu)?category_name=${encodeURIComponent(
-                            //     category.category_name
-                            //   )}&category_id=${encodeURIComponent(category.id)}`
-                            // );
-                            setOpen(false);
+                              router.push(`/priority/${priority}`);
+                              setIsPriorityOpen(false);
                           }}
                         >
                           <View className="h-[44] w-[44] bg-lonestar-100 rounded-2xl flex flex-col items-center justify-center">
