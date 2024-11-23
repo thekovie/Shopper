@@ -200,7 +200,7 @@ export default function Tab() {
           
           {/* Categories */}
           {categories?.slice(0, 6).map((category, index) => (
-            <TouchableOpacity key={index} className="flex flex-col items-center justify-center w-1/4 mb-[16]"
+            <TouchableOpacity key={index} className="flex flex-col items-center justify-center w-1/4 mt-[24]"
               onPress={() => 
                 router.push(
                   `/(shopping-list-menu)?category_name=${encodeURIComponent(
