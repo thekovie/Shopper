@@ -6,7 +6,7 @@ import { LoadingProvider } from "@/components/Providers/LoaderSpinnerContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import ReactQueryProvider from "@/components/Providers/ReactQueryProvider";
-export default function AddShoppingItemLayout() {
+export default function ShoppingListMenuLayout() {
   return (
     <ReactQueryProvider>
       <SafeAreaProvider>
@@ -35,6 +35,14 @@ export default function AddShoppingItemLayout() {
             />
             <Stack.Screen
               name="[category]"
+              options={
+                {
+                  headerShown: false,
+                }
+              }
+            />
+            <Stack.Screen
+              name="priority/[priority]"
               options={
                 {
                   headerShown: false,

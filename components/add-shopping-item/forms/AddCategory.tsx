@@ -23,13 +23,14 @@ import {
   import { Button } from '@/components/ui/button';
   import { Text } from '@/components/ui/text';
   import { addCategorySchema, AddCategorySchema } from '@/utils/forms/add-product-link';
+import { ItemCategoryRow } from '@/constants/types';
 
   interface Props {
-    categories: string[];
-    onAddCategory: (category: string) => void; // Function to add category
-  }
+    onAddCategory: (category: string) => void; 
+    triggerContent?: React.ReactNode; 
+}
 
-function AddCategory({onAddCategory}: Props) {
+function AddCategory({onAddCategory, triggerContent}: Props) {
     const [open, setOpen] = React.useState(false);
 
     const form = useForm<AddCategorySchema>({
@@ -43,23 +44,26 @@ function AddCategory({onAddCategory}: Props) {
         console.log(values)
         onAddCategory(values.category);
         setOpen(false);
-      }
+    }
 
-      const onError: SubmitErrorHandler<AddCategorySchema> = (
-        errors,
-        e
-      ) => {
-        console.log(JSON.stringify(errors));
-      };
+    const onError: SubmitErrorHandler<AddCategorySchema> = (
+      errors,
+      e
+    ) => {
+      console.log(JSON.stringify(errors));
+    };
 
 
 
     return (
         <AlertDialog open={open} onOpenChange={setOpen}>
             <AlertDialogTrigger asChild>
-                <Text className="text-lonestar-700 text-xs mb-[10] underline">here</Text>
+                {triggerContent || (
+                    <Text className="text-lonestar-700 text-xs mb-[10] underline">here</Text>
+                )}
+                
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent className='bg-white'>
                 <AlertDialogHeader>
                 <Text className='text-lonestar-600 text-lg' fontVariant='Bold'>Add a Category</Text>
                 <Text className='text-lonestar-700 text-xs' fontVariant='Medium'>By creating categories, you can label your products and adjust your priorities.</Text>

@@ -160,7 +160,7 @@ export default function PurchasedItems() {
         </View>
 
         <ScrollView className='flex flex-col overflow-hidden px-[10] py-[20] mb-[24]'>      
-          {sampleData.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory, itemNotes, isMarkedAsPurchased}, index) => (
+          {/* {sampleData.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory, itemNotes, isMarkedAsPurchased}, index) => (
               <View key={index} className='mb-[20]'>
                   <ListShoppingItem 
                       itemName={itemName} 
@@ -172,7 +172,7 @@ export default function PurchasedItems() {
                       isMarkedAsPurchased={isMarkedAsPurchased}
                   />
               </View>
-          ))}     
+          ))}      */}
         </ScrollView>
 
       </View>

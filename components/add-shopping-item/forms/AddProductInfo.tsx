@@ -19,6 +19,9 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 
+// Supabase
+import { supabase } from "@/lib/supabase";
+
 import {
   Select,
   SelectContent,
@@ -37,23 +40,22 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
+import { ItemCategoryRow } from "@/constants/types";
+import { addCategory } from "@/utils/methods/add-category";
 
-function cancelAddItem() {
-  if (router.canGoBack()) {
-    router.back();
-  } else {
-    router.replace({ pathname: "/(tabs)/" });
-  }
+
+interface Props{
+  userId: string;
+  categories: ItemCategoryRow[] | null;
+  onChangeCategory: (newCategory: ItemCategoryRow) => void;
 }
 
-export default function AddProductInfo() {
-  const [categories, setCategories] = useState<string[]>([
-    "Mobile",
-    "Beauty",
-    "Gaming",
-    "Science",
-  ]);
+export default function AddProductInfo({ userId, categories, onChangeCategory }: Props) {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    console.log("USER ID FROM ADDPRODUCTINFO COMPONENT: " + userId);
+  }, [])
 
   const form = useForm<AddProductInformationSchema>({
     resolver: zodResolver(addProductInformationSchema),
@@ -74,10 +76,16 @@ export default function AddProductInfo() {
     console.log(JSON.stringify(errors));
   };
 
-  const handleAddCategory = (newCategory: string) => {
-    // Update the categories array with the new category
-    setCategories((prevCategories) => [...prevCategories, newCategory]);
-    console.log("New Category Added:", newCategory);
+  async function handleAddCategory(newCategory: string) {
+
+    const res = await addCategory(newCategory, userId);
+
+    if(res){
+      // Update the categories array with the new category
+      onChangeCategory(res);
+      console.log("New Category Added:", res);
+    }
+
   };
 
   return (
@@ -210,7 +218,6 @@ export default function AddProductInfo() {
                 Want to add your own category? Click{" "}
               </Text>
               <AddCategory
-                categories={categories}
                 onAddCategory={handleAddCategory}
               />
             </View>
@@ -239,13 +246,13 @@ export default function AddProductInfo() {
                     <SelectContent className="w-[250]">
                       <SelectGroup>
                         <SelectLabel>Categories</SelectLabel>
-                        {categories.map((category, index) => (
+                        {categories?.map((category, index) => (
                           <SelectItem
                             key={index}
-                            label={category}
-                            value={category}
+                            label={category.category_name}
+                            value={category.category_name}
                           >
-                            {category}
+                            {category.category_name}
                           </SelectItem>
                         ))}
                       </SelectGroup>

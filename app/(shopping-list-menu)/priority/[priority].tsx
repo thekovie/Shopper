@@ -3,32 +3,34 @@ import { Platform } from "react-native";
 import { Text } from "@/components/ui/text";
 import { useLocalSearchParams } from 'expo-router';
 import ListShoppingItem from "@/components/list/ListShoppingItem";
-import { ListShoppingItemProps, ShoppingItemRow } from "@/constants/types";
+import { ExtendedShoppingItemInsert } from "@/constants/types";
 import { ArrowLeft, ArrowDownUp, Settings } from "@/lib/icons"
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { fetchShoppingItems } from "@/utils/methods/fetch-shopping-items";
 import ModifyCategory from "@/components/add-shopping-item/forms/ModifyCategory";
+import { getPriorityItems } from "@/utils/methods/fetch-priority-items";
 
-export default function PurchasedItems() {
-    const searchParams = useLocalSearchParams(); // Get the itemName from the params
-    const { category_name, category_id } = searchParams;
-
-    const categoryId = Array.isArray(category_id) ? category_id[0] : category_id;
-    const categoryName = Array.isArray(category_name) ? category_name[0] : category_name;
-
-    const [shoppingItems, setShoppingItems] = useState<ShoppingItemRow[] | null>(null);
+export default function Priority() {
+    const { priority, userId } = useLocalSearchParams<{ priority: string; userId: string }>();
+    const [shoppingItems, setShoppingItems] = useState<ExtendedShoppingItemInsert[] | null>(null);
 
     useEffect(() => {
-      fetchShoppingItems(categoryId).then((data) => {
+      const fetchPriorityItems = async () => {
+        const data = await getPriorityItems(userId, priority);
         if(data){
-          console.log(data);
           setShoppingItems(data);
-        }else{
-          console.log("No data found");
+          console.log(data)
         }
-      })
+      }
+
+      fetchPriorityItems();
+
+
     }, [])
+
+
+
 
 
   return (
@@ -48,23 +50,9 @@ export default function PurchasedItems() {
               className=" text-lonestar-500 text-xl"
               fontVariant="Bold"
             >
-            {category_name}
+            {priority} Priority
             </Text> 
           </View>
-
-          <TouchableOpacity onPress={() => console.log("HEllo")}>
-            <ModifyCategory
-              categoryId={categoryId}
-              category={categoryName}
-              triggerContent={
-                <Settings className="text-lonestar-400 mr-[10]" size={24}/>
-              }
-            />
-
-
-            
-          </TouchableOpacity>
-
         </View>
 
         <ScrollView className='flex flex-col overflow-hidden px-[10] py-[20] mb-[24]'>   
@@ -93,13 +81,11 @@ export default function PurchasedItems() {
                       notes={shoppingItem.notes} 
                       is_purchased={shoppingItem.is_purchased}
                       user_id={shoppingItem.user_id}
-                      category_name={categoryName}
+                      category_name={shoppingItem.category_name}
                   />
               </View>
           ))}     
         </ScrollView>
-
-
       </View>
   );
 }

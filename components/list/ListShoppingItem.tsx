@@ -1,24 +1,24 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { ListShoppingItemProps } from '@/constants/types';
+import { ExtendedShoppingItemInsert } from '@/constants/types';
 import { router } from 'expo-router';
 
 
 
-function ListShoppingItem(props: ListShoppingItemProps) {
+function ListShoppingItem(props: ExtendedShoppingItemInsert) {
     return (
         <TouchableOpacity className="flex flex-row justify-between items-start" onPress={() => {
             router.push({
                 pathname: '/(item-page)/shopping-item',
                 params: {
-                    itemName: props.itemName,
-                    itemPrice: props.itemPrice,
-                    itemPriority: props.itemPriority,
-                    itemPlatform: props.itemPlatform,
-                    itemCategory: props.itemCategory,
-                    itemNotes: props.itemNotes,
-                    isMarkedAsPurchased: props.isMarkedAsPurchased ? 'true' : 'false',
+                    itemName: props.product_title,
+                    itemPrice: props.price,
+                    itemPriority: props.priority,
+                    itemPlatform: props.shopping_platform,
+                    itemCategory: props.category_id,
+                    itemNotes: props.notes,
+                    isMarkedAsPurchased: props.is_purchased ? 'true' : 'false',
                 }
             });
         }}>
@@ -28,13 +28,13 @@ function ListShoppingItem(props: ListShoppingItemProps) {
                         numberOfLines={1} 
                         ellipsizeMode='tail'
                 >
-                    {props.itemName}
+                    {props.product_title}
                 </Text>
                 <Text className="text-lonestar-600 text-xs" fontVariant='Light' numberOfLines={1} ellipsizeMode='tail'>
-                    {props.itemPriority} • {props.itemPlatform} • {props.itemCategory}
+                    {props.priority} • {props.shopping_platform} • {props.category_name}
                 </Text>
             </View>
-            <Text className='text-lonestar-950 text-sm' fontVariant='Medium'>PHP ~{props.itemPrice}</Text>
+            <Text className='text-lonestar-950 text-sm' fontVariant='Medium'>PHP ~{props.price}</Text>
         </TouchableOpacity>
     );
 }

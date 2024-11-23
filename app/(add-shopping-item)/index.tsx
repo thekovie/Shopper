@@ -19,18 +19,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import AddProductInfo from "@/components/add-shopping-item/forms/AddProductInfo";
 import CancelChangesPage from "@/components/add-shopping-item/CancelChanges";
 
+// Supabase
+import { supabase } from '@/lib/supabase';
+import { ItemCategoryRow } from "@/constants/types";
 
-function cancelAddItem() {
-  console.log('cancelled!');
-}
+
+
 
 
 export default function Index() {
   const [isDiscardChangesDialogOpen, setDiscardChangesDialogOpen] = useState(false);
+  const [userId, setUserId] = useState<string>("");
+  const [categories, setCategories] = useState<ItemCategoryRow[] | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const scrapeSuccessMessage = "Success! Make sure to review and fill up the remaining fields.";
-  const scrapeErrorMessage = "Oh no! We weren’t able to pre-fill for you. Please fill-up the following fields.";
 
+  
   const form = useForm<AddProductInformationSchema>({
     resolver: zodResolver(addProductInformationSchema),
     defaultValues: {
@@ -38,21 +43,9 @@ export default function Index() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof addProductInformationSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
-    // router.push({
-    //   pathname: "/(tabs)add-item-fillup",
-    // });
+  function updateStateCategories(newCategory: ItemCategoryRow) {
+    setCategories((prevCategories) => [...(prevCategories || []), newCategory]);
   }
-
-  const onError: SubmitErrorHandler<AddProductInformationSchema> = (
-    errors,
-    e
-  ) => {
-    console.log(JSON.stringify(errors));
-  };
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -67,6 +60,69 @@ export default function Index() {
     return () => backHandler.remove();
   }, []);
 
+
+  // Fetch session user's information
+  useEffect(() => {
+    const fetchSession = async () => {
+      try{
+        const { data, error } = await supabase.auth.getSession()
+
+        if(error){
+          console.error("Error fetching session: " + error);
+          return;
+        }
+
+        const sessionUserId = data?.session?.user?.id;
+
+        if (!sessionUserId) {
+          console.error("User ID not found. Ensure the user is logged in.");
+          return;
+        }
+
+        // Set the user ID session state
+        setUserId(sessionUserId);
+
+        // Fetch categories
+        const { data: categories, error: categoryError } = await supabase
+        .from('item_categories')
+        .select()
+        .eq('user_id', sessionUserId)
+
+        if(categoryError){
+          console.error("Error fetching categories:", categoryError.message);
+          return;
+        }
+
+        if(categories){
+          setCategories(categories);
+        }
+   
+    
+      }catch(error){
+        console.error("Error fetching session: " + error)
+      }finally{
+        setIsLoading(false);
+      }
+    }
+
+    fetchSession();
+
+    console.log("USER ID FROM PARENTTT: " + userId);
+  }, [])
+
+  if(isLoading){
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
 
   return (
@@ -102,7 +158,11 @@ export default function Index() {
           </Text>
 
           <View>
-            <AddProductInfo />
+            <AddProductInfo 
+              userId={userId}
+              categories={categories}
+              onChangeCategory={updateStateCategories}
+            />
             
           </View>
 
