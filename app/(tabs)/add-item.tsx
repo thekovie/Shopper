@@ -1,5 +1,6 @@
 import { View, StatusBar, ScrollView, TouchableOpacity, BackHandler } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useFocusEffect } from "expo-router";
 import { Platform } from "react-native";
 import { Text } from "@/components/ui/text";
 import { X } from "@/lib/icons";
@@ -22,6 +23,9 @@ import CancelChangesPage from "@/components/add-shopping-item/CancelChanges";
 // Supabase
 import { supabase } from '@/lib/supabase';
 import { ItemCategoryRow } from "@/constants/types";
+import { fetchSession } from "@/utils/methods/fetch-session";
+import { fetchCategories } from "@/utils/methods/fetch-categories";
+import { set } from "date-fns";
 
 
 
@@ -35,13 +39,6 @@ export default function AddProductItem() {
 
   const scrapeSuccessMessage = "Success! Make sure to review and fill up the remaining fields.";
 
-  
-  const form = useForm<AddProductInformationSchema>({
-    resolver: zodResolver(addProductInformationSchema),
-    defaultValues: {
-      productLink: "",
-    },
-  });
 
   function updateStateCategories(newCategory: ItemCategoryRow) {
     setCategories((prevCategories) => [...(prevCategories || []), newCategory]);
@@ -62,53 +59,33 @@ export default function AddProductItem() {
 
 
   // Fetch session user's information
-  useEffect(() => {
-    const fetchSession = async () => {
-      try{
-        const { data, error } = await supabase.auth.getSession()
-
-        if(error){
-          console.error("Error fetching session: " + error);
-          return;
+  useFocusEffect(
+    useCallback(() => {
+      fetchSession().then(async (session) => {
+        setIsLoading(true);
+        console.log("Hello")
+        if(!session){
+          console.log("NO SESSION");
+        }else{
+          setUserId(session.user.id);
+          const categoriesData = await fetchCategories(session.user.id);
+          
+          if(categoriesData){
+            setCategories(categoriesData);
+          }else{
+            console.log("No categories found");
+          }
         }
-
-        const sessionUserId = data?.session?.user?.id;
-
-        if (!sessionUserId) {
-          console.error("User ID not found. Ensure the user is logged in.");
-          return;
-        }
-
-        // Set the user ID session state
-        setUserId(sessionUserId);
-
-        // Fetch categories
-        const { data: categories, error: categoryError } = await supabase
-        .from('item_categories')
-        .select()
-        .eq('user_id', sessionUserId)
-
-        if(categoryError){
-          console.error("Error fetching categories:", categoryError.message);
-          return;
-        }
-
-        if(categories){
-          setCategories(categories);
-        }
-   
-    
-      }catch(error){
-        console.error("Error fetching session: " + error)
-      }finally{
         setIsLoading(false);
-      }
-    }
-
-    fetchSession();
-
-    console.log("USER ID FROM PARENTTT: " + userId);
-  }, [])
+  
+  
+      })
+    }, [])
+    
+  
+);
+    
+    
 
   if(isLoading){
     return (
@@ -119,7 +96,7 @@ export default function AddProductItem() {
           alignItems: "center",
         }}
       >
-        <Text>Loading...</Text>
+        <Text className="text-lonestar-950">Loading...</Text>
       </View>
     );
   }

@@ -153,12 +153,6 @@ export default function RootLayout() {
                     headerShown: false,
                   }}
                 />
-                <Stack.Screen
-                  name="(add-shopping-item)"
-                  options={{
-                    headerShown: false,
-                  }}
-                />
               </Stack>
               <LoadingSpinner />
               <PortalHost />

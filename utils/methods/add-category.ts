@@ -13,7 +13,6 @@ export async function addCategory(newCategory: string, userId: string): Promise<
         return null;
       }
 
-      console.log("New Category Added:", data[0]);
 
       if (data && data.length > 0) {
         console.log("New Category Added:", data[0]);
