@@ -12,12 +12,8 @@ function ListShoppingItem(props: ExtendedShoppingItemInsert) {
             router.push({
                 pathname: '/(item-page)/shopping-item',
                 params: {
-                    itemName: props.product_title,
-                    itemPrice: props.price,
-                    itemPriority: props.priority,
-                    itemPlatform: props.shopping_platform,
-                    itemCategory: props.category_id,
-                    itemNotes: props.notes,
+                    itemId: props.id,
+                    itemCategoryName: props.category_name,
                     isMarkedAsPurchased: props.is_purchased ? 'true' : 'false',
                 }
             });

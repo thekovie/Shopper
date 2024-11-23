@@ -25,7 +25,7 @@ export async function modifyCategory(newCategoryName: string, categoryId: string
         return null;
 
     }catch(error){
-        console.log("Unexpected error while adding category:", error);
+        console.log("Unexpected error while modifying category:", error);
         return null;
     }
 

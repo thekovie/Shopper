@@ -1,10 +1,10 @@
-import { ShoppingItemRow } from "@/constants/types";
+import { ExtendedShoppingItemInsert, ShoppingItemRow } from "@/constants/types";
 import { supabase } from "@/lib/supabase";
 
-export async function getShoppingItemInfo(itemId: string): Promise<ShoppingItemRow | null>{
-    const { data: shoppingItems, error: shoppingItemsError } = await supabase
+export async function getShoppingItemInfo(itemId: string): Promise<ExtendedShoppingItemInsert | null>{
+    const { data: shoppingItem, error: shoppingItemsError } = await supabase
         .from('shopping_items')
-        .select()
+        .select(`*, item_categories(category_name)`)
         .eq('id', itemId)
         .single();
     
@@ -13,8 +13,11 @@ export async function getShoppingItemInfo(itemId: string): Promise<ShoppingItemR
             return null;
         }
 
-        if(shoppingItems){
-            return shoppingItems;
+        if(shoppingItem){
+            return {
+                ...shoppingItem,
+                category_name: shoppingItem.item_categories?.category_name || "Unknown Category",
+            } as ExtendedShoppingItemInsert;
         }
 
         return null;

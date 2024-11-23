@@ -37,30 +37,61 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
-import { ItemCategoryRow } from "@/constants/types";
+import { ExtendedShoppingItemInsert, ItemCategoryRow, ShoppingItemRow } from "@/constants/types";
+import { addCategory } from "@/utils/methods/add-category";
+import { modifyShoppingItemInfo } from "@/utils/methods/modify-shopping-item-info";
 
 function deleteItem() {
   console.log("Deleted item");
   router.replace({ pathname: "/(tabs)/" });
 }
 
+interface Props{
+  userId: string;
+  itemId: string;
+  shoppingItem: ExtendedShoppingItemInsert | null;
+  onChangeCategory: (newCategory: ItemCategoryRow) => void;
+  categories: ItemCategoryRow[] | null;
+  currentCategoryName: string;
+}
 
 
-export default function ModifyProductInfo() {
-  const [categories, setCategories] = useState<ItemCategoryRow[] | null>(null);
+
+export default function ModifyProductInfo({userId, shoppingItem, categories, currentCategoryName, itemId, onChangeCategory}: Props) {
   const [open, setOpen] = useState(false);
 
   const form = useForm<AddProductInformationSchema>({
     resolver: zodResolver(addProductInformationSchema),
     defaultValues: {
-      productLink: "",
+      productName: shoppingItem?.product_title,
+      productLink: shoppingItem?.product_link || undefined, // for TypeScript to recognize that it can be undefined
+      category: shoppingItem?.category_id || undefined, // Ensure category is an object or undefined,
+      notes: shoppingItem?.notes || undefined,
+      priority:
+      shoppingItem?.priority === "High" ||
+      shoppingItem?.priority === "Mid" ||
+      shoppingItem?.priority === "Low"
+        ? shoppingItem.priority
+        : undefined, // Ensure it matches expected values or default to undefined
+      price: shoppingItem?.price || undefined,
+      shoppingPlatform: shoppingItem?.shopping_platform || undefined,
     },
   });
 
-  function onSubmit(values: z.infer<typeof addProductInformationSchema>) {
+  async function onSubmit(values: z.infer<typeof addProductInformationSchema>) {
     // TODO: Do something with the form values and navigate to a certain page.
     console.log(values);
-    router.back();
+
+    const res = await modifyShoppingItemInfo(values, itemId);
+
+    if(res){
+      console.log("Shopping item info modified:", res);
+       router.back();
+    }else{
+      console.log("Error modifying shopping item info");
+    }
+
+   
   }
 
   const onError: SubmitErrorHandler<AddProductInformationSchema> = (
@@ -69,13 +100,19 @@ export default function ModifyProductInfo() {
   ) => {
     console.log(JSON.stringify(errors));
   };
+  
 
-  const handleAddCategory = (newCategory: string) => {
+  const handleAddCategory = async (newCategory: string) => {
     // Update the categories array with the new category
+    const res = await addCategory(newCategory, userId);
+
+    if(res){
+      onChangeCategory(res);
+      console.log("New Category Added:", newCategory);
+    }
 
     // TODO: Fix type mismatch error
-    setCategories((prevCategories) => [...prevCategories, newCategory]);
-    console.log("New Category Added:", newCategory);
+    
   };
 
   return (
@@ -184,6 +221,7 @@ export default function ModifyProductInfo() {
                   <Input
                     placeholder="Enter amount (e.g., 10, 100, 110, 120)"
                     onBlur={onBlur}
+                    value={value?.toString() || ""}
                     keyboardType="numeric"
                     className="mb-[20]"
                     onChangeText={(text) => {
@@ -208,7 +246,6 @@ export default function ModifyProductInfo() {
                 Want to add your own category? Click{" "}
               </Text>
               <AddCategory
-                categories={categories}
                 onAddCategory={handleAddCategory}
               />
             </View>
@@ -223,7 +260,7 @@ export default function ModifyProductInfo() {
                 return (
                   <Select
                     onValueChange={(selectedValue) => {
-                      onChange(selectedValue?.label);
+                      onChange(selectedValue?.value);
                       console.log(selectedValue?.label);
                     }}
                     className="mb-[10] w-full"
@@ -231,19 +268,19 @@ export default function ModifyProductInfo() {
                     <SelectTrigger>
                       <SelectValue
                         className="native:text-lg !text-sm text-foreground"
-                        placeholder="Select a category"
+                        placeholder={currentCategoryName || "Select a category"}
                       />
                     </SelectTrigger>
                     <SelectContent className="w-[250]">
                       <SelectGroup>
                         <SelectLabel>Categories</SelectLabel>
-                        {categories.map((category, index) => (
+                        {categories?.map((category, index) => (
                           <SelectItem
                             key={index}
-                            label={category}
-                            value={category}
+                            label={category.category_name}
+                            value={category.id}
                           >
-                            {category}
+                            {category.category_name}
                           </SelectItem>
                         ))}
                       </SelectGroup>
@@ -278,19 +315,19 @@ export default function ModifyProductInfo() {
                     <SelectTrigger className="w-full">
                       <SelectValue
                         className="native:text-lg !text-sm text-foreground"
-                        placeholder="Select a priority"
+                        placeholder={shoppingItem?.priority || "Select a priority"}
                       />
                     </SelectTrigger>
                     <SelectContent className="w-[250px]">
                       <SelectGroup>
                         <SelectLabel>Priorities</SelectLabel>
-                        <SelectItem label="High" value="high">
+                        <SelectItem label="High" value="High">
                           Apple
                         </SelectItem>
-                        <SelectItem label="Medium" value="medium">
+                        <SelectItem label="Mid" value="Mid">
                           Banana
                         </SelectItem>
-                        <SelectItem label="Low" value="low">
+                        <SelectItem label="Low" value="Low">
                           Blueberry
                         </SelectItem>
                       </SelectGroup>

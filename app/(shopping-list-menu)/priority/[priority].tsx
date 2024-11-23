@@ -20,7 +20,6 @@ export default function Priority() {
         const data = await getPriorityItems(userId, priority);
         if(data){
           setShoppingItems(data);
-          console.log(data)
         }
       }
 
@@ -73,6 +72,7 @@ export default function Priority() {
           {shoppingItems?.map((shoppingItem, index) => (
               <View key={index} className='mb-[20]'>
                   <ListShoppingItem 
+                      id={shoppingItem.id}
                       product_title={shoppingItem.product_title} 
                       price={shoppingItem.price!} 
                       priority={shoppingItem.priority} 

@@ -48,15 +48,14 @@ export const addProductInformationSchema = z.object({
         required_error: FIELD_REQUIRED_STR,
       })
       .min(3, 'Minimum 3 characters')
-      .max(30, 'Maximum 30 characters')
+      .max(50, 'Maximum 50 characters')
       .trim(),
     productLink: z
       .string({
         invalid_type_error: 'Product link must be a string',
         required_error: FIELD_REQUIRED_STR,
       })
-      .min(3, 'Minimum 3 characters')
-      .optional(),
+      .min(3, 'Minimum 3 characters'),
     shoppingPlatform: z
       .string({
         invalid_type_error: 'Shopping platform must be a string',
@@ -76,7 +75,8 @@ export const addProductInformationSchema = z.object({
         required_error: FIELD_REQUIRED_STR,
       })
       .min(3, 'Minimum 3 characters')
-      .trim(),
+      .trim()
+      .optional(),
     priority: z.enum(PRIORITY_OPTIONS, {
         required_error: FIELD_REQUIRED_STR,
         invalid_type_error: `Invalid priority, must be one of the followings: ${PRIORITY_OPTIONS.join(

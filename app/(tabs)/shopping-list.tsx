@@ -45,7 +45,8 @@ export default function Tab() {
   const [isLoading, setIsLoading] = useState(true);
   const [categories, setCategories] = useState<ItemCategoryRow[] | null>(null);
 
-  useFocusEffect(() => {
+  useFocusEffect(
+    useCallback(() => {
       fetchSession().then(async (session) => {
         setIsLoading(true);
         if(!session){
@@ -62,7 +63,9 @@ export default function Tab() {
         }
       })
       .finally(() => setIsLoading(false));
-  })
+    }, [])
+      
+  )
   
 
 
@@ -88,18 +91,6 @@ export default function Tab() {
     }
 
     
-  };
-
-  function onSubmit(values: z.infer<typeof addCategorySchema>) {
-    //handleAddCategory(values.category);
-    setOpen(false);
-  }
-
-  const onError: SubmitErrorHandler<AddCategorySchema> = (
-    errors,
-    e
-  ) => {
-    console.log(JSON.stringify(errors));
   };
 
 
