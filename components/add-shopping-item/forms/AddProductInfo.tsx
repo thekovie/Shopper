@@ -43,6 +43,7 @@ import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
 import { ItemCategoryRow } from "@/constants/types";
 import { addCategory } from "@/utils/methods/add-category";
 import { addShoppingItem } from "@/utils/methods/add-shopping-item";
+import { set } from "date-fns";
 
 
 interface Props{
@@ -53,6 +54,7 @@ interface Props{
 
 export default function AddProductInfo({ userId, categories, onChangeCategory }: Props) {
   const [open, setOpen] = useState(false);
+  const [selectedCategoryLabel, setSelectedCategoryLabel] = useState<string>("");
 
   useEffect(() => {
     console.log("USER ID FROM ADDPRODUCTINFO COMPONENT: " + userId);
@@ -78,12 +80,9 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
       router.push({
         pathname: '/(item-page)/shopping-item',
         params: {
-            itemName: res.product_title,
-            itemPrice: res.price,
-            itemPriority: res.priority,
-            itemPlatform: res.shopping_platform,
+            itemId: res.id,
             itemCategory: res.category_id,
-            itemNotes: res.notes,
+            itemCategoryName: selectedCategoryLabel,
             isMarkedAsPurchased: res.is_purchased ? 'true' : 'false',
         }
     });
@@ -257,6 +256,7 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
                   <Select
                     onValueChange={(selectedValue) => {
                       onChange(selectedValue?.value);
+                      setSelectedCategoryLabel(selectedValue?.label || "");
                       console.log(selectedValue?.value);
                     }}
                     className="mb-[10] w-full"

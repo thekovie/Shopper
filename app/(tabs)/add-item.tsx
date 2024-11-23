@@ -44,18 +44,20 @@ export default function AddProductItem() {
     setCategories((prevCategories) => [...(prevCategories || []), newCategory]);
   }
 
-  useEffect(() => {
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      () => {
+  useFocusEffect(
+    useCallback(() => {
+      const handleBackPress = () => {
         setDiscardChangesDialogOpen(true); // Open the dialog when back button is pressed
         return true; // Prevent default back navigation
-      },
-    );
-
-    // Cleanup the event listener when component unmounts
-    return () => backHandler.remove();
-  }, []);
+      };
+    
+      BackHandler.addEventListener("hardwareBackPress", handleBackPress);
+    
+      // Cleanup the event listener when component unmounts
+      return () => BackHandler.removeEventListener("hardwareBackPress", handleBackPress);
+    }, [])
+  )
+  
 
 
   // Fetch session user's information

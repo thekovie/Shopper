@@ -40,10 +40,19 @@ import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
 import { ExtendedShoppingItemInsert, ItemCategoryRow, ShoppingItemRow } from "@/constants/types";
 import { addCategory } from "@/utils/methods/add-category";
 import { modifyShoppingItemInfo } from "@/utils/methods/modify-shopping-item-info";
+import { deleteShoppingItem } from "@/utils/methods/delete-shopping-item";
 
-function deleteItem() {
-  console.log("Deleted item");
-  router.replace({ pathname: "/(tabs)/" });
+async function deleteItem(itemId: string) {
+  
+  const res = await deleteShoppingItem(itemId);
+  if(res){
+    console.log("Item deleted:", res);
+  }
+  
+  if(router.canDismiss()){
+    router.replace('/(tabs)/');
+  }
+  //router.replace({ pathname: "/(tabs)/" });
 }
 
 interface Props{
@@ -419,7 +428,7 @@ export default function ModifyProductInfo({userId, shoppingItem, categories, cur
                     className="bg-white"
                     onPress={() => {
                       setOpen(false);
-                      deleteItem();
+                      deleteItem(itemId);
                     }}
                   >
                     <Text className="!text-sm text-lonestar-600">
