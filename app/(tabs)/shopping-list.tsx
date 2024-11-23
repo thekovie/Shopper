@@ -35,17 +35,19 @@ import { ItemCategoryRow } from '@/constants/types';
 
 import { useFocusEffect } from 'expo-router';
 import { useCallback } from 'react';
+import { set } from 'date-fns';
 
 
 export default function Tab() {
 
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState<string>("");
-  const [refreshTrigger, setRefreshTrigger] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [categories, setCategories] = useState<ItemCategoryRow[] | null>(null);
 
   useFocusEffect(() => {
       fetchSession().then(async (session) => {
+        setIsLoading(true);
         if(!session){
           console.log("NO SESSION");
         }else{
@@ -58,9 +60,8 @@ export default function Tab() {
             console.log("No categories found");
           }
         }
-  
-  
       })
+      .finally(() => setIsLoading(false));
   })
   
 
@@ -107,6 +108,20 @@ export default function Tab() {
     { label: "Mid", Icon: Star },
     { label: "Low", Icon: Star },
   ]
+
+  if(isLoading){
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text className="text-lonestar-950">Loading...</Text>
+      </View>
+    );
+  }
 
 
   return (

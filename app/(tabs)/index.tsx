@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from "@/components/ui/button";
 import { PRIORITIES } from "@/lib/constants";
+import { fetchTotalItems } from "@/utils/methods/fetch-shopping-item-count";
 
 
 
@@ -34,6 +35,7 @@ export default function Tab() {
   const [categories, setCategories] = useState<ItemCategoryRow[] | null>(null);
   const [open, setOpen] = useState(false);
   const [isPriorityOpen, setIsPriorityOpen] = useState(false);
+  const [itemCount, setItemCount] = useState(0);
 
   const numberOfItems = 700;
 
@@ -42,6 +44,9 @@ export default function Tab() {
     if (session) {
       const categoriesData = await fetchCategories(session.user.id);
       setCategories(categoriesData || []);
+
+      const totalItemCount = await fetchTotalItems(session.user.id);
+      setItemCount(totalItemCount || 0);
     }
   };
 
@@ -135,7 +140,7 @@ export default function Tab() {
               className="text-lonestar-50 text-4xl"
               fontVariant="Bold"
           >
-            {numberOfItems}
+            {itemCount}
           </Text>
           <Text className="text-lonestar-50">Items in your list. Keep hauling!</Text>
         </View>
