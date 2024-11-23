@@ -1,10 +1,94 @@
-import { Calendar, Sun, MoonStar, Check, ChevronDown, ChevronUp, Phone } from "lucide-react-native";
+import {
+  ArrowLeft,
+  Home,
+  User2,
+  Search,
+  PlusCircle,
+  List,
+  User,
+  ArrowDownUp,
+  Star,
+  Shapes,
+  History,
+  ChevronDown,
+  ChevronRight,
+  Bell,
+  ShoppingBag,
+  TabletSmartphone,
+  Pill,
+  Brush,
+  Joystick,
+  MoreHorizontal,
+  Plus,
+  X,
+  Check,
+  CheckCircle2,
+  ChevronUp,
+  HelpCircle,
+  Smartphone,
+  Settings,
+  Ellipsis,
+  Bolt
+} from "lucide-react-native";
 import { iconWithClassName } from "./iconWithClassName";
-iconWithClassName(Calendar)
-iconWithClassName(Sun)
-iconWithClassName(MoonStar)
-iconWithClassName(Check)
-iconWithClassName(ChevronDown)
-iconWithClassName(ChevronUp)
-iconWithClassName(Phone)
-export { Sun, MoonStar, Check, ChevronDown, ChevronUp, Calendar, Phone };
+iconWithClassName(ArrowLeft);
+iconWithClassName(Home);
+iconWithClassName(Search);
+iconWithClassName(PlusCircle);
+iconWithClassName(List);
+iconWithClassName(User);
+iconWithClassName(ArrowDownUp);
+iconWithClassName(Star);
+iconWithClassName(Shapes);
+iconWithClassName(History);
+iconWithClassName(ChevronDown);
+iconWithClassName(Bell);
+iconWithClassName(ShoppingBag);
+iconWithClassName(TabletSmartphone);
+iconWithClassName(Pill);
+iconWithClassName(Brush);
+iconWithClassName(Joystick);
+iconWithClassName(MoreHorizontal);
+iconWithClassName(Plus);
+iconWithClassName(X);
+iconWithClassName(Check);
+iconWithClassName(ChevronUp);
+iconWithClassName(ChevronRight);
+iconWithClassName(CheckCircle2);
+iconWithClassName(User2);
+iconWithClassName(HelpCircle);
+iconWithClassName(Smartphone);
+iconWithClassName(Settings);
+iconWithClassName(Ellipsis);
+iconWithClassName(Bolt);
+export {
+  ArrowLeft,
+  Home,
+  Search,
+  PlusCircle,
+  List,
+  User,
+  ArrowDownUp,
+  Star,
+  Shapes,
+  History,
+  ChevronDown,
+  Bell,
+  ShoppingBag,
+  TabletSmartphone,
+  Pill,
+  Brush,
+  MoreHorizontal,
+  Plus,
+  X,
+  Check,
+  ChevronUp,
+  ChevronRight,
+  CheckCircle2,
+  User2,
+  HelpCircle,
+  Smartphone,
+  Settings,
+  Ellipsis,
+  Bolt
+};

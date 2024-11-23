@@ -1,25 +1,52 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Home, User } from "@/lib/icons";
 import { Tabs } from "expo-router";
+import { Text } from "@/components/ui/text";
+import TabBar from "@/components/TabBar";
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: "primary" }}>
+    <Tabs
+      screenOptions={{
+        headerTitle(props) {
+          return (
+            <Text fontVariant={"Bold"} className={"text-2xl text-lonestar-600"}>
+              {props.children}
+            </Text>
+          );
+        },
+      }}
+      tabBar={(props) => <TabBar {...props} />}
+    >
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="home" color={color} />
-          ),
+          headerShown: false,
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="search"
         options={{
-          title: "Settings",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="cog" color={color} />
-          ),
+          title: "Search",
+        }}
+      />
+      <Tabs.Screen
+        name="add-item"
+        options={{
+          title: "Add Item",
+          headerShown: false,
+        }}
+      />
+      <Tabs.Screen
+        name="shopping-list"
+        options={{
+          title: "Shopping List",
+        }}
+      />
+      <Tabs.Screen
+        name="user-menu"
+        options={{
+          title: "Hello, {{name}}",
         }}
       />
     </Tabs>

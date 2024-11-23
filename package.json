@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint",
-    "typegen": "npx supabase gen types typescript --project-id \"add project id here\" --schema public > lib/supabase/types.ts"
+    "typegen": "npx supabase gen types typescript --project-id uypnumggbemoleiomlxh --schema public > lib/supabase/types.ts"
   },
   "jest": {
     "preset": "jest-expo"
@@ -22,14 +22,16 @@
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/datetimepicker": "8.0.1",
     "@react-navigation/native": "^6.0.2",
+    "@rn-primitives/alert-dialog": "^1.0.5",
     "@rn-primitives/checkbox": "^1.0.4",
     "@rn-primitives/label": "^1.0.4",
+    "@rn-primitives/portal": "^1.0.5",
     "@rn-primitives/radio-group": "^1.0.4",
     "@rn-primitives/select": "^1.0.5",
-    "@rn-primitives/slot": "^1.0.4",
-    "@rn-primitives/switch": "^1.0.4",
-    "@rn-primitives/types": "^1.0.4",
-    "@supabase/supabase-js": "^2.45.4",
+    "@rn-primitives/slot": "^1.0.5",
+    "@rn-primitives/switch": "^1.0.5",
+    "@rn-primitives/types": "^1.0.5",
+    "@supabase/supabase-js": "^2.46.1",
     "@tanstack/react-query": "^5.59.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -59,8 +61,10 @@
     "react-native-svg": "15.2.0",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.10",
+    "supabase": "^1.223.10",
     "tailwind-merge": "^2.5.2",
-    "tailwindcss": "^3.4.13"
+    "tailwindcss": "^3.4.13",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
