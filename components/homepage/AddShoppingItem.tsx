@@ -1,11 +1,15 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Touchable, TouchableOpacity, View } from 'react-native';
 import { Text } from '@/components/ui/text'
 import { Plus } from '@/lib/icons'
+import { router } from 'expo-router';
+import { Pressable } from 'react-native';
 
 function AddShoppingItem(props: any) {
     return (
-        <View className="flex flex-row bg-lonestar-50 justify-between items-center py-[20] px-[15] rounded-xl mb-[12]">
+        <Pressable className="flex flex-row bg-lonestar-50 justify-between items-center py-[20] px-[15] rounded-xl mb-[12]"
+            onPress={() => router.push('/(tabs)/add-item')}
+        >
             <Plus className="text-lonestar-600 mr-[8]" size={64} />
             <View className="flex flex-col flex-1">
             <Text 
@@ -16,7 +20,7 @@ function AddShoppingItem(props: any) {
             </Text>
             <Text className="text-lonestar-950 text-xs">Let's add and arrange our shopping items to spend wisely!</Text>
             </View>
-        </View>
+        </Pressable>
     );
 }
 

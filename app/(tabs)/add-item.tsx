@@ -1,9 +1,9 @@
-import { View, StatusBar, TouchableOpacity } from "react-native";
+import { View, StatusBar, ScrollView, TouchableOpacity, BackHandler } from "react-native";
+import { useState, useEffect } from "react";
 import { Platform } from "react-native";
-import { X } from "@/lib/icons";
 import { Text } from "@/components/ui/text";
+import { X } from "@/lib/icons";
 // Forms
-import { Label } from "@/components/ui/label";
 import {
   Controller,
   FormProvider,
@@ -11,115 +11,164 @@ import {
   useForm,
 } from 'react-hook-form';
 import {
-  AddProductLinkSchema,
-  addProductLinkSchema,
+    addProductInformationSchema,
+    AddProductInformationSchema
 } from '@/utils/forms/add-product-link';
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { router } from "expo-router";
+import AddProductInfo from "@/components/add-shopping-item/forms/AddProductInfo";
+import CancelChangesPage from "@/components/add-shopping-item/CancelChanges";
 
-function cancelAddItem(){
-  router.back();
-}
+// Supabase
+import { supabase } from '@/lib/supabase';
+import { ItemCategoryRow } from "@/constants/types";
 
 
-export default function Tab() {
+
+
+
+export default function AddProductItem() {
+  const [isDiscardChangesDialogOpen, setDiscardChangesDialogOpen] = useState(false);
+  const [userId, setUserId] = useState<string>("");
+  const [categories, setCategories] = useState<ItemCategoryRow[] | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const scrapeSuccessMessage = "Success! Make sure to review and fill up the remaining fields.";
+
   
-
-  const form = useForm<AddProductLinkSchema>({
-    resolver: zodResolver(addProductLinkSchema),
+  const form = useForm<AddProductInformationSchema>({
+    resolver: zodResolver(addProductInformationSchema),
     defaultValues: {
       productLink: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof addProductLinkSchema>) {
-    // TODO: Do something with the form values.
-    console.log(values)
-    router.push({
-      pathname: "/(add-shopping-item)/"
-    },);
+  function updateStateCategories(newCategory: ItemCategoryRow) {
+    setCategories((prevCategories) => [...(prevCategories || []), newCategory]);
   }
 
-  const onError: SubmitErrorHandler<AddProductLinkSchema> = (
-    errors,
-    e
-  ) => {
-    console.log(JSON.stringify(errors));
-  };
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        setDiscardChangesDialogOpen(true); // Open the dialog when back button is pressed
+        return true; // Prevent default back navigation
+      },
+    );
 
+    // Cleanup the event listener when component unmounts
+    return () => backHandler.remove();
+  }, []);
+
+
+  // Fetch session user's information
+  useEffect(() => {
+    const fetchSession = async () => {
+      try{
+        const { data, error } = await supabase.auth.getSession()
+
+        if(error){
+          console.error("Error fetching session: " + error);
+          return;
+        }
+
+        const sessionUserId = data?.session?.user?.id;
+
+        if (!sessionUserId) {
+          console.error("User ID not found. Ensure the user is logged in.");
+          return;
+        }
+
+        // Set the user ID session state
+        setUserId(sessionUserId);
+
+        // Fetch categories
+        const { data: categories, error: categoryError } = await supabase
+        .from('item_categories')
+        .select()
+        .eq('user_id', sessionUserId)
+
+        if(categoryError){
+          console.error("Error fetching categories:", categoryError.message);
+          return;
+        }
+
+        if(categories){
+          setCategories(categories);
+        }
+   
+    
+      }catch(error){
+        console.error("Error fetching session: " + error)
+      }finally{
+        setIsLoading(false);
+      }
+    }
+
+    fetchSession();
+
+    console.log("USER ID FROM PARENTTT: " + userId);
+  }, [])
+
+  if(isLoading){
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
 
   return (
-    <View className="flex flex-1 flex-col p-[20]"
-      style={{
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-      }}
-   >
-  
-    <View className="flex flex-row-reverse n items-center mb-[4]">
-        <X className="text-lonestar-400" size={24} onPress={cancelAddItem}/>
-    </View>
-
-    <View className="flex flex-col p-[6]">
-      <Text 
-        className=" text-lonestar-500 mb-[6] text-xl"
-        fontVariant="Bold"
+      <ScrollView className="flex flex-col p-[20]"
+          style={{
+            paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+            flex: 1
+          }}
       >
-        Add Shopping Item
-      </Text>
+        <CancelChangesPage
+          toggleDialog={setDiscardChangesDialogOpen}
+          isDialogOpen={isDiscardChangesDialogOpen}
+          trigger={
+            <TouchableOpacity>
+                <View className="flex flex-row-reverse n items-center mb-[4]">
+                    <X className="text-lonestar-400" size={24} />
+                </View>
+            </TouchableOpacity>
+          }
+        />
+          
 
-      <Text className="text-lonestar-700 text-base max-w-[95%] mb-[20]" fontVariant="Regular">
-        Let us try to pre-fill the form for you, please provide the product link to get started!
-      </Text>
+        <View className="flex flex-col p-[6]">
+          <Text 
+            className=" text-lonestar-500 mb-[6] text-xl"
+            fontVariant="Bold"
+          >
+            Add Shopping Item
+          </Text>
 
-      <View>
-        <Label nativeID="product-link" className="text-lonestar-950 text-xs font-medium mb-[10]">
-          Product Link
-        </Label>
+          <Text className="text-lonestar-700 text-base max-w-[95%] mb-[20]" fontVariant="Regular">
+            {scrapeSuccessMessage}
+          </Text>
 
-        <View className="">
-          <FormProvider {...form}>
-              <Controller
-              control={form.control}
-              name="productLink"
-              render={({
-                  field: { onChange, onBlur, value },
-                  fieldState: { error },
-              }) => {
-                  return (
-                  <Input
-                      placeholder="https://example.com/product-idddd"
-                      onBlur={onBlur}
-                      value={value}
-                      className="mb-[20]"
-                      onChangeText={onChange}
-                  />
-                  
-                  );
-              }}
-              />
+          <View>
+            <AddProductInfo 
+              userId={userId}
+              categories={categories}
+              onChangeCategory={updateStateCategories}
+            />
+            
+          </View>
 
-              <View className="flex flex-col">
-                <Button onPress={form.handleSubmit(onSubmit, onError)} className="mb-[8]">
-                    <Text>Continue</Text>
-                </Button>
-
-                <Button variant={'outline'} onPress={cancelAddItem}>
-                    <Text className="text-lonestar-600 text-sm" fontVariant="Medium">Cancel</Text>
-                </Button>
-              </View>      
-          </FormProvider>
         </View>
-      </View>
 
-    </View>
-
-    
-    
-   </View>
+      </ScrollView>
   );
 }
 
