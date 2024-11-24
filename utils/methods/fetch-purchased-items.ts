@@ -4,7 +4,7 @@ import { ExtendedShoppingItemInsert } from "@/constants/types";
 export const getPurchasedItems = async (sessionUserId: string): Promise<ExtendedShoppingItemInsert[] | null> => {
     const { data, error } = await supabase
         .from('shopping_items')
-        .select()
+        .select(`*, item_categories(category_name)`)
         .eq('user_id', sessionUserId)
         .eq('is_purchased', true)
         .order('created_at', { ascending: true })
