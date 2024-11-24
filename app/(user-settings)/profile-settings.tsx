@@ -306,7 +306,7 @@ function ProfileSettings() {
                         );
                     }}
                     />
-                    {password && password !== confirmPassword && confirmPassword && confirmPassword.length > 0 && 
+                    {password && password !== confirmPassword  && 
                         <Text className="text-lonestar-500 text-xs mt-[4]">
                             Passwords do not match!
                         </Text>
@@ -319,7 +319,10 @@ function ProfileSettings() {
                         <Button
                             className='bg-lonestar-500 mb-[8]'
                             onPress={() => {
-                                setConfirmDialogOpen(true);
+                                if(!(password && password !== confirmPassword)){
+                                    setConfirmDialogOpen(true);
+                                }
+                                
                             }}
                         >
                             <Text
