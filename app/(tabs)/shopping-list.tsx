@@ -192,7 +192,12 @@ export default function Tab() {
         <View className="flex flex-col">
           <TouchableOpacity className="flex flex-row justify-between items-center mb-[20]"
             onPress={() => {
-              router.push("/(shopping-list-menu)/recent-finds")
+              router.push({
+                pathname: '/(shopping-list-menu)/recent-finds',
+                params: {
+                  user_id: userId,
+                }
+              })
             }}
           >
             <Text className="text-lonestar-950 text-xs" fontVariant="Medium">
