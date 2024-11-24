@@ -1,4 +1,4 @@
-import { View, StatusBar, ScrollView, TouchableOpacity } from "react-native";
+import { View, StatusBar, ScrollView, TouchableOpacity, Linking, Alert } from "react-native";
 import { useCallback, useState } from "react";
 import { Platform } from "react-native";
 import { Text } from "@/components/ui/text";
@@ -140,7 +140,17 @@ export default function ShoppingItemPage() {
             </Text>
           </View>
 
-          <Button  variant={'outline'} className="bg-white">
+          <Button  variant={'outline'} className="bg-white"
+            onPress={() => {
+              if(shoppingItem?.product_link){
+                Linking.openURL(shoppingItem?.product_link)
+                .catch((err) => {
+                  console.error("Error opening product link:", err);
+                  Alert.alert("Error", "Could not open product link. Please make sure your product link is a valid URL (including 'https://' or 'http://').")
+                })
+              }
+            }}
+          >
             <Text className='text-lonestar-600 text-sm text-center'>
               Product Link
             </Text>
