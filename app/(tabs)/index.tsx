@@ -8,7 +8,7 @@ import AddShoppingItem from "@/components/homepage/AddShoppingItem";
 import RecentFinds from "@/components/homepage/RecentFinds";
 import { Session } from '@supabase/supabase-js'
 import { supabase } from "@/lib/supabase";
-import { ItemCategoryRow, ListShoppingItemProps, RecentFindsProps } from "@/constants/types";
+import { ExtendedShoppingItemInsert, ItemCategoryRow, ListShoppingItemProps, RecentFindsProps } from "@/constants/types";
 import { fetchCategories } from "@/utils/methods/fetch-categories";
 import { Href, router, useFocusEffect } from "expo-router";
 import { useCallback } from "react";
@@ -27,12 +27,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { PRIORITIES } from "@/lib/constants";
 import { fetchTotalItems } from "@/utils/methods/fetch-shopping-item-count";
+import { fetchShoppingItems } from "@/utils/methods/fetch-shopping-items";
 
 
 
 export default function Tab() {
   const [session, setSession] = useState<Session | null>(null)
   const [categories, setCategories] = useState<ItemCategoryRow[] | null>(null);
+  const [recentShoppingItems, setRecentShoppingItems] = useState<ExtendedShoppingItemInsert[] | null>(null);
   const [open, setOpen] = useState(false);
   const [isPriorityOpen, setIsPriorityOpen] = useState(false);
   const [itemCount, setItemCount] = useState(0);
@@ -47,6 +49,27 @@ export default function Tab() {
 
       const totalItemCount = await fetchTotalItems(session.user.id);
       setItemCount(totalItemCount || 0);
+
+      // Fetch 4 most recent shopping items finds
+      try{
+        const { data, error } = await supabase
+        .from('shopping_items')
+        .select()
+        .eq('user_id', session.user.id)
+        .order('created_at', { ascending: false })
+        .limit(4);
+
+        if(error){
+          console.error("Error fetching recent shopping items:", error.message);
+        }
+
+        if(data){
+          setRecentShoppingItems(data);
+        }
+
+      }catch(error){
+        console.error("Error fetching recent shopping items:");
+      }
     }
   };
 
@@ -285,7 +308,7 @@ export default function Tab() {
       <AddShoppingItem />
 
       {/* Recent Finds */}
-      <RecentFinds data={sampleItemsData} />
+      <RecentFinds shoppingItems={recentShoppingItems} />
 
 
 
