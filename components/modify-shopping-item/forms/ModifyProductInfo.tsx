@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 
 import {
   Select,
@@ -44,15 +44,16 @@ import { deleteShoppingItem } from "@/utils/methods/delete-shopping-item";
 
 async function deleteItem(itemId: string) {
   
+  
   const res = await deleteShoppingItem(itemId);
   if(res){
     console.log("Item deleted:", res);
+    while(router.canGoBack()){
+      router.back();
+    }
+   
   }
-  
-  if(router.canDismiss()){
-    router.replace('/(tabs)/');
-  }
-  //router.replace({ pathname: "/(tabs)/" });
+
 }
 
 interface Props{
