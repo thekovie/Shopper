@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useState, useEffect } from "react";
-import { View, Platform, ScrollView, StatusBar, TouchableOpacity, BackHandler } from 'react-native';
+import { View, Platform, ScrollView, StatusBar, TouchableOpacity, BackHandler, Alert } from 'react-native';
 import { Text } from '@/components/ui/text';
 import CancelChangesPage from '@/components/add-shopping-item/CancelChanges';
 import { ArrowLeft } from '@/lib/icons';
@@ -132,6 +132,7 @@ function ProfileSettings() {
         errors,
         e,
     ) => {
+        Alert.alert(JSON.stringify(errors));
         console.log(JSON.stringify(errors));
     };
 
