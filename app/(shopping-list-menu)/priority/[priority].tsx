@@ -14,19 +14,54 @@ import { getPriorityItems } from "@/utils/methods/fetch-priority-items";
 export default function Priority() {
     const { priority, userId } = useLocalSearchParams<{ priority: string; userId: string }>();
     const [shoppingItems, setShoppingItems] = useState<ExtendedShoppingItemInsert[] | null>(null);
+    const [sortAscending, setSortAscending] = useState(true);
+
+    const handleSortToggle = () => {
+      const newSortValue = !sortAscending; // Toggle the sort value and ensure it's consistent
+      setSortAscending(!sortAscending);
+      setShoppingItems((prevItems) =>
+        prevItems
+          ? [...prevItems].sort((a, b) => {
+              if (newSortValue) {
+                return a.price! - b.price!; // Ascending
+              } else {
+                return b.price! - a.price!; // Descending
+              }
+            })
+          : null
+      );
+    };
 
     useFocusEffect(
       useCallback(() => {
         const fetchPriorityItems = async () => {
+          let sortValue: boolean = true;
+          setSortAscending((prev) => {
+            sortValue = prev; // Ensure consistent sorting
+            return prev;
+          });
+
           const data = await getPriorityItems(userId, priority);
-          if(data){
-            setShoppingItems(data);
+          if (data) {
+            // Apply sorting based on the current sortAscending value
+            const sortedData = [...data].sort((a, b) => {
+              if (sortValue) {
+                return a.price! - b.price!; // Ascending
+              } else {
+                return b.price! - a.price!; // Descending
+              }
+            });
+            setShoppingItems(sortedData);
+            console.log("HEREE")
+            
+          }else{
+            console.log("No data found");
           }
         }
   
         fetchPriorityItems();
   
-  
+
       }, [])
     )
     
@@ -64,12 +99,14 @@ export default function Priority() {
                         Sorted by{' '}
                     </Text>  
                     <Text className="text-sm text-lonestar-700 underline">
-                        low to high price
+                    { sortAscending ? 'low to high' : 'high to low' }
                     </Text>  
                      
                 </View>
                 
-                <ArrowDownUp size={16} className="text-lonestar-600" />
+                <TouchableOpacity onPress={handleSortToggle}>
+                  <ArrowDownUp size={16} className="text-lonestar-600" />
+                </TouchableOpacity>
             </View>
             
           {shoppingItems?.map((shoppingItem, index) => (

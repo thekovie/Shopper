@@ -9,6 +9,7 @@ import { router } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { fetchShoppingItems } from "@/utils/methods/fetch-shopping-items";
 import ModifyCategory from "@/components/add-shopping-item/forms/ModifyCategory";
+import { b } from "@rn-primitives/select/dist/types-DL0m2jnh";
 
 export default function PurchasedItems() {
     const searchParams = useLocalSearchParams(); // Get the itemName from the params
@@ -18,15 +19,43 @@ export default function PurchasedItems() {
     const categoryName = Array.isArray(category_name) ? category_name[0] : category_name;
 
     const [shoppingItems, setShoppingItems] = useState<ShoppingItemRow[] | null>(null);
+    const [sortAscending, setSortAscending] = useState(true);
+
+    const handleSortToggle = () => {
+      const newSortValue = !sortAscending; // Toggle the sort value and ensure it's consistent
+      setSortAscending(!sortAscending);
+      setShoppingItems((prevItems) =>
+        prevItems
+          ? [...prevItems].sort((a, b) => {
+              if (newSortValue) {
+                return a.price! - b.price!; // Ascending
+              } else {
+                return b.price! - a.price!; // Descending
+              }
+            })
+          : null
+      );
+    };
 
     useFocusEffect(
       useCallback(() => {
+        let sortValue: boolean = true;
+        setSortAscending((prev) => {
+          sortValue = prev; // Ensure consistent sorting
+          return prev;
+        });
         fetchShoppingItems(categoryId).then((data) => {
-          if(data){
-            setShoppingItems(data);
-            console.log(data);
-            // console.log("Data found");
-            // console.log(typeof(data[0].is_purchased))
+          if (data) {
+            // Apply sorting based on the current sortAscending value
+            const sortedData = [...data].sort((a, b) => {
+              if (sortValue) {
+                return a.price! - b.price!; // Ascending
+              } else {
+                return b.price! - a.price!; // Descending
+              }
+            });
+            setShoppingItems(sortedData);
+            console.log("HEREE")
             
           }else{
             console.log("No data found");
@@ -79,12 +108,14 @@ export default function PurchasedItems() {
                         Sorted by{' '}
                     </Text>  
                     <Text className="text-sm text-lonestar-700 underline">
-                        low to high price
+                        { sortAscending ? 'low to high' : 'high to low' }
                     </Text>  
                      
                 </View>
                 
-                <ArrowDownUp size={16} className="text-lonestar-600" />
+                <TouchableOpacity onPress={handleSortToggle}>
+                  <ArrowDownUp size={16} className="text-lonestar-600" />
+                </TouchableOpacity>
             </View>
             
           {shoppingItems?.map((shoppingItem, index) => (
