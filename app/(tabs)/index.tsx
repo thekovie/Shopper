@@ -28,6 +28,7 @@ import { Button } from "@/components/ui/button";
 import { PRIORITIES } from "@/lib/constants";
 import { fetchTotalItems } from "@/utils/methods/fetch-shopping-item-count";
 import { fetchShoppingItems } from "@/utils/methods/fetch-shopping-items";
+import { getRecentShoppingItems } from "@/utils/methods/fetch-recent-shopping-items";
 
 
 
@@ -51,24 +52,9 @@ export default function Tab() {
       setItemCount(totalItemCount || 0);
 
       // Fetch 4 most recent shopping items finds
-      try{
-        const { data, error } = await supabase
-        .from('shopping_items')
-        .select()
-        .eq('user_id', session.user.id)
-        .order('created_at', { ascending: false })
-        .limit(4);
-
-        if(error){
-          console.error("Error fetching recent shopping items:", error.message);
-        }
-
-        if(data){
-          setRecentShoppingItems(data);
-        }
-
-      }catch(error){
-        console.error("Error fetching recent shopping items:");
+      const res = await getRecentShoppingItems(session.user.id, 4);
+      if(res){
+        setRecentShoppingItems(res);
       }
     }
   };
