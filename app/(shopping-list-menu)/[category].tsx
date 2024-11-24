@@ -23,8 +23,11 @@ export default function PurchasedItems() {
       useCallback(() => {
         fetchShoppingItems(categoryId).then((data) => {
           if(data){
-            console.log(data);
             setShoppingItems(data);
+            console.log(data);
+            // console.log("Data found");
+            // console.log(typeof(data[0].is_purchased))
+            
           }else{
             console.log("No data found");
           }

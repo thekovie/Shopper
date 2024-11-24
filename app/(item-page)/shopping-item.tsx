@@ -10,17 +10,44 @@ import { router } from "expo-router";
 import { Button } from "@/components/ui/button";
 import MarkedAsPurchased from "@/components/modify-shopping-item/MarkedAsPurchased";
 import { getShoppingItemInfo } from "@/utils/methods/get-shopping-item-info";
+import { supabase } from "@/lib/supabase";
+import { set } from "date-fns";
 
 
 
 
 export default function ShoppingItemPage() {
-  const { itemId, itemCategoryName, isMarkedAsPurchased } = useLocalSearchParams();
+  const { itemId, itemCategoryName } = useLocalSearchParams();
   const singleItemId = Array.isArray(itemId) ? itemId[0] : itemId;
-
-  const [isPurchased, setIsPurchased] = useState(isMarkedAsPurchased === 'true' ? true : false);
+ 
   const [shoppingItem, setShoppingItem] = useState<ExtendedShoppingItemInsert | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isPurchased, setIsPurchased] = useState(false);
+
+  const updateItemPurchaseStatus = async (itemId: string) => {
+    try{
+      console.log("HERE")
+      
+      const { data, error } = await supabase
+        .from('shopping_items')
+        .update({ is_purchased: !isPurchased })
+        .eq('id', itemId)
+        .select();
+
+      if(error){
+        console.error("Error updating item purchase status:", error.message);
+      }
+
+      if(data){
+        console.log("Item purchase status updated:", data);
+        setIsPurchased(!isPurchased);
+      }
+
+    }catch(error){
+      console.error("Error updating item purchase status:", error);
+    }
+
+  }
 
 
   useFocusEffect(
@@ -31,6 +58,8 @@ export default function ShoppingItemPage() {
         if(res){
           console.log(res);
           setShoppingItem(res);
+          setIsPurchased(res.is_purchased || false);
+
         }
         setIsLoading(false);
       }
@@ -119,8 +148,9 @@ export default function ShoppingItemPage() {
         </View>
 
         <Button  className="bg-lonestar-500 mb-[8] mx-[18]" onPress={() => {
-          setIsPurchased(!isPurchased);
+            updateItemPurchaseStatus(singleItemId);
         }}>
+          {/* TODO: Probably implement a spinner */}
           <Text className='text-white text-sm text-center'>
             {isPurchased ? 'Mark as Unpurchased' : 'Mark as Purchased'}
           </Text>
