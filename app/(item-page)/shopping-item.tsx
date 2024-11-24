@@ -1,29 +1,89 @@
 import { View, StatusBar, ScrollView, TouchableOpacity } from "react-native";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Platform } from "react-native";
 import { Text } from "@/components/ui/text";
-import { useLocalSearchParams } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams } from 'expo-router';
 import ListShoppingItem from "@/components/list/ListShoppingItem";
-import { ListShoppingItemProps } from "@/constants/types";
+import { ExtendedShoppingItemInsert, ListShoppingItemProps, ShoppingItemRow } from "@/constants/types";
 import { ArrowLeft, ArrowDownUp } from "@/lib/icons"
 import { router } from "expo-router";
 import { Button } from "@/components/ui/button";
 import MarkedAsPurchased from "@/components/modify-shopping-item/MarkedAsPurchased";
+import { getShoppingItemInfo } from "@/utils/methods/get-shopping-item-info";
+import { supabase } from "@/lib/supabase";
+import { set } from "date-fns";
 
 
 
 
 export default function ShoppingItemPage() {
-  const { itemName, itemPrice, itemPriority, itemPlatform, itemCategory, itemNotes, isMarkedAsPurchased } = useLocalSearchParams();
-  const [isPurchased, setIsPurchased] = useState(isMarkedAsPurchased === 'true' ? true : false);
+  const { itemId, itemCategoryName } = useLocalSearchParams();
+  const singleItemId = Array.isArray(itemId) ? itemId[0] : itemId;
+ 
+  const [shoppingItem, setShoppingItem] = useState<ExtendedShoppingItemInsert | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isPurchased, setIsPurchased] = useState(false);
 
-  let isNotesEmpty = true;
+  const updateItemPurchaseStatus = async (itemId: string) => {
+    try{
+      console.log("HERE")
+      
+      const { data, error } = await supabase
+        .from('shopping_items')
+        .update({ is_purchased: !isPurchased })
+        .eq('id', itemId)
+        .select();
 
-  if(itemNotes){
-    if(itemNotes.length > 0){
-      isNotesEmpty = false;
+      if(error){
+        console.error("Error updating item purchase status:", error.message);
+      }
+
+      if(data){
+        console.log("Item purchase status updated:", data);
+        setIsPurchased(!isPurchased);
+      }
+
+    }catch(error){
+      console.error("Error updating item purchase status:", error);
     }
+
   }
+
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchShoppingItem = async () => {
+        const res = await getShoppingItemInfo(singleItemId);
+
+        if(res){
+          console.log(res);
+          setShoppingItem(res);
+          setIsPurchased(res.is_purchased || false);
+
+        }
+        setIsLoading(false);
+      }
+
+      fetchShoppingItem();
+
+    }, [])
+  )
+
+  if(isLoading){
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text className="text-lonestar-950">Loading...</Text>
+      </View>
+    );
+  }
+
+
 
   return (
       <View className="flex flex-col p-[20]"
@@ -51,32 +111,32 @@ export default function ShoppingItemPage() {
         }
 
         <View className="flex flex-col border border-[#f0f0f0] rounded-md p-[15] mx-[10] mb-[20]">
-          <Text className="text-lonestar-700 text-xl mb-[20]" fontVariant="Bold">{itemName}</Text>
+          <Text className="text-lonestar-700 text-xl mb-[20]" fontVariant="Bold">{shoppingItem?.product_title}</Text>
 
           <View className="flex flex-col mb-[20]">
             <Text className="text-lonestar-800 text-xs mb-[3]" fontVariant="Bold">Category</Text>
-            <Text className="text-lonestar-950 text-xs" fontVariant="Regular">{itemCategory}</Text>
+            <Text className="text-lonestar-950 text-xs" fontVariant="Regular">{shoppingItem?.category_name || `N/A`}</Text>
           </View>
 
           <View className="flex flex-col mb-[20]">
             <Text className="text-lonestar-800 text-xs mb-[3]" fontVariant="Bold">Priority</Text>
-            <Text className="text-lonestar-950 text-xs" fontVariant="Regular">{itemPriority}</Text>
+            <Text className="text-lonestar-950 text-xs" fontVariant="Regular">{shoppingItem?.priority || `N/A`}</Text>
           </View>
 
           <View className="flex flex-col mb-[20]">
             <Text className="text-lonestar-800 text-xs mb-[3]" fontVariant="Bold">Price</Text>
-            <Text className="text-lonestar-950 text-xs" fontVariant="Regular">{itemPrice}</Text>
+            <Text className="text-lonestar-950 text-xs" fontVariant="Regular">{shoppingItem?.price}</Text>
           </View>
 
           <View className="flex flex-col mb-[20]">
             <Text className="text-lonestar-800 text-xs mb-[3]" fontVariant="Bold">Shopping Platform</Text>
-            <Text className="text-lonestar-950 text-xs" fontVariant="Regular">{itemPlatform}</Text>
+            <Text className="text-lonestar-950 text-xs" fontVariant="Regular">{shoppingItem?.shopping_platform}</Text>
           </View>
 
           <View className="flex flex-col mb-[20]">
             <Text className="text-lonestar-800 text-xs mb-[3]" fontVariant="Bold">Notes</Text>
             <Text className="text-lonestar-950 text-xs" fontVariant="Regular">
-              {isNotesEmpty === false ? itemNotes : 'No notes available'}
+              {shoppingItem?.notes && shoppingItem?.notes.length > 0 ? shoppingItem?.notes : 'No notes available'}
             </Text>
           </View>
 
@@ -88,8 +148,9 @@ export default function ShoppingItemPage() {
         </View>
 
         <Button  className="bg-lonestar-500 mb-[8] mx-[18]" onPress={() => {
-          setIsPurchased(!isPurchased);
+            updateItemPurchaseStatus(singleItemId);
         }}>
+          {/* TODO: Probably implement a spinner */}
           <Text className='text-white text-sm text-center'>
             {isPurchased ? 'Mark as Unpurchased' : 'Mark as Purchased'}
           </Text>
@@ -99,6 +160,10 @@ export default function ShoppingItemPage() {
           router.push({
             //@ts-ignore
             pathname: "/(item-page)/modify-item",
+            params: {
+              itemId: itemId,
+              itemCategoryName: itemCategoryName
+          }
           });
         }}>
           <Text className='text-lonestar-600 text-sm text-center h-full'>

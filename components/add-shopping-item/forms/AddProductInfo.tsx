@@ -42,6 +42,8 @@ import {
 import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
 import { ItemCategoryRow } from "@/constants/types";
 import { addCategory } from "@/utils/methods/add-category";
+import { addShoppingItem } from "@/utils/methods/add-shopping-item";
+import { set } from "date-fns";
 
 
 interface Props{
@@ -52,6 +54,7 @@ interface Props{
 
 export default function AddProductInfo({ userId, categories, onChangeCategory }: Props) {
   const [open, setOpen] = useState(false);
+  const [selectedCategoryLabel, setSelectedCategoryLabel] = useState<string>("");
 
   useEffect(() => {
     console.log("USER ID FROM ADDPRODUCTINFO COMPONENT: " + userId);
@@ -64,9 +67,29 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
     },
   });
 
-  function onSubmit(values: z.infer<typeof addProductInformationSchema>) {
+
+
+  async function onSubmit(values: z.infer<typeof addProductInformationSchema>) {
     // TODO: Do something with the form values and navigate to a certain page.
     console.log(values);
+
+    const res = await addShoppingItem(values, userId);
+
+    if(res){
+      console.log("New Shopping Item Added:", res);
+      router.push({
+        pathname: '/(item-page)/shopping-item',
+        params: {
+            itemId: res.id,
+            itemCategory: res.category_id,
+            itemCategoryName: selectedCategoryLabel,
+            isMarkedAsPurchased: res.is_purchased ? 'true' : 'false',
+        }
+    });
+    }else{
+      console.log("Error adding shopping item");
+    }
+
   }
 
   const onError: SubmitErrorHandler<AddProductInformationSchema> = (
@@ -232,8 +255,9 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
                 return (
                   <Select
                     onValueChange={(selectedValue) => {
-                      onChange(selectedValue?.label);
-                      console.log(selectedValue?.label);
+                      onChange(selectedValue?.value);
+                      setSelectedCategoryLabel(selectedValue?.label || "");
+                      console.log(selectedValue?.value);
                     }}
                     className="mb-[10] w-full"
                   >
@@ -250,7 +274,7 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
                           <SelectItem
                             key={index}
                             label={category.category_name}
-                            value={category.category_name}
+                            value={category.id}
                           >
                             {category.category_name}
                           </SelectItem>
@@ -280,7 +304,7 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
                 return (
                   <Select
                     onValueChange={(selectedValue) => {
-                      onChange(selectedValue?.value);
+                      onChange(selectedValue?.label);
                     }}
                     className="mb-[10]"
                   >
@@ -293,15 +317,9 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
                     <SelectContent className="w-[250px]">
                       <SelectGroup>
                         <SelectLabel>Priorities</SelectLabel>
-                        <SelectItem label="High" value="high">
-                          Apple
-                        </SelectItem>
-                        <SelectItem label="Medium" value="medium">
-                          Banana
-                        </SelectItem>
-                        <SelectItem label="Low" value="low">
-                          Blueberry
-                        </SelectItem>
+                        <SelectItem label="High" value="High"/>
+                        <SelectItem label="Mid" value="Mid"/>
+                        <SelectItem label="Low" value="Low"/>
                       </SelectGroup>
                     </SelectContent>
                   </Select>

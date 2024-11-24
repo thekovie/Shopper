@@ -2,7 +2,7 @@ import z from 'zod';
 
 const FIELD_REQUIRED_STR = 'This field is required';
 
-export const PRIORITY_OPTIONS = ['high', 'medium', 'low'] as const;
+export const PRIORITY_OPTIONS = ['High', 'Mid', 'Low'] as const;
 
 export const addProductLinkSchema = z.object({
     productLink: z
@@ -48,7 +48,7 @@ export const addProductInformationSchema = z.object({
         required_error: FIELD_REQUIRED_STR,
       })
       .min(3, 'Minimum 3 characters')
-      .max(30, 'Maximum 30 characters')
+      .max(50, 'Maximum 50 characters')
       .trim(),
     productLink: z
       .string({
@@ -75,14 +75,15 @@ export const addProductInformationSchema = z.object({
         required_error: FIELD_REQUIRED_STR,
       })
       .min(3, 'Minimum 3 characters')
-      .max(20, 'Maximum 20 characters')
-      .trim(),
+      .trim()
+      .optional(),
     priority: z.enum(PRIORITY_OPTIONS, {
         required_error: FIELD_REQUIRED_STR,
         invalid_type_error: `Invalid priority, must be one of the followings: ${PRIORITY_OPTIONS.join(
             ', '
         )}`,
-    }),
+    })
+    .optional(),
     notes: z
       .string({
         invalid_type_error: 'Category platform must be a string',
@@ -90,7 +91,8 @@ export const addProductInformationSchema = z.object({
       })
       .min(3, 'Minimum 3 characters')
       .max(100, 'Maximum 100 characters')
-      .trim(),
+      .trim()
+      .optional(),
     
 })
 

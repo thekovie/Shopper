@@ -1,12 +1,12 @@
 import { View, StatusBar, ScrollView, TouchableOpacity } from "react-native";
 import { Platform } from "react-native";
 import { Text } from "@/components/ui/text";
-import { useLocalSearchParams } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams } from 'expo-router';
 import ListShoppingItem from "@/components/list/ListShoppingItem";
 import { ListShoppingItemProps, ShoppingItemRow } from "@/constants/types";
 import { ArrowLeft, ArrowDownUp, Settings } from "@/lib/icons"
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { fetchShoppingItems } from "@/utils/methods/fetch-shopping-items";
 import ModifyCategory from "@/components/add-shopping-item/forms/ModifyCategory";
 
@@ -19,16 +19,21 @@ export default function PurchasedItems() {
 
     const [shoppingItems, setShoppingItems] = useState<ShoppingItemRow[] | null>(null);
 
-    useEffect(() => {
-      fetchShoppingItems(categoryId).then((data) => {
-        if(data){
-          console.log(data);
-          setShoppingItems(data);
-        }else{
-          console.log("No data found");
-        }
-      })
-    }, [])
+    useFocusEffect(
+      useCallback(() => {
+        fetchShoppingItems(categoryId).then((data) => {
+          if(data){
+            setShoppingItems(data);
+            console.log(data);
+            // console.log("Data found");
+            // console.log(typeof(data[0].is_purchased))
+            
+          }else{
+            console.log("No data found");
+          }
+        })
+      }, [])
+    );
 
 
   return (
@@ -85,6 +90,7 @@ export default function PurchasedItems() {
           {shoppingItems?.map((shoppingItem, index) => (
               <View key={index} className='mb-[20]'>
                   <ListShoppingItem 
+                      id={shoppingItem.id}
                       product_title={shoppingItem.product_title} 
                       price={shoppingItem.price!} 
                       priority={shoppingItem.priority} 

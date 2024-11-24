@@ -2,11 +2,14 @@ import React from 'react';
 import { View } from 'react-native';
 import { Text } from '@/components/ui/text'
 import ListShoppingItem from '@/components/list/ListShoppingItem';
-import { RecentFindsProps } from '@/constants/types';
+import { ExtendedShoppingItemInsert } from '@/constants/types';
 
 
+interface Props{
+    shoppingItems: ExtendedShoppingItemInsert[] | null;
+}
 
-function RecentFinds({ data }: RecentFindsProps) {
+function RecentFinds({ shoppingItems }: Props) {
     
     return (
         <View className="flex flex-col bg-lonestar-50 py-[20] px-[15] rounded-xl mb-[24]">
@@ -20,19 +23,22 @@ function RecentFinds({ data }: RecentFindsProps) {
 
             <View className='flex flex-col overflow-hidden'>
                 
-                {data.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory, itemNotes, isMarkedAsPurchased}, index) => (
-                    <View key={index} className='mb-[20]'>
-                        <ListShoppingItem 
-                            itemName={itemName}
-                            itemPrice={itemPrice} 
-                            itemPriority={itemPriority} 
-                            itemPlatform={itemPlatform} 
-                            itemCategory={itemCategory} 
-                            itemNotes={itemNotes}
-                            isMarkedAsPurchased={isMarkedAsPurchased}
-                        />
-                    </View>
-                ))}     
+            {shoppingItems?.map((shoppingItem, index) => (
+              <View key={index} className='mb-[20]'>
+                  <ListShoppingItem 
+                      id={shoppingItem.id}
+                      product_title={shoppingItem.product_title} 
+                      price={shoppingItem.price!} 
+                      priority={shoppingItem.priority} 
+                      shopping_platform={shoppingItem.shopping_platform} 
+                      category_id={shoppingItem.category_id} 
+                      notes={shoppingItem.notes} 
+                      is_purchased={shoppingItem.is_purchased}
+                      user_id={shoppingItem.user_id}
+                      category_name={shoppingItem.category_name}
+                  />
+              </View>
+            ))}    
             </View>
 
         </View>

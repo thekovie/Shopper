@@ -35,17 +35,20 @@ import { ItemCategoryRow } from '@/constants/types';
 
 import { useFocusEffect } from 'expo-router';
 import { useCallback } from 'react';
+import { set } from 'date-fns';
 
 
 export default function Tab() {
 
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState<string>("");
-  const [refreshTrigger, setRefreshTrigger] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [categories, setCategories] = useState<ItemCategoryRow[] | null>(null);
 
-  useFocusEffect(() => {
+  useFocusEffect(
+    useCallback(() => {
       fetchSession().then(async (session) => {
+        setIsLoading(true);
         if(!session){
           console.log("NO SESSION");
         }else{
@@ -58,10 +61,11 @@ export default function Tab() {
             console.log("No categories found");
           }
         }
-  
-  
       })
-  })
+      .finally(() => setIsLoading(false));
+    }, [])
+      
+  )
   
 
 
@@ -89,24 +93,26 @@ export default function Tab() {
     
   };
 
-  function onSubmit(values: z.infer<typeof addCategorySchema>) {
-    //handleAddCategory(values.category);
-    setOpen(false);
-  }
-
-  const onError: SubmitErrorHandler<AddCategorySchema> = (
-    errors,
-    e
-  ) => {
-    console.log(JSON.stringify(errors));
-  };
-
 
   const priorities = [
     { label: "High", Icon: Star },
     { label: "Mid", Icon: Star },
     { label: "Low", Icon: Star },
   ]
+
+  if(isLoading){
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text className="text-lonestar-950">Loading...</Text>
+      </View>
+    );
+  }
 
 
   return (
@@ -186,7 +192,12 @@ export default function Tab() {
         <View className="flex flex-col">
           <TouchableOpacity className="flex flex-row justify-between items-center mb-[20]"
             onPress={() => {
-              router.push("/(shopping-list-menu)/recent-finds")
+              router.push({
+                pathname: '/(shopping-list-menu)/recent-finds',
+                params: {
+                  user_id: userId,
+                }
+              })
             }}
           >
             <Text className="text-lonestar-950 text-xs" fontVariant="Medium">
@@ -197,7 +208,12 @@ export default function Tab() {
 
           <TouchableOpacity className="flex flex-row justify-between items-center mb-[20]" 
             onPress={() => {
-              router.push("/(shopping-list-menu)/purchased-items")
+              router.push({
+                pathname: '/(shopping-list-menu)/purchased-items',
+                params: {
+                  user_id: userId,
+                }
+              })
             }}
           >
             <Text 
