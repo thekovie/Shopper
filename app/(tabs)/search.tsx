@@ -16,7 +16,6 @@ export default function Tab() {
   const [searchInput, setSearchInput] = useState('');
   const [recentShoppingItems, setRecentShoppingItems] = useState<ExtendedShoppingItemInsert[] | null>(null);
   const [shoppingItemsResults, setShoppingItemsResults] = useState<ExtendedShoppingItemInsert[] | null>(null);
-  const [session, setSession] = useState<Session | null>(null)
   const [userId, setUserId] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -29,6 +28,7 @@ export default function Tab() {
           console.log("NO SESSION");
         }else{
           setUserId(session.user.id);
+          console.log("SESISON ID: ", session.user.id);
           const res = await getRecentShoppingItems(session.user.id, 4);
           if(res){
             setRecentShoppingItems(res);
@@ -42,6 +42,7 @@ export default function Tab() {
 
   const fetchSearchResults = useCallback(
     _.throttle(async (searchInput: string) => {
+      console.log("USER ID: " + userId);
       if (searchInput.length > 0) {
         const { data, error } = await supabase
         .from("shopping_items")
@@ -63,7 +64,7 @@ export default function Tab() {
           );
         }
       }
-    }, 750), []
+    }, 750), [userId]
   )
 
   const handleSearchInput = (searchInput: string) => {
