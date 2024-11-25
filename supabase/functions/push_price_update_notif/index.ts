@@ -13,7 +13,7 @@ const supabaseServiceKey =
 
 const supabase = createClient(
   supabaseUrl,
-  supabaseServiceKey!,
+  supabaseServiceKey,
 );
 
 console.log("Hello from Functions!");
@@ -27,7 +27,7 @@ interface Notification {
 }
 
 interface WebhookPayload {
-  type: "INSERT" | "UPDATE";
+  type: "INSERT" | "UPDATE" | "DELETE";
   table: string;
   record: Notification;
   schema: "public";
@@ -41,30 +41,43 @@ Deno.serve(async (req) => {
   const payload: WebhookPayload = await req.json();
   console.log("Received Payload:", payload);
 
-  const { data } = await supabase
+  console.log("USER ID: " + payload.record.user_id);
+
+  const { data, error } = await supabase
     .from("profiles")
     .select("expo_push_token")
     .eq("id", payload.record.user_id)
-    .single();
+    .limit(1);
 
-  const res = await fetch("https://exp.host/--/api/v2/push/send", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${Deno.env.get("EXPO_ACCESS_TOKEN")}`,
-    },
-    body: JSON.stringify({
-      "to": data?.expo_push_token,
-      "sound": "default",
-      "title": payload.record.title,
-      "body": payload.record.message,
-    }),
-  }).then((res) => res.json());
+  if (error) {
+    console.error("ERROR: " + error.message);
+  }
 
-  return new Response(
-    JSON.stringify(res),
-    { headers: { "Content-Type": "application/json" } },
-  );
+  if (data) {
+    console.log("SUCCESS DATA RETRIEVED FORM SUPABASE");
+    console.log(data);
+
+    const res = await fetch("https://exp.host/--/api/v2/push/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${Deno.env.get("EXPO_ACCESS_TOKEN")}`,
+      },
+      body: JSON.stringify({
+        "to": data[0]?.expo_push_token,
+        "sound": "default",
+        "title": payload.record.title,
+        "body": payload.record.message,
+      }),
+    }).then((res) => res.json());
+
+    return new Response(
+      JSON.stringify(res),
+      { headers: { "Content-Type": "application/json" } },
+    );
+  }
+
+  return new Response("ok");
 });
 
 /* To invoke locally:
