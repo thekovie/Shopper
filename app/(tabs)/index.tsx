@@ -12,6 +12,7 @@ import { ExtendedShoppingItemInsert, ItemCategoryRow, ListShoppingItemProps, Rec
 import { fetchCategories } from "@/utils/methods/fetch-categories";
 import { Href, router, useFocusEffect } from "expo-router";
 import { useCallback } from "react";
+import Push from "@/components/expo-push-example/Push";
 
 import {
   AlertDialog,
@@ -39,6 +40,7 @@ export default function Tab() {
   const [open, setOpen] = useState(false);
   const [isPriorityOpen, setIsPriorityOpen] = useState(false);
   const [itemCount, setItemCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const numberOfItems = 700;
 
@@ -84,45 +86,6 @@ export default function Tab() {
 
 
 
-
-
-  const sampleItemsData: ListShoppingItemProps[] = [
-    {
-        itemName: 'iPhone 15 Pro Max Case Fully Loaded',
-        itemPrice: 700,
-        itemPriority: 'Priority',
-        itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets',
-        isMarkedAsPurchased: false
-    },
-    {
-        itemName: 'iPhone 15 Pro Max Case Fully Loaded',
-        itemPrice: 700,
-        itemPriority: 'Priority',
-        itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets',
-        isMarkedAsPurchased: false
-    },
-    {
-        itemName: 'iPhone 15 Pro Max Case Fully Loaded',
-        itemPrice: 700,
-        itemPriority: 'Priority',
-        itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & Gadgets',
-        isMarkedAsPurchased: false
-    },
-    {
-        itemName: 'iPhone 15 Pro Max Case Fully Loaded',
-        itemPrice: 700,
-        itemPriority: 'Priority',
-        itemPlatform: 'Shopee',
-        itemCategory: 'Mobiles & GadgetsAWDAWDAWDAWDAWD ABWVDHGAWDVGHAW AHGJWDGHAWDGHAWD  HGAWDGHAWDGH',
-        isMarkedAsPurchased: false
-    }
-]
-
-
-
   return (
    <ScrollView className="flex flex-1 flex-col p-[20]"
       style={{
@@ -151,7 +114,8 @@ export default function Tab() {
           >
             {itemCount}
           </Text>
-          <Text className="text-lonestar-50">Items in your list. Keep hauling!</Text>
+          <Text className="text-lonestar-50">Items in your list. Keep hauling! { session ? 'Wow' : 'Nah' }</Text>
+          {session && <Push session={session} />}
         </View>
         <ShoppingBag className="text-lonestar-50" size={64} />
       </View>
