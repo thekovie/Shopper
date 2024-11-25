@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { Pressable, View } from "react-native";
 import { Text } from "@/components/ui/text";
 import ListShoppingItem from "@/components/list/ListShoppingItem";
 import { ExtendedShoppingItemInsert } from "@/constants/types";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
+import { fetchSession } from "@/utils/methods/fetch-session";
 
 interface Props {
   shoppingItems: ExtendedShoppingItemInsert[] | null;
 }
 
 function RecentFinds({ shoppingItems }: Props) {
-  const userId = shoppingItems?.[0].user_id;
+  const [userId, setUserId] = useState<string>("");
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchSession().then((session) => {
+        if (!session) {
+          console.log("NO SESSION");
+        } else {
+          setUserId(session.user.id);
+        }
+      });
+    }, []),
+  );
 
   return (
     <View className="mb-[24] flex flex-col rounded-xl bg-lonestar-50 px-[15] py-[20]">
