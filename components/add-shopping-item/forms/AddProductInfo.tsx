@@ -368,13 +368,20 @@ export default function AddProductInfo({
                 fieldState: { error },
               }) => {
                 return (
-                  <Textarea
-                    placeholder="Enter your notes or remarks here."
-                    onBlur={onBlur}
-                    value={value}
-                    className="mb-[20]"
-                    onChangeText={onChange}
-                  />
+                  <View className="mb-[20]">
+                    <Textarea
+                      placeholder="Enter your notes or remarks here."
+                      onBlur={onBlur}
+                      value={value}
+                      className="mb-[20]"
+                      onChangeText={onChange}
+                    />
+                    {error && (
+                      <Text className="text-xs text-red-500">
+                        {error.message}
+                      </Text>
+                    )}
+                  </View>
                 );
               }}
             />
