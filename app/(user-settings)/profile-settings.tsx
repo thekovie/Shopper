@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useState, useEffect } from "react";
-import { View, Platform, ScrollView, StatusBar, TouchableOpacity, BackHandler } from 'react-native';
+import { View, Platform, ScrollView, StatusBar, TouchableOpacity, BackHandler, Alert } from 'react-native';
 import { Text } from '@/components/ui/text';
 import CancelChangesPage from '@/components/add-shopping-item/CancelChanges';
 import { ArrowLeft } from '@/lib/icons';
@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 
 import {
     AlertDialog,
@@ -31,6 +31,9 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
+import { fetchSession } from '@/utils/methods/fetch-session';
+import { Session } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
 
 
 
@@ -38,12 +41,34 @@ import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
 function ProfileSettings() {
     const [isDiscardChangesDialogOpen, setDiscardChangesDialogOpen] = useState(false);
     const [isConfirmDialogOpen, setConfirmDialogOpen] = useState(false);
+    const [session, setSession] = useState<Session | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchSession().then(async (session) => {
+                if(!session){
+                    console.log("NO SESSION");
+                }else{
+                    console.log("SESSION FOUND", session);
+                    setSession(session);
+                    form.reset({
+                        displayName: session.user.user_metadata.display_name || "",
+                        email: session.user.email || "",
+                        password: "",
+                        confirmPassword: "",
+                      });
+                }
+            })
+            .finally(() => setIsLoading(false));
+        }, [])
+    )
 
     const form = useForm<ModifyProfileSettingsSchema>({
         resolver: zodResolver(modifyProfileSettingsSchema),
         defaultValues: {
-            displayName: "",
-            email: "",
+            displayName: session?.user.user_metadata.display_name,
+            email: session?.user.email,
             password: "",
             confirmPassword: ""
         },
@@ -54,20 +79,51 @@ function ProfileSettings() {
     const password = watch("password");
     const confirmPassword = watch("confirmPassword");
 
-    function onSubmit(values: z.infer<typeof modifyProfileSettingsSchema>) {
+    async function onSubmit(values: z.infer<typeof modifyProfileSettingsSchema>) {
     // TODO: Do something with the form values and navigate to a certain page.
 
-        
         console.log(values);
-        if(password === values.confirmPassword){
-            if(router.canGoBack()){
-                console.log("Submitted.")
-                setConfirmDialogOpen(false);
-                router.back();
+        if(values.displayName && values.displayName !== session?.user.user_metadata.display_name){
+            const { data, error } = await supabase.auth.updateUser({
+                data: { display_name: values.displayName }
+            })
+
+            if(error){
+                console.error("Error updating display name:", error.message);
+            }else{
+                console.log("Display name updated:", data);
+            }
+        }
+
+        if(values.email && values.email !== session?.user.email){
+            const { data, error } = await supabase.auth.updateUser({
+                email: values.email
+              })
+
+            if(error){
+                console.error("Error updating email:", error.message);
+            }else{
+                console.log("Email updated:", data);
+            }
+        }
+
+        if(password && password === values.confirmPassword){
+            const { data, error } = await supabase.auth.updateUser({
+                password: values.password
+            })
+
+            if(error){
+                console.error("Error updating password:", error.message);
+            }else{
+                console.log("Password updated:", data);
             }
         }else{
             console.log("Passwords do not match");
         }
+ 
+        setConfirmDialogOpen(false);
+        router.back();
+
         
         
     }
@@ -76,6 +132,7 @@ function ProfileSettings() {
         errors,
         e,
     ) => {
+        Alert.alert(JSON.stringify(errors));
         console.log(JSON.stringify(errors));
     };
 
@@ -92,6 +149,22 @@ function ProfileSettings() {
         return () => backHandler.remove();
       }, []);
 
+
+
+
+      if(isLoading){
+        return (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text className="text-lonestar-950">Loading...</Text>
+          </View>
+        );
+    }
     return (
         <ScrollView className="flex flex-col p-[20]"
                 style={{
@@ -234,7 +307,7 @@ function ProfileSettings() {
                         );
                     }}
                     />
-                    {password !== confirmPassword && confirmPassword.length > 0 && 
+                    {password && password !== confirmPassword  && 
                         <Text className="text-lonestar-500 text-xs mt-[4]">
                             Passwords do not match!
                         </Text>
@@ -247,7 +320,10 @@ function ProfileSettings() {
                         <Button
                             className='bg-lonestar-500 mb-[8]'
                             onPress={() => {
-                                setConfirmDialogOpen(true);
+                                if(!(password && password !== confirmPassword)){
+                                    setConfirmDialogOpen(true);
+                                }
+                                
                             }}
                         >
                             <Text
