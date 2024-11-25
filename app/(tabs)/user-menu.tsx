@@ -17,7 +17,7 @@ export default function Tab() {
         router.dismissAll();
       } else {
         router.replace({
-          pathname: "/",
+          pathname: "/register",
         });
       }
     }
@@ -48,7 +48,7 @@ export default function Tab() {
 
           <TouchableOpacity
             className="mb-[20] flex flex-row items-center justify-between"
-            onPress={() => router.push("/(user-settings)/quick-guide")}
+            onPress={() => router.push("/(onboarding)/")}
           >
             <View className="flex flex-row">
               <HelpCircle size={16} className="mr-[10] text-lonestar-950" />
