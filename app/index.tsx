@@ -80,7 +80,7 @@ export default function Index() {
       console.log(error.message);
     } else {
       if (userData.session) {
-        Alert.alert("Successfully logged in! " + userData.user.id);
+        // Alert.alert("Successfully logged in! " + userData.user.id);
         const { data: userProfile, error } = await supabase
           .from("profiles")
           .select("has_onboarded")
