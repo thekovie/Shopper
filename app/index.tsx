@@ -22,8 +22,8 @@ import {
 } from "react-hook-form";
 
 export default function Index() {
-  const { setLoading, setText } = useLoadingContext();
   const [session, setSession] = useState<Session | null>(null);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     const initializeSession = async () => {
@@ -109,6 +109,20 @@ export default function Index() {
   const onError: SubmitErrorHandler<SignInAccountSchema> = (errors, e) => {
     console.log(JSON.stringify(errors));
   };
+
+  if (isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text className="text-lonestar-950">Loading...</Text>
+      </View>
+    );
+}
 
   return (
     <View

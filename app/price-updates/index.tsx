@@ -47,7 +47,7 @@ import { getFewDaysAgoItemPriceUpdates, getItemPriceUpdates, getTodayItemPriceUp
     useFocusEffect(
         useCallback(() => {
           const fetchItemPriceUpdates = async () => {
-    
+            console.log("FETCHING ITEM PRICE UPDATES");
             const todayRes = await getTodayItemPriceUpdates(userId, 3);
             const yesterdayRes = await getYesterdayItemPriceUpdates(userId, 3);
             const fewDaysAgoRes = await getFewDaysAgoItemPriceUpdates(userId, 7);

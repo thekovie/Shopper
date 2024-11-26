@@ -66,6 +66,7 @@ export default function Tab() {
   const numberOfItems = 700;
 
   const fetchAndSetCategories = async () => {
+    setIsLoading(true);
     const {
       data: { session },
     } = await supabase.auth.getSession();
@@ -82,6 +83,8 @@ export default function Tab() {
         setRecentShoppingItems(res);
       }
     }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -106,6 +109,20 @@ export default function Tab() {
       fetchAndSetCategories();
     }, [session]),
   );
+
+  if (isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text className="text-lonestar-950">Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView
