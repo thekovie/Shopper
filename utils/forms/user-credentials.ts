@@ -65,22 +65,27 @@ export const modifyProfileSettingsSchema = z.object({
         invalid_type_error: 'Name must be a string',
         required_error: FIELD_REQUIRED_STR,
       })
-      .min(3, 'Minimum 3 characters'),
+      .min(3, 'Minimum 3 characters')
+      .optional(),
     email: z
       .string({
         invalid_type_error: 'Name must be a string',
         required_error: FIELD_REQUIRED_STR,
-      }),
+      })
+      .email('Invalid email address')
+      .optional(),
     password: z
       .string({
         invalid_type_error: 'Name must be a string',
         required_error: FIELD_REQUIRED_STR,
-      }),
+      })
+      .optional(),
     confirmPassword: z
       .string({
         invalid_type_error: 'Name must be a string',
         required_error: FIELD_REQUIRED_STR,
-      }),
+      })
+      .optional(),
   
 });
 
