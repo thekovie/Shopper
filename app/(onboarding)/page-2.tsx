@@ -3,6 +3,7 @@ import { View, StatusBar, Platform, ScrollView } from "react-native";
 import { Text } from "@/components/ui/text";
 import { Button } from "@/components/ui/button";
 import { router } from "expo-router";
+import { Image } from "react-native";
 
 const Page2 = () => {
   return (
@@ -14,25 +15,31 @@ const Page2 = () => {
       }}
       className={""}
     >
-      <View style={{ height: "50%" }} className={"bg-black"}></View>
+      <View style={{ height: "50%" }}>
+        <Image
+          source={require("@/assets/images/onboarding-imgs/2.png")}
+          className={"h-full w-full"}
+        />
+      </View>
       <ScrollView className={"mt-10 h-full bg-white px-8"}>
         <Text className={"text-2xl text-lonestar-600"} fontVariant={"Bold"}>
-          Short Title 2
+          Get Organized, Your Way
         </Text>
         <Text className={"mt-4 text-base text-lonestar-700"}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
+          Categorize your items as “Needs” or “Wants,” sort by price, create
+          custom categories to arrange your shopping items to match your
+          priorities.
         </Text>
         <View className={"mt-10 flex-row justify-end"}>
           <Button
             onPress={() => {
-              if(router.canGoBack()) {
+              if (router.canGoBack()) {
                 router.back();
               }
             }}
-            className={"mb-10 mr-2 bg-white text-lonestar-500 border border-lonestar-600"}
+            className={
+              "mb-10 mr-2 border border-lonestar-600 bg-white text-lonestar-500"
+            }
           >
             <Text className={"text-lonestar-600"}>Previous</Text>
           </Button>
