@@ -41,3 +41,29 @@ export type ItemPriceUpdateRow =
     Database["public"]["Tables"]["price_updates"]["Row"];
 export type ItemPriceUpdateInsert =
     Database["public"]["Tables"]["price_updates"]["Insert"];
+
+export type PriceUpdate = {
+    created_at: string; // ISO timestamp
+    id: number;
+    message: string;
+    price: number;
+    shopping_items: ShoppingItem;
+    title: string;
+};
+
+export type ShoppingItem = {
+    id: string; // UUID
+    is_purchased: boolean;
+    item_categories: ItemCategory | null; // Nullable if no category exists
+    notes: string | null; // Nullable if no notes
+    price: number | null; // Nullable if no price is set
+    priority: string | null; // Nullable if no priority
+    product_link: string | null; // Nullable if no link
+    product_title: string;
+    shopping_platform: string | null; // Nullable if no platform
+};
+
+export type ItemCategory = {
+    id: string; // UUID
+    category_name: string;
+};

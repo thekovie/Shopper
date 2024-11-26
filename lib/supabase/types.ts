@@ -42,25 +42,28 @@ export type Database = {
         Row: {
           created_at: string
           id: number
-          message: string | null
-          shopping_id: string | null
-          title: string | null
+          message: string
+          price: number
+          shopping_id: string
+          title: string
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: number
-          message?: string | null
-          shopping_id?: string | null
-          title?: string | null
+          message: string
+          price: number
+          shopping_id: string
+          title: string
           user_id: string
         }
         Update: {
           created_at?: string
           id?: number
-          message?: string | null
-          shopping_id?: string | null
-          title?: string | null
+          message?: string
+          price?: number
+          shopping_id?: string
+          title?: string
           user_id?: string
         }
         Relationships: [

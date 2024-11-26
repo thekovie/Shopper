@@ -120,7 +120,12 @@ export default function Tab() {
         </Text>
         <TouchableOpacity
                     className="flex flex-col items-center justify-center"
-                    onPress={() => router.push('/price-updates')}>
+                    onPress={() => router.push({
+                      pathname: '/price-updates',
+                      params: {
+                        user_id: session?.user.id,
+                      }
+                    })}>
           <Bell className="text-lonestar-400" size={24} />
         </TouchableOpacity>
         

@@ -24,9 +24,6 @@ export default function RecentFinds() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const todayStart = format(startOfDay(new Date()), "yyyy-MM-dd HH:mm:ss");
-  const yesterdayStart = format(startOfDay(subDays(new Date(), 1)), "yyyy-MM-dd HH:mm:ss");
-
 
   useFocusEffect(
     useCallback(() => {
