@@ -150,7 +150,7 @@ export default function ModifyProductInfo({
                       placeholder="Enter your product name"
                       onBlur={onBlur}
                       value={value}
-                      className="mb-1"
+                      className="mb-1 bg-white border-[#e4e4e7] text-lonestar-600 placeholder:text-lonestar-300"
                       onChangeText={onChange}
                     />
                     {error && (
@@ -184,7 +184,7 @@ export default function ModifyProductInfo({
                       placeholder="https://example.com/product-id"
                       onBlur={onBlur}
                       value={value}
-                      className="mb-1"
+                      className="mb-1 bg-white border-[#e4e4e7] text-lonestar-600 placeholder:text-lonestar-300"
                       onChangeText={onChange}
                     />
                     {error && (
@@ -218,7 +218,7 @@ export default function ModifyProductInfo({
                       placeholder="Enter shopping platform (ex. Shopee, Lazada)"
                       onBlur={onBlur}
                       value={value}
-                      className="mb-1"
+                      className="mb-1 bg-white border-[#e4e4e7] text-lonestar-600 placeholder:text-lonestar-300"
                       onChangeText={onChange}
                     />
                     {error && (
@@ -256,7 +256,7 @@ export default function ModifyProductInfo({
                       onBlur={onBlur}
                       value={value?.toString() || ""}
                       keyboardType="numeric"
-                      className="mb-1"
+                      className="mb-1 bg-white border-[#e4e4e7] text-lonestar-600 placeholder:text-lonestar-300"
                       onChangeText={(text) => {
                         const numericValue = parseFloat(text);
                         onChange(isNaN(numericValue) ? 0 : numericValue);
@@ -302,9 +302,9 @@ export default function ModifyProductInfo({
                     }}
                     className="mb-[10] w-full"
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-white border-[#e4e4e7]">
                       <SelectValue
-                        className="native:text-lg !text-sm text-foreground"
+                        className="native:text-lg !text-sm text-lonestar-300"
                         placeholder={currentCategoryName || "Select a category"}
                       />
                     </SelectTrigger>
@@ -349,9 +349,9 @@ export default function ModifyProductInfo({
                     }}
                     className="mb-[10]"
                   >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="w-full bg-white border-[#e4e4e7]">
                       <SelectValue
-                        className="native:text-lg !text-sm text-foreground"
+                        className="!text-sm text-lonestar-300"
                         placeholder={
                           shoppingItem?.priority || "Select a priority"
                         }
@@ -397,7 +397,7 @@ export default function ModifyProductInfo({
                       placeholder="Enter your notes or remarks here."
                       onBlur={onBlur}
                       value={value}
-                      className="mb-[20]"
+                      className="mb-[20] !text-sm bg-white border-[#e4e4e7] text-lonestar-600 placeholder:text-lonestar-300"
                       onChangeText={onChange}
                     />
                     {error && (
@@ -423,8 +423,9 @@ export default function ModifyProductInfo({
               <AlertDialogTrigger asChild>
                 <TouchableOpacity>
                   <Button
-                    variant={"outline"}
-                    className="bg-white"
+                    className={
+                      "w-full border border-lonestar-600 bg-white text-lonestar-500"
+                    }
                     onPress={() => {
                       setOpen(true);
                     }}
@@ -462,8 +463,9 @@ export default function ModifyProductInfo({
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <Button
-                    variant={"outline"}
-                    className="bg-white"
+                    className={
+                      "w-full border border-lonestar-600 bg-white text-lonestar-500"
+                    }
                     onPress={() => {
                       setOpen(false);
                       deleteItem(itemId);

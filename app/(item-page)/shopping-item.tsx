@@ -140,7 +140,10 @@ export default function ShoppingItemPage() {
             </Text>
           </View>
 
-          <Button  variant={'outline'} className="bg-white"
+          <Button  
+            className={
+              "w-full border border-lonestar-600 bg-white text-lonestar-500"
+            }
             onPress={() => {
               if(shoppingItem?.product_link){
                 Linking.openURL(shoppingItem?.product_link)
@@ -166,7 +169,7 @@ export default function ShoppingItemPage() {
           </Text>
         </Button>
 
-        <Button  variant={'outline'} className="bg-white mx-[18]" onPress={() => {
+        <Button  className="mx-[18] border border-lonestar-600 bg-white text-lonestar-500" onPress={() => {
           router.push({
             //@ts-ignore
             pathname: "/(item-page)/modify-item",
