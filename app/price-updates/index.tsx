@@ -111,6 +111,17 @@ import { getFewDaysAgoItemPriceUpdates, getItemPriceUpdates, getTodayItemPriceUp
         </View>
 
         <ScrollView className='flex flex-col overflow-hidden px-[10] py-[20] mb-[24]'>      
+
+         { todayItems && todayItems.length === 0 && yesterdayItems && yesterdayItems.length === 0 && fewDaysAgoItems && fewDaysAgoItems.length === 0 &&
+          <View
+            style={{
+              flex: 1,
+ 
+            }}
+          >
+            <Text className="text-lonestar-950">Phew! No price updates so far. Stay tuned to your notifications!</Text>
+          </View>
+         } 
          {todayItems && todayItems.length > 0 &&
             <Text className="text-lonestar-600 text-xs mb-[10]" fontVariant="SemiBold">
               Today
