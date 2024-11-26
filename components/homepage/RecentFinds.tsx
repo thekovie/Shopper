@@ -67,6 +67,13 @@ function RecentFinds({ shoppingItems }: Props) {
             />
           </View>
         ))}
+        {shoppingItems?.length === 0 && (
+          <View className="mb-20 mt-20">
+            <Text className="items-center text-center text-sm text-lonestar-600">
+              No recent finds yet. List them now!
+            </Text>
+          </View>
+        )}
       </View>
     </View>
   );

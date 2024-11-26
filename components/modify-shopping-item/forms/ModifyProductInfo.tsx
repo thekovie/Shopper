@@ -37,26 +37,26 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
-import { ExtendedShoppingItemInsert, ItemCategoryRow, ShoppingItemRow } from "@/constants/types";
+import {
+  ExtendedShoppingItemInsert,
+  ItemCategoryRow,
+  ShoppingItemRow,
+} from "@/constants/types";
 import { addCategory } from "@/utils/methods/add-category";
 import { modifyShoppingItemInfo } from "@/utils/methods/modify-shopping-item-info";
 import { deleteShoppingItem } from "@/utils/methods/delete-shopping-item";
 
 async function deleteItem(itemId: string) {
-  
-  
   const res = await deleteShoppingItem(itemId);
-  if(res){
+  if (res) {
     console.log("Item deleted:", res);
-    while(router.canGoBack()){
+    while (router.canGoBack()) {
       router.back();
     }
-   
   }
-
 }
 
-interface Props{
+interface Props {
   userId: string;
   itemId: string;
   shoppingItem: ExtendedShoppingItemInsert | null;
@@ -65,9 +65,14 @@ interface Props{
   currentCategoryName: string;
 }
 
-
-
-export default function ModifyProductInfo({userId, shoppingItem, categories, currentCategoryName, itemId, onChangeCategory}: Props) {
+export default function ModifyProductInfo({
+  userId,
+  shoppingItem,
+  categories,
+  currentCategoryName,
+  itemId,
+  onChangeCategory,
+}: Props) {
   const [open, setOpen] = useState(false);
 
   const form = useForm<AddProductInformationSchema>({
@@ -78,11 +83,11 @@ export default function ModifyProductInfo({userId, shoppingItem, categories, cur
       category: shoppingItem?.category_id || undefined, // Ensure category is an object or undefined,
       notes: shoppingItem?.notes || undefined,
       priority:
-      shoppingItem?.priority === "High" ||
-      shoppingItem?.priority === "Mid" ||
-      shoppingItem?.priority === "Low"
-        ? shoppingItem.priority
-        : undefined, // Ensure it matches expected values or default to undefined
+        shoppingItem?.priority === "High" ||
+        shoppingItem?.priority === "Mid" ||
+        shoppingItem?.priority === "Low"
+          ? shoppingItem.priority
+          : undefined, // Ensure it matches expected values or default to undefined
       price: shoppingItem?.price || undefined,
       shoppingPlatform: shoppingItem?.shopping_platform || undefined,
     },
@@ -94,14 +99,12 @@ export default function ModifyProductInfo({userId, shoppingItem, categories, cur
 
     const res = await modifyShoppingItemInfo(values, itemId);
 
-    if(res){
+    if (res) {
       console.log("Shopping item info modified:", res);
-       router.back();
-    }else{
+      router.back();
+    } else {
       console.log("Error modifying shopping item info");
     }
-
-   
   }
 
   const onError: SubmitErrorHandler<AddProductInformationSchema> = (
@@ -110,23 +113,21 @@ export default function ModifyProductInfo({userId, shoppingItem, categories, cur
   ) => {
     console.log(JSON.stringify(errors));
   };
-  
 
   const handleAddCategory = async (newCategory: string) => {
     // Update the categories array with the new category
     const res = await addCategory(newCategory, userId);
 
-    if(res){
+    if (res) {
       onChangeCategory(res);
       console.log("New Category Added:", newCategory);
     }
 
     // TODO: Fix type mismatch error
-    
   };
 
   return (
-    <View className="mb-[15%] flex flex-col p-[6]">
+    <View className="mb-[15%] mt-[10] flex flex-col p-[6]">
       <View className="">
         <FormProvider {...form}>
           <View className="flex flex-col">
@@ -144,13 +145,20 @@ export default function ModifyProductInfo({userId, shoppingItem, categories, cur
                 fieldState: { error },
               }) => {
                 return (
-                  <Input
-                    placeholder="Enter your product name"
-                    onBlur={onBlur}
-                    value={value}
-                    className="mb-[20]"
-                    onChangeText={onChange}
-                  />
+                  <View className="mb-[20]">
+                    <Input
+                      placeholder="Enter your product name"
+                      onBlur={onBlur}
+                      value={value}
+                      className="mb-1"
+                      onChangeText={onChange}
+                    />
+                    {error && (
+                      <Text className="text-xs text-red-500">
+                        {error.message}
+                      </Text>
+                    )}
+                  </View>
                 );
               }}
             />
@@ -171,13 +179,20 @@ export default function ModifyProductInfo({userId, shoppingItem, categories, cur
                 fieldState: { error },
               }) => {
                 return (
-                  <Input
-                    placeholder="https://example.com/product-id"
-                    onBlur={onBlur}
-                    value={value}
-                    className="mb-[20]"
-                    onChangeText={onChange}
-                  />
+                  <View className="mb-[20]">
+                    <Input
+                      placeholder="https://example.com/product-id"
+                      onBlur={onBlur}
+                      value={value}
+                      className="mb-1"
+                      onChangeText={onChange}
+                    />
+                    {error && (
+                      <Text className="text-xs text-red-500">
+                        {error.message}
+                      </Text>
+                    )}
+                  </View>
                 );
               }}
             />
@@ -198,13 +213,20 @@ export default function ModifyProductInfo({userId, shoppingItem, categories, cur
                 fieldState: { error },
               }) => {
                 return (
-                  <Input
-                    placeholder="Enter shopping platform (ex. Shopee, Lazada)"
-                    onBlur={onBlur}
-                    value={value}
-                    className="mb-[20]"
-                    onChangeText={onChange}
-                  />
+                  <View className="mb-[20]">
+                    <Input
+                      placeholder="Enter shopping platform (ex. Shopee, Lazada)"
+                      onBlur={onBlur}
+                      value={value}
+                      className="mb-1"
+                      onChangeText={onChange}
+                    />
+                    {error && (
+                      <Text className="text-xs text-red-500">
+                        {error.message}
+                      </Text>
+                    )}
+                  </View>
                 );
               }}
             />
@@ -218,7 +240,7 @@ export default function ModifyProductInfo({userId, shoppingItem, categories, cur
               Price
             </Label>
             <Text className="mb-[10] text-xs text-lonestar-700">
-              As price fluctuates, we will automatically round up the price.
+              The inputted price assumes the currency is in PHP.
             </Text>
             <Controller
               control={form.control}
@@ -228,17 +250,24 @@ export default function ModifyProductInfo({userId, shoppingItem, categories, cur
                 fieldState: { error },
               }) => {
                 return (
-                  <Input
-                    placeholder="Enter amount (e.g., 10, 100, 110, 120)"
-                    onBlur={onBlur}
-                    value={value?.toString() || ""}
-                    keyboardType="numeric"
-                    className="mb-[20]"
-                    onChangeText={(text) => {
-                      const numericValue = parseFloat(text);
-                      onChange(isNaN(numericValue) ? 0 : numericValue);
-                    }}
-                  />
+                  <View className="mb-[20]">
+                    <Input
+                      placeholder="Enter amount (e.g., 10, 100, 110, 120)"
+                      onBlur={onBlur}
+                      value={value?.toString() || ""}
+                      keyboardType="numeric"
+                      className="mb-1"
+                      onChangeText={(text) => {
+                        const numericValue = parseFloat(text);
+                        onChange(isNaN(numericValue) ? 0 : numericValue);
+                      }}
+                    />
+                    {error && (
+                      <Text className="text-xs text-red-500">
+                        {error.message}
+                      </Text>
+                    )}
+                  </View>
                 );
               }}
             />
@@ -255,9 +284,7 @@ export default function ModifyProductInfo({userId, shoppingItem, categories, cur
               <Text className="mb-[10] text-xs text-lonestar-700">
                 Want to add your own category? Click{" "}
               </Text>
-              <AddCategory
-                onAddCategory={handleAddCategory}
-              />
+              <AddCategory onAddCategory={handleAddCategory} />
             </View>
 
             <Controller
@@ -325,7 +352,9 @@ export default function ModifyProductInfo({userId, shoppingItem, categories, cur
                     <SelectTrigger className="w-full">
                       <SelectValue
                         className="native:text-lg !text-sm text-foreground"
-                        placeholder={shoppingItem?.priority || "Select a priority"}
+                        placeholder={
+                          shoppingItem?.priority || "Select a priority"
+                        }
                       />
                     </SelectTrigger>
                     <SelectContent className="w-[250px]">
@@ -363,13 +392,20 @@ export default function ModifyProductInfo({userId, shoppingItem, categories, cur
                 fieldState: { error },
               }) => {
                 return (
-                  <Textarea
-                    placeholder="Enter your notes or remarks here."
-                    onBlur={onBlur}
-                    value={value}
-                    className="mb-[20]"
-                    onChangeText={onChange}
-                  />
+                  <View className="mb-[20]">
+                    <Textarea
+                      placeholder="Enter your notes or remarks here."
+                      onBlur={onBlur}
+                      value={value}
+                      className="mb-[20]"
+                      onChangeText={onChange}
+                    />
+                    {error && (
+                      <Text className="text-xs text-red-500">
+                        {error.message}
+                      </Text>
+                    )}
+                  </View>
                 );
               }}
             />
@@ -415,13 +451,14 @@ export default function ModifyProductInfo({userId, shoppingItem, categories, cur
                     fontVariant="Medium"
                   >
                     This item will be {""}
-                    <Text className="text-xs text-lonestar-700 underline" fontVariant="Medium">
+                    <Text
+                      className="text-xs text-lonestar-700 underline"
+                      fontVariant="Medium"
+                    >
                       permanently deleted
-                    </Text> if you proceed.
+                    </Text>{" "}
+                    if you proceed.
                   </Text>
-
-               
-                  
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <Button
@@ -437,7 +474,9 @@ export default function ModifyProductInfo({userId, shoppingItem, categories, cur
                     </Text>
                   </Button>
                   <Button onPress={() => setOpen(false)}>
-                    <Text className="text-[#ffffff] !text-sm">Oops, bring me back</Text>
+                    <Text className="!text-sm text-[#ffffff]">
+                      Oops, bring me back
+                    </Text>
                   </Button>
                 </AlertDialogFooter>
               </AlertDialogContent>
