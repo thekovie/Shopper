@@ -65,6 +65,11 @@ export default function Tab() {
 
   const numberOfItems = 700;
 
+  const updateStateCategories = (newCategory: ItemCategoryRow) => {
+    setCategories((prevCategories) => [...(prevCategories || []), newCategory]);
+  }
+
+
   const fetchAndSetCategories = async () => {
     setIsLoading(true);
     const {
@@ -407,7 +412,9 @@ export default function Tab() {
         </View>
 
         {/* Add Categories Card*/}
-        {categories && categories.length == 0 && <AddCategories />}
+        {categories && categories.length == 0 && 
+          <AddCategories refreshCategories={fetchAndSetCategories} />
+        }
 
         {/* Add Shopping Item Card */}
         <AddShoppingItem />
