@@ -6,21 +6,25 @@ export interface ListShoppingItemProps {
     itemPriority: string;
     itemPlatform: string;
     itemCategory: string;
-    isMarkedAsPurchased: boolean
+    isMarkedAsPurchased: boolean;
     itemNotes?: string;
 }
 
-export interface RecentFindsProps{
-    data: ListShoppingItemProps[]
+export interface RecentFindsProps {
+    data: ListShoppingItemProps[];
 }
 
 // Categories
-export type ItemCategoryRow = Database["public"]["Tables"]["item_categories"]["Row"];
-export type ItemCategoryInsert = Database["public"]["Tables"]["item_categories"]["Insert"];
+export type ItemCategoryRow =
+    Database["public"]["Tables"]["item_categories"]["Row"];
+export type ItemCategoryInsert =
+    Database["public"]["Tables"]["item_categories"]["Insert"];
 
 // Shopping Items
-export type ShoppingItemRow = Database["public"]["Tables"]["shopping_items"]["Row"];
-export type ShoppingItemInsert = Database["public"]["Tables"]["shopping_items"]["Insert"];
+export type ShoppingItemRow =
+    Database["public"]["Tables"]["shopping_items"]["Row"];
+export type ShoppingItemInsert =
+    Database["public"]["Tables"]["shopping_items"]["Insert"];
 
 // Extend ShoppingItemRow to include category_name
 export type ExtendedShoppingItemRow = ShoppingItemRow & {
@@ -32,3 +36,8 @@ export type ExtendedShoppingItemInsert = ShoppingItemInsert & {
     category_name: string;
 };
 
+// Item Price Updates
+export type ItemPriceUpdateRow =
+    Database["public"]["Tables"]["price_updates"]["Row"];
+export type ItemPriceUpdateInsert =
+    Database["public"]["Tables"]["price_updates"]["Insert"];
