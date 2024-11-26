@@ -140,6 +140,7 @@ export default function Tab() {
           </Text>
           <Text className="text-lonestar-50">Items in your list. Keep hauling! { session ? 'Wow' : 'Nah' }</Text>
         </View>
+        </View>
 
         {/* Category List */}
         <View className="flex flex-col">
@@ -392,7 +393,6 @@ export default function Tab() {
 
         {/* Recent Finds */}
         <RecentFinds shoppingItems={recentShoppingItems} />
-      </View>
       </View>
     </ScrollView>
   );
