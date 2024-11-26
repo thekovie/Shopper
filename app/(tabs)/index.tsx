@@ -393,6 +393,7 @@ export default function Tab() {
         {/* Recent Finds */}
         <RecentFinds shoppingItems={recentShoppingItems} />
       </View>
+      </View>
     </ScrollView>
   );
 }
