@@ -7,7 +7,6 @@
 import { createClient } from "jsr:@supabase/supabase-js@2.46.1";
 
 const supabaseUrl = Deno.env.get("EXPO_PUBLIC_SUPABASE_URL") || "";
-const supabaseAnonKey = Deno.env.get("EXPO_PUBLIC_SUPABASE_ANON_KEY") || "";
 const supabaseServiceKey =
   Deno.env.get("EXPO_PUBLIC_SUPABASE_SERVICE_ROLE_KEY") || "";
 
@@ -35,9 +34,6 @@ interface WebhookPayload {
 }
 
 Deno.serve(async (req) => {
-  console.log("HERE");
-  console.log("supabaseUrl: ", supabaseUrl);
-  console.log("supabaseAnonKey: ", supabaseAnonKey);
   const payload: WebhookPayload = await req.json();
   console.log("Received Payload:", payload);
 
