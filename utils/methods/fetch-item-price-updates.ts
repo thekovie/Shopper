@@ -65,6 +65,7 @@ export async function getTodayItemPriceUpdates(
             message,
             price,
             title,
+            user_id,
             shopping_items:shopping_id (
                 id,
                 product_title,

@@ -46,6 +46,7 @@ export type PriceUpdate = {
     created_at: string; // ISO timestamp
     id: number;
     message: string;
+    user_id: string;
     price: number;
     shopping_items: ShoppingItem;
     title: string;
