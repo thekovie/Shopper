@@ -104,10 +104,8 @@ export default function Tab() {
     useCallback(() => {
       console.log("Screen Focused!");
       fetchAndSetCategories();
-    }, [session])
-  )
-
-
+    }, [session]),
+  );
 
   return (
     <ScrollView
@@ -115,31 +113,27 @@ export default function Tab() {
       style={{
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
       }}
-   >
-     <View className="flex flex-row justify-between items-center mb-[4]">
-      <Text 
-        className=" text-lonestar-500 text-xl"
-        fontVariant="Bold"
-      >
-        Shopper!
-      </Text>
-      <Bell className="text-lonestar-400" size={24} />
-     </View>
+    >
+      <View className="mb-[4] flex flex-row items-center justify-between">
+        <Text className="text-xl text-lonestar-500" fontVariant="Bold">
+          Shopper!
+        </Text>
+        <Bell className="text-lonestar-400" size={24} />
+      </View>
 
-     {session && <Push session={session} />}
-     <View className="p-[10] flex-1">
-
-      {/* Shopping Card Info */}
-      <View className="flex flex-row bg-lonestar-700 justify-between items-center py-[20] px-[15] rounded-[20] mb-[16]">
-        <View className="flex flex-col flex-1">
-          <Text 
-              className="text-lonestar-50 text-4xl"
-              fontVariant="Bold"
-          >
-            {itemCount}
-          </Text>
-          <Text className="text-lonestar-50">Items in your list. Keep hauling! { session ? 'Wow' : 'Nah' }</Text>
-        </View>
+      {session && <Push session={session} />}
+      <View className="flex-1 p-[10]">
+        {/* Shopping Card Info */}
+        <View className="mb-[16] flex flex-row items-center justify-between rounded-[20] bg-lonestar-700 px-[15] py-[20]">
+          <View className="flex flex-1 flex-col">
+            <Text className="text-4xl text-lonestar-50" fontVariant="Bold">
+              {itemCount}
+            </Text>
+            <Text className="text-lonestar-50">
+              Items in your list. Keep hauling!
+            </Text>
+          </View>
+          <ShoppingBag className="text-lonestar-50" size={64} />
         </View>
 
         {/* Category List */}
