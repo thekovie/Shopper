@@ -13,13 +13,13 @@ export default function Tab() {
       Alert.alert(error.message);
     } else {
       Alert.alert("Successfully logged out!");
-      if (router.canDismiss()) {
-        router.dismissAll();
-      } else {
-        router.replace({
-          pathname: "/",
-        });
+      while(router.canGoBack()){
+        router.back();
       }
+
+      
+      router.replace("/login")
+   
     }
   }
 
