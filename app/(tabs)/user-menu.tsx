@@ -17,7 +17,7 @@ export default function Tab() {
         router.dismissAll();
       } else {
         router.replace({
-          pathname: "/register",
+          pathname: "/",
         });
       }
     }
