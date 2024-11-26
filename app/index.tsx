@@ -93,11 +93,11 @@ export default function Index() {
           console.log("Data: " + userProfile.has_onboarded);
           form.reset();
           if (userProfile.has_onboarded) {
-            router.push({
+            router.replace({
               pathname: "/(tabs)/",
             });
           } else {
-            router.push({
+            router.replace({
               pathname: "/(onboarding)/",
             });
           }
