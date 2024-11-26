@@ -102,7 +102,7 @@ export default function Tab() {
       <Bell className="text-lonestar-400" size={24} />
      </View>
 
-
+     {session && <Push session={session} />}
      <View className="p-[10] flex-1">
 
       {/* Shopping Card Info */}
@@ -115,7 +115,6 @@ export default function Tab() {
             {itemCount}
           </Text>
           <Text className="text-lonestar-50">Items in your list. Keep hauling! { session ? 'Wow' : 'Nah' }</Text>
-          {session && <Push session={session} />}
         </View>
         <ShoppingBag className="text-lonestar-50" size={64} />
       </View>
