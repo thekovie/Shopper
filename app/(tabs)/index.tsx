@@ -118,7 +118,12 @@ export default function Tab() {
         <Text className="text-xl text-lonestar-500" fontVariant="Bold">
           Shopper!
         </Text>
-        <Bell className="text-lonestar-400" size={24} />
+        <TouchableOpacity
+                    className="flex flex-col items-center justify-center"
+                    onPress={() => router.push('/price-updates')}>
+          <Bell className="text-lonestar-400" size={24} />
+        </TouchableOpacity>
+        
       </View>
 
       {session && <Push session={session} />}

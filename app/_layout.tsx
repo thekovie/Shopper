@@ -153,6 +153,12 @@ export default function RootLayout() {
                     headerShown: false,
                   }}
                 />
+                <Stack.Screen
+                  name="price-updates/index"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
               </Stack>
               <LoadingSpinner />
               <PortalHost />
