@@ -128,7 +128,11 @@ function ModifyCategory({category, categoryId, triggerContent}: Props) {
 
                 </FormProvider>
                 <AlertDialogFooter>
-                <Button className='bg-white' variant={'outline'} onPress={async () => {
+                <Button
+                    className={
+                    "w-full border border-lonestar-600 bg-white text-lonestar-500"
+                  }
+                onPress={async () => {
                     const res = await deleteCategory(categoryId);
 
                     if(res){

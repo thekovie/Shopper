@@ -9,7 +9,11 @@ import { ItemCategoryRow } from "@/constants/types";
 import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
 import { fetchSession } from "@/utils/methods/fetch-session";
 
-function AddCategories(props: any) {
+interface Props{
+  refreshCategories: () => void; // Add this prop
+}
+
+function AddCategories({ refreshCategories }: Props) {
   const [categories, setCategories] = useState<ItemCategoryRow[] | null>(null);
   const [userId, setUserId] = useState<string>("");
 
@@ -29,7 +33,7 @@ function AddCategories(props: any) {
     const res = await addCategory(newCategory, userId);
     if (res) {
       console.log("Category added successfully");
-      setCategories((prevCategories) => [...(prevCategories || []), res]);
+      refreshCategories();
     } else {
       console.log("Error adding category");
     }

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Pressable, View } from "react-native";
+import { Pressable, TouchableOpacity, View } from "react-native";
 import { Text } from "@/components/ui/text";
 import ListShoppingItem from "@/components/list/ListShoppingItem";
 import { ExtendedShoppingItemInsert } from "@/constants/types";
@@ -36,7 +36,7 @@ function RecentFinds({ shoppingItems }: Props) {
             Check out your recent interests below!
           </Text>
         </View>
-        <Pressable
+        <TouchableOpacity
           onPress={() => {
             router.push({
               pathname: "/(shopping-list-menu)/recent-finds",
@@ -47,7 +47,7 @@ function RecentFinds({ shoppingItems }: Props) {
           }}
         >
           <Text className="text-xs text-lonestar-600">View All</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <View className="flex flex-col overflow-hidden">

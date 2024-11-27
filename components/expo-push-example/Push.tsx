@@ -5,6 +5,7 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import { Session } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
+import { router } from 'expo-router';
 
 
 Notifications.setNotificationHandler({
@@ -94,6 +95,21 @@ export default function Push({session}: { session: Session }) {
   const notificationListener = useRef<Notifications.Subscription>();
   const responseListener = useRef<Notifications.Subscription>();
 
+  const handleNotificationResponse = (
+    response: Notifications.NotificationResponse,
+    session: Session
+  ) => {
+    const { screen } = response.notification.request.content.data;
+
+    if (screen) {
+      console.log('Navigating to screen:', screen);
+      router.push({ 
+        pathname: screen, 
+        params: { user_id: session?.user.id } 
+      });
+    }
+  };
+
   useEffect(() => {
     registerForPushNotificationsAsync()
       .then(async (token) => {
@@ -108,6 +124,11 @@ export default function Push({session}: { session: Session }) {
           console.error('Error updating profile:', error.message);
         }
 
+        const lastNotificationResponse = await Notifications.getLastNotificationResponseAsync();
+        if (lastNotificationResponse) {
+          handleNotificationResponse(lastNotificationResponse, session);
+        }
+
 
       })
       .catch((error: any) => setExpoPushToken(`${error}`));
@@ -117,7 +138,8 @@ export default function Push({session}: { session: Session }) {
     });
 
     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
+      console.log("RESPONSE FROM PUSH COMPONENT: " + response);
+      handleNotificationResponse(response, session);
     });
 
     return () => {
@@ -127,6 +149,8 @@ export default function Push({session}: { session: Session }) {
         Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
+
+
 
   return <></>
 }

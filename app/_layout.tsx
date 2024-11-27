@@ -124,6 +124,12 @@ export default function RootLayout() {
                   }}
                 />
                 <Stack.Screen
+                  name="login"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
                   name="(tabs)"
                   options={{
                     headerShown: false,
@@ -149,6 +155,12 @@ export default function RootLayout() {
                 />
                 <Stack.Screen
                   name="(user-settings)"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="price-updates/index"
                   options={{
                     headerShown: false,
                   }}

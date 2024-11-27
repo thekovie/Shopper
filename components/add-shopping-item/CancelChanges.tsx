@@ -32,7 +32,9 @@ import {
               <Text className='text-lonestar-700 text-xs' fontVariant='Medium'>Your changes will be discarded if you proceed.</Text>
             </AlertDialogHeader>
             <AlertDialogFooter>
-                <Button variant={'outline'} className='bg-white' onPress={() => {
+                <Button className={
+                      "w-full border border-lonestar-600 bg-white text-lonestar-500"
+                    } onPress={() => {
                     toggleDialog(false);
                     router.back();
                 }}>
