@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 
 import {
   Select,
@@ -37,30 +37,74 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
-import { ItemCategoryRow } from "@/constants/types";
+import {
+  ExtendedShoppingItemInsert,
+  ItemCategoryRow,
+  ShoppingItemRow,
+} from "@/constants/types";
+import { addCategory } from "@/utils/methods/add-category";
+import { modifyShoppingItemInfo } from "@/utils/methods/modify-shopping-item-info";
+import { deleteShoppingItem } from "@/utils/methods/delete-shopping-item";
 
-function deleteItem() {
-  console.log("Deleted item");
-  router.replace({ pathname: "/(tabs)/" });
+async function deleteItem(itemId: string) {
+  const res = await deleteShoppingItem(itemId);
+  if (res) {
+    console.log("Item deleted:", res);
+    while (router.canGoBack()) {
+      router.back();
+    }
+  }
 }
 
+interface Props {
+  userId: string;
+  itemId: string;
+  shoppingItem: ExtendedShoppingItemInsert | null;
+  onChangeCategory: (newCategory: ItemCategoryRow) => void;
+  categories: ItemCategoryRow[] | null;
+  currentCategoryName: string;
+}
 
-
-export default function ModifyProductInfo() {
-  const [categories, setCategories] = useState<ItemCategoryRow[] | null>(null);
+export default function ModifyProductInfo({
+  userId,
+  shoppingItem,
+  categories,
+  currentCategoryName,
+  itemId,
+  onChangeCategory,
+}: Props) {
   const [open, setOpen] = useState(false);
 
   const form = useForm<AddProductInformationSchema>({
     resolver: zodResolver(addProductInformationSchema),
     defaultValues: {
-      productLink: "",
+      productName: shoppingItem?.product_title,
+      productLink: shoppingItem?.product_link || undefined, // for TypeScript to recognize that it can be undefined
+      category: shoppingItem?.category_id || undefined, // Ensure category is an object or undefined,
+      notes: shoppingItem?.notes || undefined,
+      priority:
+        shoppingItem?.priority === "High" ||
+        shoppingItem?.priority === "Mid" ||
+        shoppingItem?.priority === "Low"
+          ? shoppingItem.priority
+          : undefined, // Ensure it matches expected values or default to undefined
+      price: shoppingItem?.price || undefined,
+      shoppingPlatform: shoppingItem?.shopping_platform || undefined,
     },
   });
 
-  function onSubmit(values: z.infer<typeof addProductInformationSchema>) {
+  async function onSubmit(values: z.infer<typeof addProductInformationSchema>) {
     // TODO: Do something with the form values and navigate to a certain page.
     console.log(values);
-    router.back();
+
+    const res = await modifyShoppingItemInfo(values, itemId);
+
+    if (res) {
+      console.log("Shopping item info modified:", res);
+      router.back();
+    } else {
+      console.log("Error modifying shopping item info");
+    }
   }
 
   const onError: SubmitErrorHandler<AddProductInformationSchema> = (
@@ -70,16 +114,20 @@ export default function ModifyProductInfo() {
     console.log(JSON.stringify(errors));
   };
 
-  const handleAddCategory = (newCategory: string) => {
+  const handleAddCategory = async (newCategory: string) => {
     // Update the categories array with the new category
+    const res = await addCategory(newCategory, userId);
+
+    if (res) {
+      onChangeCategory(res);
+      console.log("New Category Added:", newCategory);
+    }
 
     // TODO: Fix type mismatch error
-    setCategories((prevCategories) => [...prevCategories, newCategory]);
-    console.log("New Category Added:", newCategory);
   };
 
   return (
-    <View className="mb-[15%] flex flex-col p-[6]">
+    <View className="mb-[15%] mt-[10] flex flex-col p-[6]">
       <View className="">
         <FormProvider {...form}>
           <View className="flex flex-col">
@@ -97,13 +145,20 @@ export default function ModifyProductInfo() {
                 fieldState: { error },
               }) => {
                 return (
-                  <Input
-                    placeholder="Enter your product name"
-                    onBlur={onBlur}
-                    value={value}
-                    className="mb-[20]"
-                    onChangeText={onChange}
-                  />
+                  <View className="mb-[20]">
+                    <Input
+                      placeholder="Enter your product name"
+                      onBlur={onBlur}
+                      value={value}
+                      className="mb-1"
+                      onChangeText={onChange}
+                    />
+                    {error && (
+                      <Text className="text-xs text-red-500">
+                        {error.message}
+                      </Text>
+                    )}
+                  </View>
                 );
               }}
             />
@@ -124,13 +179,20 @@ export default function ModifyProductInfo() {
                 fieldState: { error },
               }) => {
                 return (
-                  <Input
-                    placeholder="https://example.com/product-id"
-                    onBlur={onBlur}
-                    value={value}
-                    className="mb-[20]"
-                    onChangeText={onChange}
-                  />
+                  <View className="mb-[20]">
+                    <Input
+                      placeholder="https://example.com/product-id"
+                      onBlur={onBlur}
+                      value={value}
+                      className="mb-1"
+                      onChangeText={onChange}
+                    />
+                    {error && (
+                      <Text className="text-xs text-red-500">
+                        {error.message}
+                      </Text>
+                    )}
+                  </View>
                 );
               }}
             />
@@ -151,13 +213,20 @@ export default function ModifyProductInfo() {
                 fieldState: { error },
               }) => {
                 return (
-                  <Input
-                    placeholder="Enter shopping platform (ex. Shopee, Lazada)"
-                    onBlur={onBlur}
-                    value={value}
-                    className="mb-[20]"
-                    onChangeText={onChange}
-                  />
+                  <View className="mb-[20]">
+                    <Input
+                      placeholder="Enter shopping platform (ex. Shopee, Lazada)"
+                      onBlur={onBlur}
+                      value={value}
+                      className="mb-1"
+                      onChangeText={onChange}
+                    />
+                    {error && (
+                      <Text className="text-xs text-red-500">
+                        {error.message}
+                      </Text>
+                    )}
+                  </View>
                 );
               }}
             />
@@ -171,7 +240,7 @@ export default function ModifyProductInfo() {
               Price
             </Label>
             <Text className="mb-[10] text-xs text-lonestar-700">
-              As price fluctuates, we will automatically round up the price.
+              The inputted price assumes the currency is in PHP.
             </Text>
             <Controller
               control={form.control}
@@ -181,16 +250,24 @@ export default function ModifyProductInfo() {
                 fieldState: { error },
               }) => {
                 return (
-                  <Input
-                    placeholder="Enter amount (e.g., 10, 100, 110, 120)"
-                    onBlur={onBlur}
-                    keyboardType="numeric"
-                    className="mb-[20]"
-                    onChangeText={(text) => {
-                      const numericValue = parseFloat(text);
-                      onChange(isNaN(numericValue) ? 0 : numericValue);
-                    }}
-                  />
+                  <View className="mb-[20]">
+                    <Input
+                      placeholder="Enter amount (e.g., 10, 100, 110, 120)"
+                      onBlur={onBlur}
+                      value={value?.toString() || ""}
+                      keyboardType="numeric"
+                      className="mb-1"
+                      onChangeText={(text) => {
+                        const numericValue = parseFloat(text);
+                        onChange(isNaN(numericValue) ? 0 : numericValue);
+                      }}
+                    />
+                    {error && (
+                      <Text className="text-xs text-red-500">
+                        {error.message}
+                      </Text>
+                    )}
+                  </View>
                 );
               }}
             />
@@ -207,10 +284,7 @@ export default function ModifyProductInfo() {
               <Text className="mb-[10] text-xs text-lonestar-700">
                 Want to add your own category? Click{" "}
               </Text>
-              <AddCategory
-                categories={categories}
-                onAddCategory={handleAddCategory}
-              />
+              <AddCategory onAddCategory={handleAddCategory} />
             </View>
 
             <Controller
@@ -223,7 +297,7 @@ export default function ModifyProductInfo() {
                 return (
                   <Select
                     onValueChange={(selectedValue) => {
-                      onChange(selectedValue?.label);
+                      onChange(selectedValue?.value);
                       console.log(selectedValue?.label);
                     }}
                     className="mb-[10] w-full"
@@ -231,19 +305,19 @@ export default function ModifyProductInfo() {
                     <SelectTrigger>
                       <SelectValue
                         className="native:text-lg !text-sm text-foreground"
-                        placeholder="Select a category"
+                        placeholder={currentCategoryName || "Select a category"}
                       />
                     </SelectTrigger>
                     <SelectContent className="w-[250]">
                       <SelectGroup>
                         <SelectLabel>Categories</SelectLabel>
-                        {categories.map((category, index) => (
+                        {categories?.map((category, index) => (
                           <SelectItem
                             key={index}
-                            label={category}
-                            value={category}
+                            label={category.category_name}
+                            value={category.id}
                           >
-                            {category}
+                            {category.category_name}
                           </SelectItem>
                         ))}
                       </SelectGroup>
@@ -278,19 +352,21 @@ export default function ModifyProductInfo() {
                     <SelectTrigger className="w-full">
                       <SelectValue
                         className="native:text-lg !text-sm text-foreground"
-                        placeholder="Select a priority"
+                        placeholder={
+                          shoppingItem?.priority || "Select a priority"
+                        }
                       />
                     </SelectTrigger>
                     <SelectContent className="w-[250px]">
                       <SelectGroup>
                         <SelectLabel>Priorities</SelectLabel>
-                        <SelectItem label="High" value="high">
+                        <SelectItem label="High" value="High">
                           Apple
                         </SelectItem>
-                        <SelectItem label="Medium" value="medium">
+                        <SelectItem label="Mid" value="Mid">
                           Banana
                         </SelectItem>
-                        <SelectItem label="Low" value="low">
+                        <SelectItem label="Low" value="Low">
                           Blueberry
                         </SelectItem>
                       </SelectGroup>
@@ -316,13 +392,20 @@ export default function ModifyProductInfo() {
                 fieldState: { error },
               }) => {
                 return (
-                  <Textarea
-                    placeholder="Enter your notes or remarks here."
-                    onBlur={onBlur}
-                    value={value}
-                    className="mb-[20]"
-                    onChangeText={onChange}
-                  />
+                  <View className="mb-[20]">
+                    <Textarea
+                      placeholder="Enter your notes or remarks here."
+                      onBlur={onBlur}
+                      value={value}
+                      className="mb-[20]"
+                      onChangeText={onChange}
+                    />
+                    {error && (
+                      <Text className="text-xs text-red-500">
+                        {error.message}
+                      </Text>
+                    )}
+                  </View>
                 );
               }}
             />
@@ -368,13 +451,14 @@ export default function ModifyProductInfo() {
                     fontVariant="Medium"
                   >
                     This item will be {""}
-                    <Text className="text-xs text-lonestar-700 underline" fontVariant="Medium">
+                    <Text
+                      className="text-xs text-lonestar-700 underline"
+                      fontVariant="Medium"
+                    >
                       permanently deleted
-                    </Text> if you proceed.
+                    </Text>{" "}
+                    if you proceed.
                   </Text>
-
-               
-                  
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <Button
@@ -382,7 +466,7 @@ export default function ModifyProductInfo() {
                     className="bg-white"
                     onPress={() => {
                       setOpen(false);
-                      deleteItem();
+                      deleteItem(itemId);
                     }}
                   >
                     <Text className="!text-sm text-lonestar-600">
@@ -390,7 +474,9 @@ export default function ModifyProductInfo() {
                     </Text>
                   </Button>
                   <Button onPress={() => setOpen(false)}>
-                    <Text className="text-[#ffffff] !text-sm">Oops, bring me back</Text>
+                    <Text className="!text-sm text-[#ffffff]">
+                      Oops, bring me back
+                    </Text>
                   </Button>
                 </AlertDialogFooter>
               </AlertDialogContent>

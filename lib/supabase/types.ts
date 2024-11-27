@@ -38,11 +38,54 @@ export type Database = {
           },
         ]
       }
+      price_updates: {
+        Row: {
+          created_at: string
+          id: number
+          message: string | null
+          shopping_id: string | null
+          title: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          message?: string | null
+          shopping_id?: string | null
+          title?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          message?: string | null
+          shopping_id?: string | null
+          title?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "price_updates_shopping_id_fkey"
+            columns: ["shopping_id"]
+            isOneToOne: false
+            referencedRelation: "shopping_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "price_updates_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
           display_name: string
           email: string
+          expo_push_token: string | null
           has_onboarded: boolean | null
           id: string
         }
@@ -50,6 +93,7 @@ export type Database = {
           created_at?: string
           display_name: string
           email: string
+          expo_push_token?: string | null
           has_onboarded?: boolean | null
           id: string
         }
@@ -57,6 +101,7 @@ export type Database = {
           created_at?: string
           display_name?: string
           email?: string
+          expo_push_token?: string | null
           has_onboarded?: boolean | null
           id?: string
         }
@@ -64,7 +109,7 @@ export type Database = {
       }
       shopping_items: {
         Row: {
-          category_id: string
+          category_id: string | null
           created_at: string
           id: string
           is_purchased: boolean
@@ -77,7 +122,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
-          category_id?: string
+          category_id?: string | null
           created_at?: string
           id?: string
           is_purchased?: boolean
@@ -90,7 +135,7 @@ export type Database = {
           user_id: string
         }
         Update: {
-          category_id?: string
+          category_id?: string | null
           created_at?: string
           id?: string
           is_purchased?: boolean

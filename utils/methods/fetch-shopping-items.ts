@@ -6,6 +6,7 @@ export async function fetchShoppingItems(categoryId: string): Promise<ShoppingIt
         .from('shopping_items')
         .select()
         .eq('category_id', categoryId)
+        .order('price', { ascending: true });
     
         if(shoppingItemsError){
             console.error("Error fetching shopping items:", shoppingItemsError.message);

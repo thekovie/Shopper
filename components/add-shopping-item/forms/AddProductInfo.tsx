@@ -42,20 +42,27 @@ import {
 import AddCategory from "@/components/add-shopping-item/forms/AddCategory";
 import { ItemCategoryRow } from "@/constants/types";
 import { addCategory } from "@/utils/methods/add-category";
+import { addShoppingItem } from "@/utils/methods/add-shopping-item";
+import { set } from "date-fns";
 
-
-interface Props{
+interface Props {
   userId: string;
   categories: ItemCategoryRow[] | null;
   onChangeCategory: (newCategory: ItemCategoryRow) => void;
 }
 
-export default function AddProductInfo({ userId, categories, onChangeCategory }: Props) {
+export default function AddProductInfo({
+  userId,
+  categories,
+  onChangeCategory,
+}: Props) {
   const [open, setOpen] = useState(false);
+  const [selectedCategoryLabel, setSelectedCategoryLabel] =
+    useState<string>("");
 
   useEffect(() => {
     console.log("USER ID FROM ADDPRODUCTINFO COMPONENT: " + userId);
-  }, [])
+  }, []);
 
   const form = useForm<AddProductInformationSchema>({
     resolver: zodResolver(addProductInformationSchema),
@@ -64,9 +71,26 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
     },
   });
 
-  function onSubmit(values: z.infer<typeof addProductInformationSchema>) {
+  async function onSubmit(values: z.infer<typeof addProductInformationSchema>) {
     // TODO: Do something with the form values and navigate to a certain page.
     console.log(values);
+
+    const res = await addShoppingItem(values, userId);
+
+    if (res) {
+      console.log("New Shopping Item Added:", res);
+      router.push({
+        pathname: "/(item-page)/shopping-item",
+        params: {
+          itemId: res.id,
+          itemCategory: res.category_id,
+          itemCategoryName: selectedCategoryLabel,
+          isMarkedAsPurchased: res.is_purchased ? "true" : "false",
+        },
+      });
+    } else {
+      console.log("Error adding shopping item");
+    }
   }
 
   const onError: SubmitErrorHandler<AddProductInformationSchema> = (
@@ -77,16 +101,14 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
   };
 
   async function handleAddCategory(newCategory: string) {
-
     const res = await addCategory(newCategory, userId);
 
-    if(res){
+    if (res) {
       // Update the categories array with the new category
       onChangeCategory(res);
       console.log("New Category Added:", res);
     }
-
-  };
+  }
 
   return (
     <View className="mb-[15%] flex flex-col p-[6]">
@@ -107,13 +129,20 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
                 fieldState: { error },
               }) => {
                 return (
-                  <Input
-                    placeholder="Enter your product name"
-                    onBlur={onBlur}
-                    value={value}
-                    className="mb-[20]"
-                    onChangeText={onChange}
-                  />
+                  <View className="mb-[20]">
+                    <Input
+                      placeholder="Enter your product name"
+                      onBlur={onBlur}
+                      value={value}
+                      className="mb-1"
+                      onChangeText={onChange}
+                    />
+                    {error && (
+                      <Text className="text-xs text-red-500">
+                        {error.message}
+                      </Text>
+                    )}
+                  </View>
                 );
               }}
             />
@@ -134,13 +163,20 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
                 fieldState: { error },
               }) => {
                 return (
-                  <Input
-                    placeholder="https://example.com/product-id"
-                    onBlur={onBlur}
-                    value={value}
-                    className="mb-[20]"
-                    onChangeText={onChange}
-                  />
+                  <View className="mb-[20]">
+                    <Input
+                      placeholder="https://example.com/product-id"
+                      onBlur={onBlur}
+                      value={value}
+                      className="mb-1"
+                      onChangeText={onChange}
+                    />
+                    {error && (
+                      <Text className="text-xs text-red-500">
+                        {error.message}
+                      </Text>
+                    )}
+                  </View>
                 );
               }}
             />
@@ -161,13 +197,20 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
                 fieldState: { error },
               }) => {
                 return (
-                  <Input
-                    placeholder="Enter shopping platform (ex. Shopee, Lazada)"
-                    onBlur={onBlur}
-                    value={value}
-                    className="mb-[20]"
-                    onChangeText={onChange}
-                  />
+                  <View className="mb-[20]">
+                    <Input
+                      placeholder="Enter shopping platform (ex. Shopee, Lazada)"
+                      onBlur={onBlur}
+                      value={value}
+                      className="mb-1"
+                      onChangeText={onChange}
+                    />
+                    {error && (
+                      <Text className="text-xs text-red-500">
+                        {error.message}
+                      </Text>
+                    )}
+                  </View>
                 );
               }}
             />
@@ -181,7 +224,7 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
               Price
             </Label>
             <Text className="mb-[10] text-xs text-lonestar-700">
-              As price fluctuates, we will automatically round up the price.
+              The inputted price assumes the currency is in PHP.
             </Text>
             <Controller
               control={form.control}
@@ -191,16 +234,23 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
                 fieldState: { error },
               }) => {
                 return (
-                  <Input
-                    placeholder="Enter amount (e.g., 10, 100, 110, 120)"
-                    onBlur={onBlur}
-                    keyboardType="numeric"
-                    className="mb-[20]"
-                    onChangeText={(text) => {
-                      const numericValue = parseFloat(text);
-                      onChange(isNaN(numericValue) ? 0 : numericValue);
-                    }}
-                  />
+                  <View className="mb-[20]">
+                    <Input
+                      placeholder="Enter amount (e.g., 10, 100, 110, 120)"
+                      onBlur={onBlur}
+                      keyboardType="numeric"
+                      className="mb-1"
+                      onChangeText={(text) => {
+                        const numericValue = parseFloat(text);
+                        onChange(isNaN(numericValue) ? 0 : numericValue);
+                      }}
+                    />
+                    {error && (
+                      <Text className="text-xs text-red-500">
+                        {error.message}
+                      </Text>
+                    )}
+                  </View>
                 );
               }}
             />
@@ -217,9 +267,7 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
               <Text className="mb-[10] text-xs text-lonestar-700">
                 Want to add your own category? Click{" "}
               </Text>
-              <AddCategory
-                onAddCategory={handleAddCategory}
-              />
+              <AddCategory onAddCategory={handleAddCategory} />
             </View>
 
             <Controller
@@ -232,8 +280,9 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
                 return (
                   <Select
                     onValueChange={(selectedValue) => {
-                      onChange(selectedValue?.label);
-                      console.log(selectedValue?.label);
+                      onChange(selectedValue?.value);
+                      setSelectedCategoryLabel(selectedValue?.label || "");
+                      console.log(selectedValue?.value);
                     }}
                     className="mb-[10] w-full"
                   >
@@ -250,7 +299,7 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
                           <SelectItem
                             key={index}
                             label={category.category_name}
-                            value={category.category_name}
+                            value={category.id}
                           >
                             {category.category_name}
                           </SelectItem>
@@ -280,7 +329,7 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
                 return (
                   <Select
                     onValueChange={(selectedValue) => {
-                      onChange(selectedValue?.value);
+                      onChange(selectedValue?.label);
                     }}
                     className="mb-[10]"
                   >
@@ -293,15 +342,9 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
                     <SelectContent className="w-[250px]">
                       <SelectGroup>
                         <SelectLabel>Priorities</SelectLabel>
-                        <SelectItem label="High" value="high">
-                          Apple
-                        </SelectItem>
-                        <SelectItem label="Medium" value="medium">
-                          Banana
-                        </SelectItem>
-                        <SelectItem label="Low" value="low">
-                          Blueberry
-                        </SelectItem>
+                        <SelectItem label="High" value="High" />
+                        <SelectItem label="Mid" value="Mid" />
+                        <SelectItem label="Low" value="Low" />
                       </SelectGroup>
                     </SelectContent>
                   </Select>
@@ -325,13 +368,20 @@ export default function AddProductInfo({ userId, categories, onChangeCategory }:
                 fieldState: { error },
               }) => {
                 return (
-                  <Textarea
-                    placeholder="Enter your notes or remarks here."
-                    onBlur={onBlur}
-                    value={value}
-                    className="mb-[20]"
-                    onChangeText={onChange}
-                  />
+                  <View className="mb-[20]">
+                    <Textarea
+                      placeholder="Enter your notes or remarks here."
+                      onBlur={onBlur}
+                      value={value}
+                      className="mb-[20]"
+                      onChangeText={onChange}
+                    />
+                    {error && (
+                      <Text className="text-xs text-red-500">
+                        {error.message}
+                      </Text>
+                    )}
+                  </View>
                 );
               }}
             />

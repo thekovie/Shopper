@@ -1,42 +1,82 @@
-import React from 'react';
-import { View } from 'react-native';
-import { Text } from '@/components/ui/text'
-import ListShoppingItem from '@/components/list/ListShoppingItem';
-import { RecentFindsProps } from '@/constants/types';
+import React, { useCallback, useState } from "react";
+import { Pressable, View } from "react-native";
+import { Text } from "@/components/ui/text";
+import ListShoppingItem from "@/components/list/ListShoppingItem";
+import { ExtendedShoppingItemInsert } from "@/constants/types";
+import { router, useFocusEffect } from "expo-router";
+import { fetchSession } from "@/utils/methods/fetch-session";
 
+interface Props {
+  shoppingItems: ExtendedShoppingItemInsert[] | null;
+}
 
+function RecentFinds({ shoppingItems }: Props) {
+  const [userId, setUserId] = useState<string>("");
 
-function RecentFinds({ data }: RecentFindsProps) {
-    
-    return (
-        <View className="flex flex-col bg-lonestar-50 py-[20] px-[15] rounded-xl mb-[24]">
-            <View className='flex flex-row justify-between w-full mb-[8]'>
-                <View className='flex flex-col'>
-                    <Text className='text-lonestar-600 text-base' fontVariant='SemiBold'>Recent Finds</Text>
-                    <Text className='text-lonestar-900 text-xs'>Check out your recent interests below!</Text>
-                </View>
-                <Text className='text-lonestar-600 text-xs'>View All</Text>
-            </View>
+  useFocusEffect(
+    useCallback(() => {
+      fetchSession().then((session) => {
+        if (!session) {
+          console.log("NO SESSION");
+        } else {
+          setUserId(session.user.id);
+        }
+      });
+    }, []),
+  );
 
-            <View className='flex flex-col overflow-hidden'>
-                
-                {data.map(({itemName, itemPrice, itemPriority, itemPlatform, itemCategory, itemNotes, isMarkedAsPurchased}, index) => (
-                    <View key={index} className='mb-[20]'>
-                        <ListShoppingItem 
-                            itemName={itemName}
-                            itemPrice={itemPrice} 
-                            itemPriority={itemPriority} 
-                            itemPlatform={itemPlatform} 
-                            itemCategory={itemCategory} 
-                            itemNotes={itemNotes}
-                            isMarkedAsPurchased={isMarkedAsPurchased}
-                        />
-                    </View>
-                ))}     
-            </View>
-
+  return (
+    <View className="mb-[24] flex flex-col rounded-xl bg-lonestar-50 px-[15] py-[20]">
+      <View className="mb-[8] flex w-full flex-row justify-between">
+        <View className="flex flex-col">
+          <Text className="text-base text-lonestar-600" fontVariant="SemiBold">
+            Recent Finds
+          </Text>
+          <Text className="text-xs text-lonestar-900">
+            Check out your recent interests below!
+          </Text>
         </View>
-    );
+        <Pressable
+          onPress={() => {
+            router.push({
+              pathname: "/(shopping-list-menu)/recent-finds",
+              params: {
+                user_id: userId,
+              },
+            });
+          }}
+        >
+          <Text className="text-xs text-lonestar-600">View All</Text>
+        </Pressable>
+      </View>
+
+      <View className="flex flex-col overflow-hidden">
+        {shoppingItems?.map((shoppingItem, index) => (
+          <View key={index} className="mb-[20]">
+            <ListShoppingItem
+              id={shoppingItem.id}
+              product_title={shoppingItem.product_title}
+              price={shoppingItem.price!}
+              priority={shoppingItem.priority}
+              shopping_platform={shoppingItem.shopping_platform}
+              category_id={shoppingItem.category_id}
+              notes={shoppingItem.notes}
+              is_purchased={shoppingItem.is_purchased}
+              user_id={shoppingItem.user_id}
+              category_name={shoppingItem.category_name}
+            />
+          </View>
+        ))}
+        {shoppingItems?.length === 0 && (
+          <View className="mb-20 mt-20">
+            <Text className="items-center text-center text-sm text-lonestar-600">
+              No recent finds yet. List them now!
+            </Text>
+          </View>
+        )}
+      </View>
+    </View>
+  );
 }
 
 export default RecentFinds;
