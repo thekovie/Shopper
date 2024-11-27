@@ -108,6 +108,9 @@ export default function Push({session}: { session: Session }) {
         params: { user_id: session?.user.id } 
       });
     }
+
+    // Dismiss the notification by its identifier
+    Notifications.dismissNotificationAsync(response.notification.request.identifier);
   };
 
   useEffect(() => {
