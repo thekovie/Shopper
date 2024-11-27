@@ -81,7 +81,7 @@ function AddCategory({onAddCategory, triggerContent}: Props) {
                             placeholder="Enter a category name!"
                             onBlur={onBlur}
                             value={value}
-                            className="mb-[10]"
+                            className="mb-[10] bg-white border-[#e4e4e7] text-lonestar-600 placeholder:text-lonestar-300"
                             onChangeText={onChange}
                         />
                         
@@ -91,7 +91,11 @@ function AddCategory({onAddCategory, triggerContent}: Props) {
 
                 </FormProvider>
                 <AlertDialogFooter>
-                <Button variant={'outline'} onPress={() => setOpen(false)}>
+                <Button 
+                    className={
+                        "w-full border border-lonestar-600 bg-white text-lonestar-500"
+                    }
+                onPress={() => setOpen(false)}>
                     <Text className='text-lonestar-600 text-sm'>Cancel</Text>
                 </Button>
                 <Button onPress={form.handleSubmit(onSubmit, onError)}>

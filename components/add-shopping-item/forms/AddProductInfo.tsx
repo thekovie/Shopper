@@ -134,11 +134,11 @@ export default function AddProductInfo({
                       placeholder="Enter your product name"
                       onBlur={onBlur}
                       value={value}
-                      className="mb-1"
+                      className="mb-1 bg-white border-[#e4e4e7] text-lonestar-600 placeholder:text-lonestar-300"
                       onChangeText={onChange}
                     />
                     {error && (
-                      <Text className="text-xs text-red-500">
+                      <Text className="text-xs text-red-500 ">
                         {error.message}
                       </Text>
                     )}
@@ -168,7 +168,7 @@ export default function AddProductInfo({
                       placeholder="https://example.com/product-id"
                       onBlur={onBlur}
                       value={value}
-                      className="mb-1"
+                      className="mb-1 bg-white border-[#e4e4e7] text-lonestar-600 placeholder:text-lonestar-300"
                       onChangeText={onChange}
                     />
                     {error && (
@@ -199,10 +199,10 @@ export default function AddProductInfo({
                 return (
                   <View className="mb-[20]">
                     <Input
-                      placeholder="Enter shopping platform (ex. Shopee, Lazada)"
+                      placeholder="eg. Shopee, Lazada, Temu, etc."
                       onBlur={onBlur}
                       value={value}
-                      className="mb-1"
+                      className="mb-1 bg-white border-[#e4e4e7] text-lonestar-600 placeholder:text-lonestar-300"
                       onChangeText={onChange}
                     />
                     {error && (
@@ -239,7 +239,7 @@ export default function AddProductInfo({
                       placeholder="Enter amount (e.g., 10, 100, 110, 120)"
                       onBlur={onBlur}
                       keyboardType="numeric"
-                      className="mb-1"
+                      className="mb-1 bg-white border-[#e4e4e7] text-lonestar-600 placeholder:text-lonestar-300"
                       onChangeText={(text) => {
                         const numericValue = parseFloat(text);
                         onChange(isNaN(numericValue) ? 0 : numericValue);
@@ -284,11 +284,11 @@ export default function AddProductInfo({
                       setSelectedCategoryLabel(selectedValue?.label || "");
                       console.log(selectedValue?.value);
                     }}
-                    className="mb-[10] w-full"
+                    className="mb-[10] w-full "
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-white border-[#e4e4e7]">
                       <SelectValue
-                        className="native:text-lg text-sm text-foreground"
+                        className="text-sm text-lonestar-300"
                         placeholder="Select a category"
                       />
                     </SelectTrigger>
@@ -333,9 +333,9 @@ export default function AddProductInfo({
                     }}
                     className="mb-[10]"
                   >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="w-full bg-white border-[#e4e4e7]">
                       <SelectValue
-                        className="native:text-lg text-sm text-foreground"
+                        className="text-sm text-lonestar-300"
                         placeholder="Select a priority"
                       />
                     </SelectTrigger>
@@ -373,7 +373,7 @@ export default function AddProductInfo({
                       placeholder="Enter your notes or remarks here."
                       onBlur={onBlur}
                       value={value}
-                      className="mb-[20]"
+                      className="mb-[20] !text-xs bg-white border-[#e4e4e7] text-lonestar-600 placeholder:text-lonestar-300"
                       onChangeText={onChange}
                     />
                     {error && (
@@ -399,10 +399,12 @@ export default function AddProductInfo({
               <AlertDialogTrigger asChild>
                 <TouchableOpacity>
                   <Button
-                    variant={"outline"}
                     onPress={() => {
                       setOpen(true);
                     }}
+                    className={
+                      "w-full border border-lonestar-600 bg-white text-lonestar-500"
+                    }
                   >
                     <Text
                       className="text-sm text-lonestar-600"
@@ -413,7 +415,7 @@ export default function AddProductInfo({
                   </Button>
                 </TouchableOpacity>
               </AlertDialogTrigger>
-              <AlertDialogContent>
+              <AlertDialogContent className="bg-white">
                 <AlertDialogHeader>
                   <Text
                     className="text-lg text-lonestar-600"
@@ -429,17 +431,22 @@ export default function AddProductInfo({
                   </Text>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <Button
-                    variant={"outline"}
-                    onPress={() => {
-                      setOpen(false);
-                      router.back();
-                    }}
-                  >
-                    <Text className="text-sm text-lonestar-600">
-                      Discard changes
-                    </Text>
-                  </Button>
+                  <TouchableOpacity>
+                    <Button
+                      onPress={() => {
+                        setOpen(false);
+                        router.back();
+                      }}
+                      className={
+                        "w-full border border-lonestar-600 bg-white text-lonestar-500"
+                      }
+                    >
+                      <Text className="text-sm text-lonestar-600">
+                        Discard changes
+                      </Text>
+                    </Button>
+                  </TouchableOpacity>
+                  
                   <Button onPress={() => setOpen(false)}>
                     <Text className="text-[#ffffff]">Oops, bring me back</Text>
                   </Button>

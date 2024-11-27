@@ -225,7 +225,7 @@ export default function Index() {
               router.back();
             }else{
               router.replace({
-                pathname: "/",
+                pathname: "/login",
               });
             }
           }}

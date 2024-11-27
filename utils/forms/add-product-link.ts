@@ -71,14 +71,15 @@ export const addProductInformationSchema = z.object({
       required_error: FIELD_REQUIRED_STR,
     })
     .min(3, "Minimum 3 characters")
-    .trim()
-    .optional(),
+    .trim(),
   priority: z
     .enum(PRIORITY_OPTIONS, {
       required_error: FIELD_REQUIRED_STR,
-      invalid_type_error: `Invalid priority, must be one of the followings: ${PRIORITY_OPTIONS.join(
-        ", ",
-      )}`,
+      invalid_type_error: `Invalid priority, must be one of the followings: ${
+        PRIORITY_OPTIONS.join(
+          ", ",
+        )
+      }`,
     })
     .optional(),
   notes: z

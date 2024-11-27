@@ -21,7 +21,7 @@ import {
   useForm,
 } from "react-hook-form";
 
-export default function Index() {
+export default function Login() {
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setLoading] = useState(true);
 

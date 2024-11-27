@@ -65,7 +65,13 @@ export default function Tab() {
 
   const numberOfItems = 700;
 
+  const updateStateCategories = (newCategory: ItemCategoryRow) => {
+    setCategories((prevCategories) => [...(prevCategories || []), newCategory]);
+  }
+
+
   const fetchAndSetCategories = async () => {
+    setIsLoading(true);
     const {
       data: { session },
     } = await supabase.auth.getSession();
@@ -82,6 +88,8 @@ export default function Tab() {
         setRecentShoppingItems(res);
       }
     }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -107,6 +115,20 @@ export default function Tab() {
     }, [session]),
   );
 
+  if (isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text className="text-lonestar-950">Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <ScrollView
       className="flex flex-1 flex-col p-[20]"
@@ -118,7 +140,17 @@ export default function Tab() {
         <Text className="text-xl text-lonestar-500" fontVariant="Bold">
           Shopper!
         </Text>
-        <Bell className="text-lonestar-400" size={24} />
+        <TouchableOpacity
+                    className="flex flex-col items-center justify-center"
+                    onPress={() => router.push({
+                      pathname: '/price-updates',
+                      params: {
+                        user_id: session?.user.id,
+                      }
+                    })}>
+          <Bell className="text-lonestar-400" size={24} />
+        </TouchableOpacity>
+        
       </View>
 
       {session && <Push session={session} />}
@@ -380,7 +412,9 @@ export default function Tab() {
         </View>
 
         {/* Add Categories Card*/}
-        {categories && categories.length == 0 && <AddCategories />}
+        {categories && categories.length == 0 && 
+          <AddCategories refreshCategories={fetchAndSetCategories} />
+        }
 
         {/* Add Shopping Item Card */}
         <AddShoppingItem />
